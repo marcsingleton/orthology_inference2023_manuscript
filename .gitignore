@@ -1,0 +1,15 @@
+# Top level directories
+/build/
+/IDREvoDevo
+/src
+
+# All directories
+out/
+
+# File types
+*.png
+*.svg
+
+# Special cases
+.gitignore
+/src/utilities/
