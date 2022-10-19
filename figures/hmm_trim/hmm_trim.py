@@ -9,7 +9,7 @@ from matplotlib.gridspec import GridSpec
 
 # Load OGids
 OGids = []
-with open('../../IDREvoDevo/analysis/ortho_MSA/realign_hmmer/out/errors.tsv') as file:
+with open('../../orthology_inference/analysis/ortho_MSA/realign_hmmer/out/errors.tsv') as file:
     field_names = file.readline().rstrip('\n').split('\t')
     for line in file:
         fields = {key: value for key, value in zip(field_names, line.rstrip('\n').split('\t'))}
@@ -17,7 +17,7 @@ with open('../../IDREvoDevo/analysis/ortho_MSA/realign_hmmer/out/errors.tsv') as
         if error_flag == 'False':
             OGids.append(OGid)
 
-df = pd.read_table('../../IDREvoDevo/analysis/ortho_MSA/insertion_trim/out/trim_stats.tsv')
+df = pd.read_table('../../orthology_inference/analysis/ortho_MSA/insertion_trim/out/trim_stats.tsv')
 
 df['length'] = df['stop'] - df['start']
 df['length_ratio'] = df['length'] / df['colnum']

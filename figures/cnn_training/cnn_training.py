@@ -18,13 +18,13 @@ sym2idx = {sym: i for i, sym in enumerate(alphabet)}
 ppid_regex = r'ppid=([A-Za-z0-9_.]+)'
 spid_regex = r'spid=([a-z]+)'
 
-tree = skbio.read('../../IDREvoDevo/analysis/ortho_tree/consensus_LG/out/100R_NI.nwk', 'newick', skbio.TreeNode)
+tree = skbio.read('../../orthology_inference/analysis/ortho_tree/consensus_LG/out/100R_NI.nwk', 'newick', skbio.TreeNode)
 tip_order = {tip.name: i for i, tip in enumerate(tree.tips())}
 
 # Load labels
 OGid2ppids = {}
 ppid2labels = {}
-with open('../../IDREvoDevo/analysis/ortho_MSA/realign_cnn/labels.tsv') as file:
+with open('../../orthology_inference/analysis/ortho_MSA/realign_cnn/labels.tsv') as file:
     field_names = file.readline().rstrip('\n').split('\t')
     for line in file:
         if line.startswith('#'):
@@ -46,7 +46,7 @@ with open('../../IDREvoDevo/analysis/ortho_MSA/realign_cnn/labels.tsv') as file:
 # Create records
 records = {}
 for OGid, ppids in OGid2ppids.items():
-    msa1 = read_fasta(f'../../IDREvoDevo/analysis/ortho_MSA/get_repseqs/out/{OGid}.afa')
+    msa1 = read_fasta(f'../../orthology_inference/analysis/ortho_MSA/get_repseqs/out/{OGid}.afa')
 
     # Convert alignment to indices and make profile
     ppid2idx, msa2 = {}, []
@@ -68,8 +68,8 @@ for OGid, ppids in OGid2ppids.items():
         records[(OGid, ppid)] = (OGid, ppid, profile, msa2[ppid2idx[ppid]], labels, weights)
 
 # Load model and history
-df = pd.read_table('../../IDREvoDevo/analysis/ortho_MSA/realign_cnn/out/history.tsv')
-model = tf.keras.models.load_model('../../IDREvoDevo/analysis/ortho_MSA/realign_cnn/out/model.h5')
+df = pd.read_table('../../orthology_inference/analysis/ortho_MSA/realign_cnn/out/history.tsv')
+model = tf.keras.models.load_model('../../orthology_inference/analysis/ortho_MSA/realign_cnn/out/model.h5')
 layers = {layer.name: layer for layer in model.layers}
 
 if not os.path.exists('out/'):
@@ -154,7 +154,7 @@ for record_id in record_ids:
     output = tf.squeeze(model([np.expand_dims(profile, 0), np.expand_dims(seq, 0)]))  # Expand and contract dims
 
     msa = []
-    for header, seq in read_fasta(f'../../IDREvoDevo/analysis/ortho_MSA/get_repseqs/out/{OGid}.afa'):
+    for header, seq in read_fasta(f'../../orthology_inference/analysis/ortho_MSA/get_repseqs/out/{OGid}.afa'):
         msa_ppid = re.search(ppid_regex, header).group(1)
         msa_spid = re.search(spid_regex, header).group(1)
         msa.append({'ppid': msa_ppid, 'spid': msa_spid, 'seq': seq})

@@ -145,24 +145,24 @@ edge_width1 = 0.25
 
 # Load graph
 graph = {}
-with open('../../IDREvoDevo/analysis/ortho_cluster2/hits2graph/out/hit_graph.tsv') as file:
+with open('../../orthology_inference/analysis/ortho_cluster2/hits2graph/out/hit_graph.tsv') as file:
     for line in file:
         node, adjs = line.rstrip('\n').split('\t')
         graph[node] = [adj.split(':') for adj in adjs.split(',')]
 
 # Load connected components
 components = {}
-with open('../../IDREvoDevo/analysis/ortho_cluster2/connect_hit_graph/out/components.tsv') as file:
+with open('../../orthology_inference/analysis/ortho_cluster2/connect_hit_graph/out/components.tsv') as file:
     field_names = file.readline().rstrip('\n').split('\t')
     for line in file:
         fields = {key: value for key, value in zip(field_names, line.rstrip('\n').split('\t'))}
         components[fields['component_id']] = set(fields['ppids'].split(','))
 
 # Load OGs
-OGs_3 = load_OGs('../../IDREvoDevo/analysis/ortho_cluster2/cluster3_graph/out/clusters.tsv')
-OGs_4 = load_OGs('../../IDREvoDevo/analysis/ortho_cluster2/cluster4+_graph/out/4clique/clusters.tsv')
-OGs_5 = load_OGs('../../IDREvoDevo/analysis/ortho_cluster2/cluster4+_graph/out/5clique/clusters.tsv')
-OGs_6 = load_OGs('../../IDREvoDevo/analysis/ortho_cluster2/cluster4+_graph/out/6clique/clusters.tsv')
+OGs_3 = load_OGs('../../orthology_inference/analysis/ortho_cluster2/cluster3_graph/out/clusters.tsv')
+OGs_4 = load_OGs('../../orthology_inference/analysis/ortho_cluster2/cluster4+_graph/out/4clique/clusters.tsv')
+OGs_5 = load_OGs('../../orthology_inference/analysis/ortho_cluster2/cluster4+_graph/out/5clique/clusters.tsv')
+OGs_6 = load_OGs('../../orthology_inference/analysis/ortho_cluster2/cluster4+_graph/out/6clique/clusters.tsv')
 
 ks = list(range(3, 7))
 OGs_k = [OGs_3, OGs_4, OGs_5, OGs_6]

@@ -9,7 +9,7 @@ from matplotlib.gridspec import GridSpec
 
 # Load genomes
 spids = set()
-with open('../../IDREvoDevo/analysis/ortho_cluster2/config/genomes.tsv') as file:
+with open('../../orthology_inference/analysis/ortho_cluster2/config/genomes.tsv') as file:
     field_names = file.readline().rstrip('\n').split('\t')
     for line in file:
         fields = {key: value for key, value in zip(field_names, line.rstrip('\n').split('\t'))}
@@ -17,7 +17,7 @@ with open('../../IDREvoDevo/analysis/ortho_cluster2/config/genomes.tsv') as file
 
 # Load sequence data
 ppid2data = {}
-with open('../../IDREvoDevo/analysis/ortho_search/sequence_data/out/sequence_data.tsv') as file:
+with open('../../orthology_inference/analysis/ortho_search/sequence_data/out/sequence_data.tsv') as file:
     field_names = file.readline().rstrip('\n').split('\t')
     for line in file:
         fields = {key: value for key, value in zip(field_names, line.rstrip('\n').split('\t'))}
@@ -25,7 +25,7 @@ with open('../../IDREvoDevo/analysis/ortho_search/sequence_data/out/sequence_dat
 
 # Load OGs
 rows = []
-with open('../../IDREvoDevo/analysis/ortho_cluster2/add_paralogs/out/clusters.tsv') as file:
+with open('../../orthology_inference/analysis/ortho_cluster2/add_paralogs/out/clusters.tsv') as file:
     field_names = file.readline().rstrip('\n').split('\t')
     for line in file:
         fields = {key: value for key, value in zip(field_names, line.rstrip('\n').split('\t'))}

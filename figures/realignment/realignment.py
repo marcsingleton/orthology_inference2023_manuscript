@@ -9,8 +9,8 @@ from src.draw import plot_msa
 from src.utils import read_fasta
 
 OGids = ['2AB6', '07C3', '31B4', '269C', '06D1', '23D9']
-msa_pathA = '../../IDREvoDevo/analysis/ortho_MSA/get_repseqs/out/'
-msa_pathB = '../../IDREvoDevo/analysis/ortho_MSA/realign_hmmer/out/mafft/'
+msa_pathA = '../../orthology_inference/analysis/ortho_MSA/get_repseqs/out/'
+msa_pathB = '../../orthology_inference/analysis/ortho_MSA/realign_hmmer/out/mafft/'
 spid_regex = r'spid=([a-z]+)'
 
 adjust_left = 0.01
@@ -34,7 +34,7 @@ panel_labels = ['A', 'B']
 panel_label_fontsize = 'large'
 panel_label_offset = 0.025
 
-tree_order = skbio.read('../../IDREvoDevo/analysis/ortho_tree/consensus_LG/out/100R_NI.nwk', 'newick', skbio.TreeNode)
+tree_order = skbio.read('../../orthology_inference/analysis/ortho_tree/consensus_LG/out/100R_NI.nwk', 'newick', skbio.TreeNode)
 tip_order = {tip.name: i for i, tip in enumerate(tree_order.tips())}
 
 if not os.path.exists('out/'):

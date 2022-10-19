@@ -13,7 +13,7 @@ from src.ortho_MSA import utils
 from src.utils import read_fasta
 
 OGids = ['2252', '2A57', '360E']
-msa_path = '../../IDREvoDevo/analysis/ortho_MSA/realign_hmmer/out/mafft/'
+msa_path = '../../orthology_inference/analysis/ortho_MSA/realign_hmmer/out/mafft/'
 spid_regex = r'spid=([a-z]+)'
 
 state_labels = ['1A', '1B', '2', '3']
@@ -41,11 +41,11 @@ panel_label = 'B'
 panel_label_fontsize = 'large'
 panel_label_offset = 0.025
 
-tree_template = skbio.read('../../IDREvoDevo/analysis/ortho_tree/consensus_GTR2/out/NI.nwk', 'newick', skbio.TreeNode)
-tree_order = skbio.read('../../IDREvoDevo/analysis/ortho_tree/consensus_LG/out/100R_NI.nwk', 'newick', skbio.TreeNode)
+tree_template = skbio.read('../../orthology_inference/analysis/ortho_tree/consensus_GTR2/out/NI.nwk', 'newick', skbio.TreeNode)
+tree_order = skbio.read('../../orthology_inference/analysis/ortho_tree/consensus_LG/out/100R_NI.nwk', 'newick', skbio.TreeNode)
 tip_order = {tip.name: i for i, tip in enumerate(tree_order.tips())}
 
-with open('../../IDREvoDevo/analysis/ortho_MSA/insertion_hmm/out/model.json') as file:
+with open('../../orthology_inference/analysis/ortho_MSA/insertion_hmm/out/model.json') as file:
     model_json = json.load(file)
 
 if not os.path.exists('out/'):

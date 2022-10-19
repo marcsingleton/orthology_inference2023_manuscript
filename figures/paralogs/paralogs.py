@@ -9,7 +9,7 @@ from matplotlib.gridspec import GridSpec
 
 # Load OGs
 OGs1 = {}
-with open('../../IDREvoDevo/analysis/ortho_cluster2/cluster4+_graph/out/4clique/clusters.tsv') as file:
+with open('../../orthology_inference/analysis/ortho_cluster2/cluster4+_graph/out/4clique/clusters.tsv') as file:
     field_names = file.readline().rstrip('\n').split('\t')
     for line in file:
         fields = {key: value for key, value in zip(field_names, line.rstrip('\n').split('\t'))}
@@ -17,7 +17,7 @@ with open('../../IDREvoDevo/analysis/ortho_cluster2/cluster4+_graph/out/4clique/
         OGs1[fields['OGid']] = ppids
 
 OGs2 = {}
-with open('../../IDREvoDevo/analysis/ortho_cluster2/add_paralogs/out/clusters.tsv') as file:
+with open('../../orthology_inference/analysis/ortho_cluster2/add_paralogs/out/clusters.tsv') as file:
     field_names = file.readline().rstrip('\n').split('\t')
     for line in file:
         fields = {key: value for key, value in zip(field_names, line.rstrip('\n').split('\t'))}

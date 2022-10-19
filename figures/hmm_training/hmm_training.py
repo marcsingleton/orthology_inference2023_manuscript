@@ -15,7 +15,7 @@ state_colors = ['C0', 'C3', 'C1', 'C2']
 # Load labels
 OGid2labels = {}
 label_set = set()
-with open('../../IDREvoDevo/analysis/ortho_MSA/insertion_hmm/labels.tsv') as file:
+with open('../../orthology_inference/analysis/ortho_MSA/insertion_hmm/labels.tsv') as file:
     field_names = file.readline().rstrip('\n').split('\t')
     for line in file:
         fields = {key: value for key, value in zip(field_names, line.rstrip('\n').split('\t'))}
@@ -30,9 +30,9 @@ if set(state_labels) != label_set:
     raise RuntimeError('label_set is not equal to set of state_labels')
 
 # Load history and model parameters
-with open('../../IDREvoDevo/analysis/ortho_MSA/insertion_hmm/out/history.json') as file:
+with open('../../orthology_inference/analysis/ortho_MSA/insertion_hmm/out/history.json') as file:
     history = json.load(file)
-with open('../../IDREvoDevo/analysis/ortho_MSA/insertion_hmm/out/model.json') as file:
+with open('../../orthology_inference/analysis/ortho_MSA/insertion_hmm/out/model.json') as file:
     model_json = json.load(file)
 
 if not os.path.exists('out/'):

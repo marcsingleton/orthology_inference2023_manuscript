@@ -44,14 +44,14 @@ cbar_offset_bottom = 0.075
 
 # Load graph
 graph = {}
-with open('../../IDREvoDevo/analysis/ortho_cluster2/hits2graph/out/hit_graph.tsv') as file:
+with open('../../orthology_inference/analysis/ortho_cluster2/hits2graph/out/hit_graph.tsv') as file:
     for line in file:
         node, adjs = line.rstrip('\n').split('\t')
         graph[node] = [adj.split(':') for adj in adjs.split(',')]
 
 # Load connected components
 components = {}
-with open('../../IDREvoDevo/analysis/ortho_cluster2/connect_hit_graph/out/components.tsv') as file:
+with open('../../orthology_inference/analysis/ortho_cluster2/connect_hit_graph/out/components.tsv') as file:
     field_names = file.readline().rstrip('\n').split('\t')
     for line in file:
         fields = {key: value for key, value in zip(field_names, line.rstrip('\n').split('\t'))}
