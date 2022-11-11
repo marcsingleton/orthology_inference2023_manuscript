@@ -148,9 +148,15 @@ fig.savefig('out/cnn_training.png', dpi=300)
 fig.savefig('out/cnn_training.tiff', dpi=300)
 plt.close()
 
-record_ids = [('07C3', 'XP_032288889.1'), ('23D9', 'XP_026832050.1')]
-for record_id in record_ids:
-    OGid, ppid, profile, seq, labels, weights = records[record_id]
+record_ids = [('010D', 'XP_039479706.2', 465, 945, 50),
+              ('010D', 'XP_017002872.2', 465, 945, 50),
+              ('23D9', 'XP_026832050.1', 625, 1331, 25),
+              ('03E7', 'XP_022223442.2', 698, 1656, 20),
+              ('1E46', 'XP_034479221.1', 2407, 2761, 50),
+              ('2CDB', 'XP_046866895.1', 1763, 2425, 25)]
+for OGid, ppid, start, stop, margin in record_ids:
+    start, stop = start - margin, stop + margin
+    _, _, profile, seq, labels, weights = records[(OGid, ppid)]
     output = tf.squeeze(model([np.expand_dims(profile, 0), np.expand_dims(seq, 0)]))  # Expand and contract dims
 
     msa = []
@@ -160,14 +166,15 @@ for record_id in record_ids:
         msa.append({'ppid': msa_ppid, 'spid': msa_spid, 'seq': seq})
     msa = sorted(msa, key=lambda x: tip_order[x['spid']])
 
-    data = [output, labels, weights]
+    data = [output[start:stop], labels[start:stop], weights[start:stop]]
     msa_labels = [msa_record['ppid'] if msa_record['ppid'] == ppid else '' for msa_record in msa]
-    fig = plot_msa_data([msa_record['seq'] for msa_record in msa], data, figsize=(7.5, 3.5),
+    fig = plot_msa_data([msa_record['seq'][start:stop] for msa_record in msa], data, figsize=(7.5, 3.5),
+                        x_start=start,
                         msa_labels=msa_labels, msa_ticklength=1, msa_tickwidth=0.25, msa_tickpad=1.1, msa_labelsize=5,
                         height_ratio=0.5, hspace=0.2, data_max=1.1, data_min=-0.1, data_labels=['output', 'label', 'weight'],
                         msa_legend=True, legend_kwargs={'bbox_to_anchor': (0.905, 0.5), 'loc': 'center left', 'fontsize': 8, 'handletextpad': 0.5, 'markerscale': 1.25, 'handlelength': 1})
     fig.text(0.01, 0.99, 'F', fontsize='large', fontweight='bold',
              horizontalalignment='left', verticalalignment='top')
     plt.subplots_adjust(left=0.075, bottom=0.01, right=0.9, top=0.95)
-    plt.savefig(f'out/{OGid}_{ppid}.png', dpi=300)
+    plt.savefig(f'out/{OGid}_{ppid}.png', dpi=600)
     plt.close()
