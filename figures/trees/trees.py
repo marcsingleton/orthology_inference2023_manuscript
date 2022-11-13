@@ -13,7 +13,7 @@ if not os.path.exists('out/'):
 # FIGURE WITH TWO TREES
 trees = []
 for model_label in ['LG', 'GTR']:
-    tree = skbio.read('../../orthology_inference/analysis/ortho_tree/consensus_LG/out/100R_NI.nwk', 'newick', skbio.TreeNode)
+    tree = skbio.read(f'../../orthology_inference/analysis/ortho_tree/consensus_{model_label}/out/100R_NI.nwk', 'newick', skbio.TreeNode)
     tree.assign_supports()
     for node in tree.traverse():
         if node.support == 1:
