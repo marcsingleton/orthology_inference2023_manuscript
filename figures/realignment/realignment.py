@@ -10,7 +10,7 @@ from src.draw import plot_msa
 from src.utils import read_fasta
 
 records = [('23D9', 'A', 731, 1158, 704, 1000),
-           ('01E0', 'B', 0, 344, 0, 84),
+           ('01E0', 'B', 0, 344, 0, 94),
            ('07C3', 'C', 0, 484, 0, 211),
            ('0430', 'D', 0, 476, 0, 126)]
 msa_path1 = '../../orthology_inference/analysis/ortho_MSA/get_repseqs/out/'
