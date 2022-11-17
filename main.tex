@@ -1,0 +1,80 @@
+\documentclass[11pt,letterpaper,oneside]{book}
+
+% PACKAGE CONFIGURATIONS
+\usepackage{lipsum}
+\usepackage{amsmath}
+
+\usepackage{graphicx}
+
+\usepackage[margin=1in]{geometry}
+
+%\usepackage{setspace}  % double spacing
+%\doublespacing
+
+\usepackage[skip=10pt]{parskip}  % Remove indents
+
+\usepackage{hyperref}
+
+\usepackage[doi=false,url=false]{biblatex}
+\addbibresource{refs.bib}
+
+\usepackage[labelfont=bf, labelsep=period]{caption}
+\renewcommand{\figurename}{Fig}
+
+\usepackage{titlesec}
+\titleformat{\chapter}
+    [display]% Shape (chapter label in separate paragraph)
+    {\bfseries\Large}% Format
+    {\MakeUppercase{\chaptertitlename} \thechapter}% Label
+    {0in}% Sep
+    {}% Before code
+    []% After code
+
+\pagestyle{plain}
+
+% ENVIRONMENTS
+\newenvironment{abstract}%  Astract environment
+    {% Begin code
+    \small%
+    \begin{center}%
+    \textbf{Abstract}%
+    \end{center}%
+    }%
+    {\par% End code
+    }
+
+% DOCUMENT
+\begin{document}
+
+\title{My dissertation}
+\author{Marc Singleton}
+\date{May 2023}
+\maketitle
+
+\tableofcontents
+
+\chapter{Introduction}
+\graphicspath{{introduction/figures/}}
+Here's my introduction!
+
+\lipsum[1-5]
+
+\chapter{Leveraging genomic redundancy to improve inference and alignment of orthologous proteins}
+\graphicspath{{chapter1/figures/}}
+\input{chapter1/chapter1.tex}
+\clearpage
+\input{chapter1/chapter1_supporting.tex}
+
+\chapter{Evolutionary analyses of IDRs reveal conserved features}
+Here's where my third chapter will go!
+
+\lipsum[6-8]
+
+\chapter{Software tools and tutorials}
+Finally I'll include the tutorials I wrote!
+
+\lipsum[9-10]
+
+\printbibliography[heading=bibintoc]
+
+\end{document}
