@@ -63,7 +63,10 @@ Here's my introduction!
 \graphicspath{{chapter1/figures/}}
 \input{chapter1/chapter1.tex}
 \clearpage
+\setcounter{figure}{0}
+\renewcommand{\thefigure}{S\arabic{figure}}
 \input{chapter1/chapter1_supporting.tex}
+\renewcommand{\thefigure}{\arabic{chapter}.\arabic{figure}}
 
 \chapter{Evolutionary analyses of IDRs reveal conserved features}
 Here's where my third chapter will go!
