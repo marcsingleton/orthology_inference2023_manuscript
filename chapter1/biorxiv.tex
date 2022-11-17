@@ -1,0 +1,55 @@
+\documentclass[11pt,letterpaper]{article}
+
+% PACKAGE CONFIGURATIONS
+\usepackage{amsmath}
+
+\usepackage{graphicx}
+
+\usepackage[margin=1in]{geometry}
+%\usepackage{setspace}  % double spacing
+%\doublespacing
+
+\usepackage[skip=10pt]{parskip}  % Remove indents
+
+\usepackage{hyperref}
+
+\usepackage[doi=false,url=false]{biblatex}
+\addbibresource{../refs.bib}
+
+\usepackage[labelfont=bf, labelsep=period]{caption}
+\renewcommand{\figurename}{Fig}
+
+% DOCUMENT
+\begin{document}
+\graphicspath{{./figures/}}
+
+% Title must be 250 characters or less
+\begin{flushleft}
+{\Large\textbf{Leveraging genomic redundancy to improve inference and alignment of orthologous proteins}}
+\newline
+\\
+Marc Singleton\textsuperscript{1},
+Michael Eisen\textsuperscript{1,2,3,*}
+\\
+\bigskip
+\textbf{1} Biophysics Graduate Group, UC Berkeley, Berkeley, CA, USA
+\\
+\textbf{2} Department of Molecular and Cell Biology, UC Berkeley, Berkeley, CA, USA
+\\
+\textbf{3} Howard Hughes Medical Institute, UC Berkeley, Berkeley, CA, USA
+\\
+\bigskip
+
+* mbeisen@berkeley.edu
+
+\end{flushleft}
+
+\input{chapter1.tex}
+
+\printbibliography
+
+\clearpage
+
+\input{chapter1_supporting.tex}
+
+\end{document}
