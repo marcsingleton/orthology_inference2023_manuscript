@@ -1,50 +1,6 @@
-\documentclass[11pt,letterpaper]{article}
-
-% PACKAGE CONFIGURATIONS
-\usepackage{amsmath}
-
-\usepackage{graphicx}
-\graphicspath{{./figures/}}
-
-\usepackage[margin=1in]{geometry}
-%\usepackage{setspace}  % double spacing
-%\doublespacing
-\usepackage[skip=10pt]{parskip}
-
-\usepackage{hyperref}
-
-\usepackage[doi=false,url=false]{biblatex}
-\addbibresource{refs.bib}
-
-\usepackage[labelfont=bf, labelsep=period]{caption}
-\renewcommand{\figurename}{Fig}
-
-\begin{document}
-
-% Title must be 250 characters or less
-\begin{flushleft}
-{\Large\textbf{Leveraging genomic redundancy to improve inference and alignment of orthologous proteins}}
-\newline
-\\
-Marc Singleton\textsuperscript{1},
-Michael Eisen\textsuperscript{1,2,3,*}
-\\
-\bigskip
-\textbf{1} Biophysics Graduate Group, UC Berkeley, Berkeley, CA, USA
-\\
-\textbf{2} Department of Molecular and Cell Biology, UC Berkeley, Berkeley, CA, USA
-\\
-\textbf{3} Howard Hughes Medical Institute, UC Berkeley, Berkeley, CA, USA
-\\
-\bigskip
-
-* mbeisen@berkeley.edu
-
-\end{flushleft}
-
 % Abstract must be 300 words or less
 \begin{abstract}
-    \noindent Identifying protein sequences with common ancestry is a core task in bioinformatics and evolutionary biology. However, methods for inferring and aligning such sequences in annotated genomes have not kept pace with the increasing scale and complexity of the available data. Thus, in this work we implemented several improvements to the traditional methodology that more fully leverage the redundancy of closely related genomes and the organization of their annotations. Two highlights include the application of the more flexible \textit{k}-clique percolation algorithm for identifying clusters of orthologous proteins and the development of a novel technique for removing poorly supported regions of alignments with a phylogenetic HMM. In making the latter, we also wrote a fully documented Python package Homomorph that implements standard HMM algorithms and created a set of tutorials to promote its use by a wide audience. We applied the resulting pipeline to a set of 33 annotated \textit{Drosophila} genomes, generating 22,813 orthologous groups and 8,565 high-quality alignments.
+Identifying protein sequences with common ancestry is a core task in bioinformatics and evolutionary biology. However, methods for inferring and aligning such sequences in annotated genomes have not kept pace with the increasing scale and complexity of the available data. Thus, in this work we implemented several improvements to the traditional methodology that more fully leverage the redundancy of closely related genomes and the organization of their annotations. Two highlights include the application of the more flexible \textit{k}-clique percolation algorithm for identifying clusters of orthologous proteins and the development of a novel technique for removing poorly supported regions of alignments with a phylogenetic HMM. In making the latter, we also wrote a fully documented Python package Homomorph that implements standard HMM algorithms and created a set of tutorials to promote its use by a wide audience. We applied the resulting pipeline to a set of 33 annotated \textit{Drosophila} genomes, generating 22,813 orthologous groups and 8,565 high-quality alignments.
 \end{abstract}
 
 \section*{Introduction}
@@ -198,7 +154,7 @@ The hit graph is sparse, so these algorithms are efficient when applied to its i
 The protein sequences for each annotation were searched against themselves with the same settings as for the inter-genome searches. The resulting output was processed identically except the HSPs were not filtered using the best gene criterion. Thus, all HSPs for each query were merged into hits. The best hit for each query and target gene was then chosen as the hit with the highest sum of bit scores from disjoint HSPs. (Grouping by target gene ensured only the highest-scoring isoform was selected.) Query-target pairs whose hits which exceeded the maximum bit score for all inter-genome hits associated with that query and passed the overlap and reciprocity filters were designated as paralogous pairs. The orthologous groups were supplemented with paralogs by adding the paired sequences for each of the original members of the orthologous group.
 
 \subsection*{Initial alignment and selection of representative sequences}
-The sequences in each orthologous group were aligned using MAFFT 7.490 with the following settings: --globalpair --maxiterate 1000 --thread 1 --anysymbol --allowshift --unalignlevel 0.4 --leavegappyregion~\cite{Katoh2013}. Representative sequences for each gene were then selected by maximum likelihood according to binary profiles constructed from these alignments. First each sequence was coded into gap and non-gap symbols. The sequences were then grouped by gene, and for each group and position if at least one sequence was aligned in the group, the group contributed one count for the non-gap symbol to the profile at that position. Otherwise, the group contributed a count for the gap symbol at that position. To account for the phylogenetic dependencies between sequences, the counts were weighted according to a Gaussian process over the GTR2 consensus tree described in the section on inferring species trees~\cite{Altschul1989}. If a species had multiple genes in the orthologous group, the species weight was divided evenly among them. Each coded sequence was then scored according to this profile, and the maximum likelihood sequence for each gene was selected as its representative. By assigning a non-gap count to groups and positions where at least one sequence is aligned, the profile incentivizes the selection of sequences contain the fewest gaps and match the consensus alignment. Unfortunately, this scheme can cause a sequence to score negative infinity if it has a gap at a position where every group has at least one aligned sequence, so the profile was initialized with a pseudocount of 0.005 for the gap and non-gap symbols at each position.
+The sequences in each orthologous group were aligned using MAFFT 7.490 with the following settings: -{}-globalpair -{}-maxiterate 1000 -{}-thread 1 -{}-anysymbol -{}-allowshift -{}-leavegappyregion -{}-unalignlevel 0.4~\cite{Katoh2013}. Representative sequences for each gene were then selected by maximum likelihood according to binary profiles constructed from these alignments. First each sequence was coded into gap and non-gap symbols. The sequences were then grouped by gene, and for each group and position if at least one sequence was aligned in the group, the group contributed one count for the non-gap symbol to the profile at that position. Otherwise, the group contributed a count for the gap symbol at that position. To account for the phylogenetic dependencies between sequences, the counts were weighted according to a Gaussian process over the GTR2 consensus tree described in the section on inferring species trees~\cite{Altschul1989}. If a species had multiple genes in the orthologous group, the species weight was divided evenly among them. Each coded sequence was then scored according to this profile, and the maximum likelihood sequence for each gene was selected as its representative. By assigning a non-gap count to groups and positions where at least one sequence is aligned, the profile incentivizes the selection of sequences contain the fewest gaps and match the consensus alignment. Unfortunately, this scheme can cause a sequence to score negative infinity if it has a gap at a position where every group has at least one aligned sequence, so the profile was initialized with a pseudocount of 0.005 for the gap and non-gap symbols at each position.
 
 \subsection*{Alignment refinement}
 Consensus columns were manually defined as columns in the initial alignments with at least five non-gap symbols using the Stockholm file format. These labeled alignments were used to build a profile HMM using HMMer 3.3.2~\cite{Eddy2009}. No sequence relative weighting was used, and the effective number of sequences was set to three times the number of sequences in the alignment. HMMer uses strong priors to allow the construction of profiles with relatively few aligned sequences. However, in rare cases a sequence with a long poorly supported segment was misaligned, effectively putting it out of register with the profile and creating a poor-quality alignment. Increasing the effective sequence number corrected this error. The original sequences were then aligned to the profile. Unaligned segments at the N- or C- terminus were removed from the alignment. Unaligned segments in internal regions were extracted and aligned separately for each region using MAFFT with the same settings. The resulting alignments were then “stitched” into the profile alignment. This process was unsuccessful for one alignment due to cryptic error in MAFFT, which reduced the number of refined alignments to 8,565.
@@ -374,5 +330,3 @@ dmau,   dsec, dsim     & 1                         \\ \hline
 \end{tabular}
 \label{stable:diversity_criteria}
 \end{table}
-
-\end{document}
