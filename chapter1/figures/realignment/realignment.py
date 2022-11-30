@@ -9,12 +9,12 @@ import skbio
 from src.draw import plot_msa
 from src.utils import read_fasta
 
-records = [('23D9', 'A', 731, 1158, 704, 1000),
-           ('01E0', 'B', 0, 344, 0, 94),
-           ('07C3', 'C', 0, 484, 0, 211),
-           ('0430', 'D', 0, 476, 0, 126)]
+records = [('0167', 'A', 2357, 2714, 2763, 2831),
+           ('2770', 'B', 2440, 2831, 2235, 2743),
+           ('23D9', 'C', 731, 1150, 702, 982),
+           ('35D6', 'D', 2774, 3162, 3003, 3355)]
 msa_path1 = '../../orthology_inference/analysis/ortho_MSA/get_repseqs/out/'
-msa_path2 = '../../orthology_inference/analysis/ortho_MSA/realign_hmmer/out/mafft/'
+msa_path2 = '../../orthology_inference/analysis/ortho_MSA/realign_fastas/out/'
 spid_regex = r'spid=([a-z]+)'
 
 adjust_left1 = 0.02
