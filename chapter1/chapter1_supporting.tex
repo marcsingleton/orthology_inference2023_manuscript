@@ -24,22 +24,6 @@
 \end{figure}
 
 \begin{figure}[h!]
-\includegraphics[width=\textwidth]{cnn_architecture.png}
-\centering
-\caption{\textbf{CNN architecture.}}
-\label{sfig:cnn_architecture}
-\end{figure}
-
-\begin{figure}[h!]
-\includegraphics[width=\textwidth]{cnn_training/out/cnn_training.png}
-\includegraphics[width=\textwidth]{cnn_training/out/23D9_XP_026832050.1.png}
-\centering
-\caption{\textbf{CNN data and training details.}
-\textbf{(A)} Most labels were “negative,” which corresponded to positions which were maintained in the alignment. \textbf{(B, C)} The training loss and metrics stabilized by the final training epochs. \textbf{(D, E)} The parameters for a model of this size are easily visualized. The embedding learns the gap and unknown amino acid symbols are distinct from the others. The convolutional filters learn kernels which correspond to the length of a typical long poorly supported segment. \textbf{(F)} The alignment of representative sequences in orthologous group 23D9 where the indicated sequence is labeled with the trained CNN. The blue lines are the CNN’s predictions, and the yellow lines are the labels. The red lines are the weights given to each position. The regions where the weights are zero are masked from the training data, which allowed the model to focus on only the most relevant examples.}
-\label{sfig:cnn_training}
-\end{figure}
-
-\begin{figure}[h!]
 \includegraphics[width=\textwidth]{hmm_training/out/hmm_training.png}
 \centering
 \caption{\textbf{Insertion phylo-HMM data and training details.}
