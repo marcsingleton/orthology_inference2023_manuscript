@@ -13,19 +13,19 @@ from src.ortho_MSA import utils
 from src.utils import read_fasta
 
 OGids = ['2252', '2A57', '360E']
-msa_path = '../../orthology_inference/analysis/ortho_MSA/realign_hmmer/out/mafft/'
+msa_path = '../../orthology_inference/analysis/ortho_MSA/realign_fastas/out/'
 spid_regex = r'spid=([a-z]+)'
 
 state_labels = ['1A', '1B', '2', '3']
 state_colors = ['C0', 'C3', 'C1', 'C2']
 
 adjust_left = 0.025
-adjust_bottom = 0.01
+adjust_bottom = 0.06
 adjust_right = 0.905
 adjust_top = 0.9
 
 height_ratio = 0.5
-hspace = 0.2
+hspace = 0.3
 x_labelsize = 5
 legend_position = (0.915, 0.5)
 legend_fontsize = 6
@@ -34,7 +34,6 @@ legend_markerscale = 1
 
 fig_width = 7.5
 fig_height = 3
-figsize_effective = (fig_width * (adjust_right - adjust_left), fig_height * (adjust_top - adjust_bottom))
 dpi = 300
 
 panel_label = 'B'
@@ -98,16 +97,14 @@ for OGid in OGids:
     data = [fbs[label] for label in state_labels]
 
     fig = plot_msa_data([record['seq'] for record in msa], data,
-                        figsize=figsize_effective, height_ratio=height_ratio, hspace=hspace,
-                        data_max=1.1, data_min=-0.1, data_labels=state_labels, data_colors=state_colors,
+                        figsize=(fig_width, fig_height),
+                        height_ratio=height_ratio, hspace=hspace, left=adjust_left, bottom=adjust_bottom, right=adjust_right, top=adjust_top,
+                        data_max=1.05, data_min=-0.05, data_labels=state_labels, data_colors=state_colors,
                         x_labelsize=x_labelsize,
-                        msa_legend=True, legend_kwargs={'bbox_to_anchor': legend_position, 'loc': 'center left',
-                                                        'fontsize': legend_fontsize,
-                                                        'handletextpad': legend_handletextpad,
-                                                        'markerscale': legend_markerscale, 'handlelength': 1})
+                        msa_legend=True, legend_kwargs={'bbox_to_anchor': legend_position, 'loc': 'center left', 'fontsize': legend_fontsize,
+                                                        'handletextpad': legend_handletextpad, 'markerscale': legend_markerscale, 'handlelength': 1})
     fig.text(panel_label_offset / fig_width, 1 - panel_label_offset / fig_height, panel_label, fontsize=panel_label_fontsize, fontweight='bold',
              horizontalalignment='left', verticalalignment='top')
-    plt.subplots_adjust(left=adjust_left, bottom=adjust_bottom, right=adjust_right, top=adjust_top)
     plt.savefig(f'out/{OGid}.png', dpi=dpi)
     plt.savefig(f'out/{OGid}.tiff', dpi=dpi)
     plt.close()

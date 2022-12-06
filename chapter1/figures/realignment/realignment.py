@@ -22,7 +22,7 @@ adjust_left2 = 0.05
 adjust_bottom = 0.1
 adjust_right1 = 0.95
 adjust_right2 = 0.85
-adjust_top = 0.9
+adjust_top = 0.925
 
 hspace = 0.3
 x_labelsize = 5
@@ -33,8 +33,6 @@ legend_markerscale = 1
 
 fig_width = 3.75
 fig_height = 2.5
-figsize_effective1 = (fig_width * (adjust_right1 - adjust_left1), fig_height * (adjust_top - adjust_bottom))
-figsize_effective2 = (fig_width * (adjust_right2 - adjust_left2), fig_height * (adjust_top - adjust_bottom))
 dpi = 600
 
 panel_label_fontsize = 'large'
@@ -65,13 +63,12 @@ for OGid, panel_label, start1, stop1, start2, stop2 in records:
 
         # Plot original MSA
         fig = plot_msa([record['seq'][start1:stop1] for record in msa1],
-                       x_start=start1,
-                       figsize=figsize_effective1, hspace=hspace,
-                       x_labelsize=x_labelsize)
+                       figsize=(fig_width, fig_height),
+                       hspace=hspace, left=adjust_left1, bottom=adjust_bottom, right=adjust_right1, top=adjust_top,
+                       x_start=start1, x_labelsize=x_labelsize)
         fig.text(panel_label_offset / fig_height, 1 - panel_label_offset / fig_width, panel_label, fontsize=panel_label_fontsize, fontweight='bold',
                  horizontalalignment='left', verticalalignment='top')
         fig.set_size_inches((fig_width, fig_height))
-        plt.subplots_adjust(left=adjust_left1, bottom=adjust_bottom, right=adjust_right1, top=adjust_top)
         plt.suptitle('Before', fontsize=suptitle_fontsize)
         plt.savefig(f'out/{panel_label}1_{OGid}.png', dpi=dpi)
         plt.savefig(f'out/{panel_label}1_{OGid}.tiff', dpi=dpi)
@@ -79,13 +76,11 @@ for OGid, panel_label, start1, stop1, start2, stop2 in records:
 
         # Plot re-aligned MSA
         fig = plot_msa([record['seq'][start2:stop2] for record in msa2],
-                       x_start=start2,
-                       figsize=figsize_effective2, hspace=hspace,
-                       x_labelsize=x_labelsize,
+                       figsize=(fig_width, fig_height),
+                       hspace=hspace, left=adjust_left2, bottom=adjust_bottom, right=adjust_right2, top=adjust_top,
+                       x_start=start2, x_labelsize=x_labelsize,
                        msa_legend=True, legend_kwargs={'bbox_to_anchor': legend_position, 'loc': 'center left', 'fontsize': legend_fontsize,
                                                        'handletextpad': legend_handletextpad, 'markerscale': legend_markerscale, 'handlelength': 1})
-        fig.set_size_inches((fig_width, fig_height))
-        plt.subplots_adjust(left=adjust_left2, bottom=adjust_bottom, right=adjust_right2, top=adjust_top)
         plt.suptitle('After', fontsize=suptitle_fontsize)
         plt.savefig(f'out/{panel_label}2_{OGid}.png', dpi=dpi)
         plt.savefig(f'out/{panel_label}2_{OGid}.tiff', dpi=dpi)
