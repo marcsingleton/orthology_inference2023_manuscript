@@ -32,8 +32,8 @@ groups2 = df2.groupby('OGid')
 if not os.path.exists('out/'):
     os.mkdir('out')
 
-fig = plt.figure(figsize=(7.5, 7.5), subplotpars=SubplotParams(0.2, 0.2, 0.9, 0.9))
-gs = GridSpec(3, 2)
+fig = plt.figure(figsize=(7.5, 8), subplotpars=SubplotParams(0.25, 0.325, 0.9, 0.925))
+gs = GridSpec(4, 2)
 
 # Pie chart by presence of trims
 union = set(df1['OGid']) | set(df2['OGid'])
@@ -50,7 +50,7 @@ ax.pie(values, labels=labels, labeldistance=None, colors=colors)
 ax.legend(loc='center left', bbox_to_anchor=(1, 0.5), fontsize=8)
 subfig.suptitle('A', x=0.025, y=0.975, fontweight='bold')
 
-# Hexbin of posterior2 vs posterior3
+# Hexbin of posterior2 vs posterior3 in region trims
 subfig = fig.add_subfigure(gs[0, 1], facecolor='none')
 ax = subfig.add_subplot()
 hb = ax.hexbin(df2['norm2'], df2['norm3'], bins='log', gridsize=25, mincnt=1, linewidth=0)
@@ -68,32 +68,48 @@ ax.set_xlabel('Number of sequence trims in OG')
 ax.set_ylabel('Number of OGs')
 subfig.suptitle('C', x=0.025, y=0.975, fontweight='bold')
 
-# Distribution of number of removed symbols in OG
-idx = int(np.ceil(len(df1) * 0.95))
-counts = df1['count'].sort_values(ignore_index=True)[:idx].value_counts()
-subfig = fig.add_subfigure(gs[1, 1], facecolor='none')
-ax = subfig.add_subplot()
-ax.bar(counts.index, counts.values, width=1)
-ax.set_xlabel('Number of non-gap symbols in sequence trim')
-ax.set_ylabel('Number of sequence trims')
-subfig.suptitle('D', x=0.025, y=0.975, fontweight='bold')
-
-# Distribution of number of region trims
+# Distribution of number of region trims in OGs
 counts = groups2.size().value_counts()
-subfig = fig.add_subfigure(gs[2, 0], facecolor='none')
+subfig = fig.add_subfigure(gs[1, 1], facecolor='none')
 ax = subfig.add_subplot()
 ax.bar(counts.index, counts.values, width=1)
 ax.set_xlabel('Number of region trims in OG')
 ax.set_ylabel('Number of OGs')
+subfig.suptitle('D', x=0.025, y=0.975, fontweight='bold')
+
+# Distribution of number of removed symbols in sequence trims (truncated)
+idx = int(np.ceil(len(df1) * 0.95))
+counts = df1['sym_count'].sort_values(ignore_index=True)[:idx].value_counts()
+subfig = fig.add_subfigure(gs[2, 0], facecolor='none')
+ax = subfig.add_subplot()
+ax.bar(counts.index, counts.values, width=1)
+ax.set_xlabel('Number of non-gap symbols in sequence trim')
+ax.set_ylabel('Number of\nsequence trims')
 subfig.suptitle('E', x=0.025, y=0.975, fontweight='bold')
 
-# Distribution of length of trims
+# Distribution of lengths of region trims
 subfig = fig.add_subfigure(gs[2, 1], facecolor='none')
 ax = subfig.add_subplot()
 ax.hist(df2['length'], bins=100)
 ax.set_xlabel('Length of region trim')
 ax.set_ylabel('Number of region trims')
 subfig.suptitle('F', x=0.025, y=0.975, fontweight='bold')
+
+# Distribution of number of aligned symbols per non-gap symbols in sequence trims
+subfig = fig.add_subfigure(gs[3, 0], facecolor='none')
+ax = subfig.add_subplot()
+ax.hist(df1['align_count'] / df1['sym_count'], bins=100)
+ax.set_xlabel('Number of aligned non-gap symbols\nper non-gap symbol in trim')
+ax.set_ylabel('Number of\nsequence trims')
+subfig.suptitle('G', x=0.025, y=0.975, fontweight='bold')
+
+# Distribution of length ratios of total region trims
+subfig = fig.add_subfigure(gs[3, 1], facecolor='none')
+ax = subfig.add_subplot()
+ax.hist(df2['length_ratio'], bins=50)
+ax.set_xlabel('Length ratio of region trim')
+ax.set_ylabel('Number of region trims')
+subfig.suptitle('H', x=0.025, y=0.975, fontweight='bold')
 
 fig.savefig('out/hmm_trim.png', dpi=300)
 fig.savefig('out/hmm_trim.tiff', dpi=300)
