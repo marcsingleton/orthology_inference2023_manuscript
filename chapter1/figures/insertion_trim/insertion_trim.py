@@ -42,7 +42,7 @@ OGids1 = set(df1['OGid']) - intersection
 OGids2 = set(df2['OGid']) - intersection
 
 values = [len(set(OGids)) - len(union), len(OGids1), len(OGids2), len(intersection)]
-labels = [f'{label}\n({value:,})' for label, value in zip(['no trims', 'sequence trims only', 'region trims only', 'sequence and region trims'], values)]
+labels = [f'{label}\n({value:,})' for label, value in zip(['no trims', 'segment trims only', 'region trims only', 'segment and region trims'], values)]
 colors = ['C0', 'C2', 'C1', 'C3']
 subfig = fig.add_subfigure(gs[0, 0], facecolor='none')
 ax = subfig.add_axes((0, 0.1, 0.45, 0.9))
@@ -59,12 +59,12 @@ ax.set_ylabel('Average state 3\nposterior in region trim')
 fig.colorbar(hb)
 subfig.suptitle('B', x=0.025, y=0.975, fontweight='bold')
 
-# Distribution of number of sequence trims in OGs
+# Distribution of number of segment trims in OGs
 counts = groups1.size().value_counts()
 subfig = fig.add_subfigure(gs[1, 0], facecolor='none')
 ax = subfig.add_subplot()
 ax.bar(counts.index, counts.values, width=1)
-ax.set_xlabel('Number of sequence trims in OG')
+ax.set_xlabel('Number of segment trims in OG')
 ax.set_ylabel('Number of OGs')
 subfig.suptitle('C', x=0.025, y=0.975, fontweight='bold')
 
@@ -77,14 +77,14 @@ ax.set_xlabel('Number of region trims in OG')
 ax.set_ylabel('Number of OGs')
 subfig.suptitle('D', x=0.025, y=0.975, fontweight='bold')
 
-# Distribution of number of removed symbols in sequence trims (truncated)
+# Distribution of number of removed symbols in segment trims (truncated)
 idx = int(np.ceil(len(df1) * 0.95))
 counts = df1['sym_count'].sort_values(ignore_index=True)[:idx].value_counts()
 subfig = fig.add_subfigure(gs[2, 0], facecolor='none')
 ax = subfig.add_subplot()
 ax.bar(counts.index, counts.values, width=1)
-ax.set_xlabel('Number of non-gap symbols in sequence trim')
-ax.set_ylabel('Number of\nsequence trims')
+ax.set_xlabel('Number of non-gap symbols in segment trim')
+ax.set_ylabel('Number of\nsegment trims')
 subfig.suptitle('E', x=0.025, y=0.975, fontweight='bold')
 
 # Distribution of lengths of region trims
@@ -95,12 +95,12 @@ ax.set_xlabel('Length of region trim')
 ax.set_ylabel('Number of region trims')
 subfig.suptitle('F', x=0.025, y=0.975, fontweight='bold')
 
-# Distribution of number of aligned symbols per non-gap symbols in sequence trims
+# Distribution of number of aligned symbols per non-gap symbols in segment trims
 subfig = fig.add_subfigure(gs[3, 0], facecolor='none')
 ax = subfig.add_subplot()
 ax.hist(df1['align_count'] / df1['sym_count'], bins=100)
 ax.set_xlabel('Number of aligned non-gap symbols\nper non-gap symbol in trim')
-ax.set_ylabel('Number of\nsequence trims')
+ax.set_ylabel('Number of\nsegment trims')
 subfig.suptitle('G', x=0.025, y=0.975, fontweight='bold')
 
 # Distribution of length ratios of total region trims
