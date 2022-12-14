@@ -1,4 +1,4 @@
-"""Make figure of HMM training."""
+"""Make figure of insertion HMM training."""
 
 import os
 import json
@@ -118,6 +118,6 @@ subfig.suptitle('F', x=0.025, y=0.975, fontweight='bold')
 handles = [Line2D([], [], label=label, color=color) for label, color in zip(state_labels, state_colors)]
 fig.legend(handles=handles, ncol=len(handles), bbox_to_anchor=(0.5, -0.01), loc='lower center')
 
-fig.savefig('out/hmm_training.png', dpi=300)
-fig.savefig('out/hmm_training.tiff', dpi=300)
+fig.savefig('out/insertion_training.png', dpi=300)
+fig.savefig('out/insertion_training.tiff', dpi=300)
 plt.close()

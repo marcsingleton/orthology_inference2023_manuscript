@@ -1,4 +1,4 @@
-"""Make figure of HMM trimming data."""
+"""Make figure of insertion HMM trimming data."""
 
 import os
 
@@ -111,6 +111,6 @@ ax.set_xlabel('Length ratio of region trim')
 ax.set_ylabel('Number of region trims')
 subfig.suptitle('H', x=0.025, y=0.975, fontweight='bold')
 
-fig.savefig('out/hmm_trim.png', dpi=300)
-fig.savefig('out/hmm_trim.tiff', dpi=300)
+fig.savefig('out/insertion_trim.png', dpi=300)
+fig.savefig('out/insertion_trim.tiff', dpi=300)
 plt.close()
