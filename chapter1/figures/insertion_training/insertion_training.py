@@ -49,7 +49,7 @@ for labels in OGid2labels.values():
 values = [counts[label] for label in state_labels]
 labels = [f'{label}\n{value:,}' for label, value in zip(state_labels, values)]
 subfig = fig.add_subfigure(gs[0, :2])
-ax = subfig.add_subplot()
+ax = subfig.add_axes((0.1, 0.1, 0.8, 0.8))
 ax.pie(values, colors=state_colors, labels=labels, labeldistance=1.3, textprops={'ha': 'center'})
 subfig.suptitle('A', x=0.025, y=0.975, fontweight='bold')
 
