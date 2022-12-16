@@ -50,10 +50,10 @@ for labels in ids2labels.values():
     for start, stop, label in labels:
         counts[label] += stop - start
 values = [counts[label] for label in state_labels]
-labels = [f'{label}\n{value:,}' for label, value in zip(state_labels, values)]
+labels = [f'{label}\n({value:,})' for label, value in zip(state_labels, values)]
 subfig = fig.add_subfigure(gs[0, :3])
 ax = subfig.add_axes((0.1, 0.1, 0.8, 0.8))
-ax.pie(values, colors=state_colors, labels=labels, labeldistance=1.4, textprops={'ha': 'center'})
+ax.pie(values, colors=state_colors, labels=labels, labeldistance=1.45, textprops={'ha': 'center'})
 subfig.suptitle('A', x=0.025, y=0.975, fontweight='bold')
 
 # Plot loss curve
