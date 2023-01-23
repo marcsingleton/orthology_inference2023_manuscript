@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import skbio
 from src.draw import plot_msa_data
-from src.ortho_MSA import utils
+from src.ortho_MSA import phylo
 from src.utils import read_fasta
 
 OGids = ['2252', '2A57', '360E']
@@ -73,22 +73,22 @@ for OGid in OGids:
     tips = {tip.name: tip for tip in tree.tips()}
     for record in msa:
         spid, seq = record['spid'], record['seq']
-        conditional = np.zeros((2, len(seq)))
+        value = np.zeros((2, len(seq)))
         for j, sym in enumerate(seq):
             if sym in ['-', '.']:
-                conditional[0, j] = 1
+                value[0, j] = 1
             else:
-                conditional[1, j] = 1
+                value[1, j] = 1
         tip = tips[spid]
-        tip.conditional = conditional
+        tip.value = value
 
     # Instantiate model
     e_dists_rv = {}
     for s, e_dist in model_json['e_dists'].items():
         a, b, pi, q0, q1, p0, p1 = [e_dist[param] for param in ['a', 'b', 'pi', 'q0', 'q1', 'p0', 'p1']]
-        pmf1 = utils.get_betabinom_pmf(emit_seq, len(msa), a, b)
-        pmf2 = utils.get_tree_pmf(tree, pi, q0, q1, p0, p1)
-        e_dists_rv[s] = utils.ArrayRV(pmf1 * pmf2)
+        pmf1 = phylo.get_betabinom_pmf(emit_seq, len(msa), a, b)
+        pmf2 = phylo.get_tree_pmf(tree, pi, q0, q1, p0, p1)
+        e_dists_rv[s] = phylo.ArrayRV(pmf1 * pmf2)
     model = homomorph.HMM(model_json['t_dists'], e_dists_rv, model_json['start_dist'])
 
     # Decode states and plot
