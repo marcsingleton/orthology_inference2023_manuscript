@@ -26,8 +26,8 @@ dpi = 300
 
 fig, axs = plt.subplots(1, 2, figsize=(7.5, 4), layout='tight')
 for ax, tree, xlabel, title_label in zip(axs, trees, xlabels, title_labels):
-    plot_tree(tree, ax, tip_fontsize=8, support_labels=True,
-              support_format_spec='.2f', support_fontsize=8.5,
+    plot_tree(tree, ax=ax, tip_fontsize=8,
+              support_labels=True, support_format_spec='.2f', support_fontsize=8.5,
               support_ha='right', support_hoffset=-0.006, support_voffset=-0.006)
     ax.yaxis.set_visible(False)
     ax.spines['left'].set_visible(False)
@@ -59,8 +59,8 @@ for model_label, xlabel in zip(model_labels, xlabels):
 
     fig, axs = plt.subplots(len(ylabels), len(title_labels), figsize=(7.5, 6), layout='constrained')
     for ax, tree in zip(axs.ravel(), trees):
-        plot_tree(tree, ax, tip_fontsize=6, tip_offset=0.002, support_labels=True,
-                  support_format_spec='.2f', support_fontsize=6,
+        plot_tree(tree, ax=ax, linewidth=0.6, tip_fontsize=6,
+                  support_labels=True, support_format_spec='.2f', support_fontsize=6,
                   support_ha='right', support_hoffset=-0.007, support_voffset=-0.007)
         ax.set_yticks([])
         ax.spines['left'].set_visible(False)
