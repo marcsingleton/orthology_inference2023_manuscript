@@ -19,10 +19,10 @@ spid_regex = r'spid=([a-z]+)'
 state_labels = ['1A', '1B', '2', '3']
 state_colors = ['C0', 'C3', 'C1', 'C2']
 
-adjust_left = 0.025
-adjust_bottom = 0.06
+adjust_left = 0.1
+adjust_bottom = 0.05
 adjust_right = 0.905
-adjust_top = 0.9
+adjust_top = 0.925
 
 height_ratio = 0.5
 hspace = 0.3
@@ -34,7 +34,7 @@ legend_markerscale = 1
 
 fig_width = 7.5
 fig_height = 3
-dpi = 300
+dpi = 400
 
 panel_label = 'B'
 panel_label_fontsize = 'large'
@@ -70,6 +70,13 @@ for OGid in OGids:
 
     # Load tree and convert to vectors at tips
     tree = tree_template.shear([record['spid'] for record in msa])
+    for node in tree.postorder():  # Ensure tree is ordered as in original
+        if node.is_tip():
+            node.value = tip_order[node.name]
+        else:
+            node.children = sorted(node.children, key=lambda x: x.value)
+            node.value = sum([child.value for child in node.children])
+
     tips = {tip.name: tip for tip in tree.tips()}
     for record in msa:
         spid, seq = record['spid'], record['seq']
@@ -97,8 +104,10 @@ for OGid in OGids:
     data = [fbs[label] for label in state_labels]
 
     fig = plot_msa_data([record['seq'] for record in msa], data,
+                        tree=tree, tree_kwargs={'linewidth': 0.5, 'tip_labels': False, 'xmin_pad': 0.01, 'xmax_pad': 0.025},
+                        height_ratio=height_ratio, hspace=hspace,
                         figsize=(fig_width, fig_height),
-                        height_ratio=height_ratio, hspace=hspace, left=adjust_left, bottom=adjust_bottom, right=adjust_right, top=adjust_top,
+                        left=adjust_left, bottom=adjust_bottom, right=adjust_right, top=adjust_top, anchor=(0, 0.5),
                         data_max=1.05, data_min=-0.05, data_labels=state_labels, data_colors=state_colors,
                         x_labelsize=x_labelsize,
                         msa_legend=True, legend_kwargs={'bbox_to_anchor': legend_position, 'loc': 'center left', 'fontsize': legend_fontsize,
