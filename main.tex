@@ -137,19 +137,22 @@ Finally, thank you to my partner, Joseph, for agreeing to go on this crazy ride 
 \chapter{Leveraging genomic redundancy to improve inference and alignment of orthologous proteins}
 \graphicspath{{chapter1/figures/}}
 \input{chapter1/chapter1.tex}
-\clearpage
-\setcounter{figure}{0}
-\renewcommand{\thefigure}{S\arabic{figure}}
-\input{chapter1/chapter1_supporting.tex}
-\renewcommand{\thefigure}{\arabic{chapter}.\arabic{figure}}
 
 \chapter{Evolutionary analyses of IDRs reveal conserved features}
 \input{chapter2/chapter2.tex}
-\lipsum[6-8]
 
 \chapter{Software tools and tutorials}
 \input{chapter3/chapter3.tex}
 
 \printbibliography[heading=bibintoc]
+
+\appendix
+\setcounter{figure}{0}
+\renewcommand{\thefigure}{\thechapter\arabic{figure}}
+\setcounter{table}{0}
+\renewcommand{\thetable}{\thechapter\arabic{table}}
+
+\chapter{Supporting information for chapter 1}
+\input{chapter1/chapter1_supporting.tex}
 
 \end{document}
