@@ -1,8 +1,6 @@
 \documentclass[11pt,letterpaper,oneside]{book}
 
 % PACKAGE CONFIGURATIONS
-\usepackage{lipsum}
-
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage[labelfont=bf, labelsep=period]{caption}
@@ -20,6 +18,7 @@
     {0in}% Sep
     {}% Before code
     []% After code
+\setcounter{tocdepth}{1}  % Only number divisions to section
 
 \usepackage{hyperref}
 \usepackage[doi=false,url=false]{biblatex}
@@ -90,7 +89,7 @@
     Professor Mike Eisen, Chair\\
     \bigskip
 \end{center}
-\lipsum[1-5]
+Here's the text for my abstract!
 \clearpage
 
 \setcounter{page}{1}  % Reset page counter after abstract
