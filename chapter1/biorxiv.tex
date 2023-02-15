@@ -2,22 +2,19 @@
 
 % PACKAGE CONFIGURATIONS
 \usepackage{amsmath}
-
 \usepackage{graphicx}
+\usepackage[labelfont=bf, labelsep=period]{caption}
+\renewcommand{\figurename}{Fig}
 
 \usepackage[margin=1in]{geometry}
 %\usepackage{setspace}  % double spacing
 %\doublespacing
-
 \usepackage[skip=10pt]{parskip}  % Remove indents
+\setcounter{secnumdepth}{0}  % Remove section numbering
 
 \usepackage{hyperref}
-
 \usepackage[doi=false,url=false]{biblatex}
 \addbibresource{../refs.bib}
-
-\usepackage[labelfont=bf, labelsep=period]{caption}
-\renewcommand{\figurename}{Fig}
 
 % DOCUMENT
 \begin{document}
@@ -46,7 +43,7 @@ Michael Eisen\textsuperscript{1,2,3}
 
 \input{chapter1.tex}
 
-\section*{Acknowledgments}
+\section{Acknowledgments}
 We thank the past and present members of the Eisen lab for helpful discussions and their assistance in revising the manuscript.
 
 \printbibliography
