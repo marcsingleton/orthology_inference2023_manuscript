@@ -2,26 +2,17 @@
 
 % PACKAGE CONFIGURATIONS
 \usepackage{lipsum}
+
 \usepackage{amsmath}
-
 \usepackage{graphicx}
-
-\usepackage[margin=1in]{geometry}
-
-%\usepackage{setspace}  % double spacing
-%\doublespacing
-
-\usepackage[skip=10pt]{parskip}  % Remove indents
-
-\usepackage{hyperref}
-
-\usepackage[doi=false,url=false]{biblatex}
-\addbibresource{refs.bib}
-
 \usepackage[labelfont=bf, labelsep=period]{caption}
 \renewcommand{\figurename}{Fig}
 
-\usepackage{titlesec}
+\usepackage[margin=1in]{geometry}
+%\usepackage{setspace}  % double spacing
+%\doublespacing
+\usepackage[skip=10pt]{parskip}  % Remove indents
+\usepackage{titlesec}  % Modify chapter title format
 \titleformat{\chapter}
     [display]% Shape (chapter label in separate paragraph)
     {\bfseries\Large}% Format
@@ -29,6 +20,10 @@
     {0in}% Sep
     {}% Before code
     []% After code
+
+\usepackage{hyperref}
+\usepackage[doi=false,url=false]{biblatex}
+\addbibresource{refs.bib}
 
 \pagestyle{plain}
 
