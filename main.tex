@@ -1,48 +1,115 @@
 \documentclass[11pt,letterpaper,oneside]{book}
 
-% PACKAGE CONFIGURATIONS
+% PACKAGE AND ENVIRONMENT CONFIGURATIONS
 \usepackage{amsmath}
 \usepackage{graphicx}
-\usepackage[labelfont=bf, labelsep=period]{caption}
-\renewcommand{\figurename}{Fig}
 
+% Code listings
+\usepackage[outputdir=out]{minted}
+\usepackage{tcolorbox}
+\usepackage{lmodern}
+
+% Margins and spacing
 \usepackage[margin=1in]{geometry}
 %\usepackage{setspace}  % double spacing
 %\doublespacing
 \usepackage[skip=10pt]{parskip}  % Remove indents
-\usepackage{titlesec}  % Modify chapter title format
-\titleformat{\chapter}
-    [display]% Shape (chapter label in separate paragraph)
-    {\bfseries\Large}% Format
-    {\MakeUppercase{\chaptertitlename} \thechapter}% Label
-    {0in}% Sep
-    {}% Before code
-    []% After code
-\setcounter{tocdepth}{1}  % Only number divisions to section
-
-\usepackage{hyperref}
-\usepackage[doi=false,url=false]{biblatex}
-\addbibresource{refs.bib}
-
 \pagestyle{plain}
 
+% Chapter and figure formatting
+\usepackage{titlesec}  % Modify chapter title format
+\titleformat{\chapter}[display]% Shape (chapter label in separate paragraph)
+                      {\bfseries\Large}% Format
+                      {\MakeUppercase{\chaptertitlename} \thechapter}% Label
+                      {0in}% Sep
+                      {}% Before code
+                      []% After code
+\setcounter{tocdepth}{1}  % Only number divisions to section
+\usepackage[labelfont=bf, labelsep=period]{caption}
+\renewcommand{\figurename}{Fig}
+
+% References
+\usepackage[doi=false,url=false]{biblatex}
+\addbibresource{refs.bib}
+\usepackage{hyperref}
+
 % ENVIRONMENTS
-\newenvironment{abstract}%  Astract environment
-    {% Begin code
-    \small%
-    \begin{center}%
-    \textbf{Abstract}%
-    \end{center}%
-    \quotation%
-    }%
-    {\par% End code
-    }
+\newenvironment{abstract}
+{% Begin code
+ \small
+ \begin{center}
+ \textbf{Abstract}
+ \end{center}
+ \quotation
+}
+{% End code
+}
+
+\definecolor{incolor}{RGB}{51,63,153}
+\definecolor{outcolor}{RGB}{200,78,41}
+\definecolor{bgcolor}{RGB}{247,247,247}
+
+\newlength{\promptwidth}
+\setlength{\promptwidth}{0.5in}
+
+\newcommand{\prompt}[2]
+{\makebox[0pt][r]{\texttt{\color{#2}#1:\ }}\vspace{-\baselineskip}}
+
+\newenvironment
+{NotebookIn}
+{
+ \VerbatimEnvironment
+ \begin{tcolorbox}[sharp corners,
+                   frame empty,
+                   size=fbox,
+                   colback=bgcolor,
+                   left skip=\promptwidth,
+                   title=\prompt{In}{incolor},
+                   attach title to upper]
+ \begin{minted}{python}
+}
+{
+ \end{minted}
+ \end{tcolorbox}
+}
+
+\newenvironment
+{NotebookOut}
+{
+ \begin{tcolorbox}[sharp corners,
+                   frame empty,
+                   size=fbox,
+                   colback=white,
+                   left skip=\promptwidth,
+                   title=\prompt{Out}{outcolor},
+                   attach title to upper]
+ \\ \ttfamily
+}
+{
+ \end{tcolorbox}
+}
+
+\newenvironment
+{NotebookImage}
+{
+ \begin{tcolorbox}[sharp corners,
+                   frame empty,
+                   size=fbox,
+                   colback=white,
+                   left skip=\promptwidth,
+                   title=\prompt{Out}{outcolor},
+                   attach title to upper]
+ \\
+}
+{
+ \end{tcolorbox}
+}
 
 % DOCUMENT
 \begin{document}
 
 \begin{titlepage}
-    \begin{center}
+\begin{center}
     My long and grand sounding dissertation title\\
     \bigskip
     By\\
@@ -65,7 +132,7 @@
     Professor Priya Moorjani\\
     \bigskip
     Spring 2023\\
-    \end{center}
+\end{center}
 \end{titlepage}
 
 \thispagestyle{empty}
@@ -136,6 +203,7 @@ Finally, thank you to my partner, Joseph, for going on this crazy ride with me. 
 \input{chapter2/chapter2.tex}
 
 \chapter{Software tools and tutorials}
+\graphicspath{{chapter3/}}
 \input{chapter3/chapter3.tex}
 
 \printbibliography[heading=bibintoc]
@@ -147,6 +215,7 @@ Finally, thank you to my partner, Joseph, for going on this crazy ride with me. 
 \renewcommand{\thetable}{\thechapter\arabic{table}}
 
 \chapter{Supporting information for chapter 1}
+\graphicspath{{chapter1/figures/}}
 \input{chapter1/chapter1_supporting.tex}
 
 \end{document}

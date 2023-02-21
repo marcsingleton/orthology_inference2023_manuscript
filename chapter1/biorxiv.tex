@@ -3,18 +3,22 @@
 % PACKAGE CONFIGURATIONS
 \usepackage{amsmath}
 \usepackage{graphicx}
-\usepackage[labelfont=bf, labelsep=period]{caption}
-\renewcommand{\figurename}{Fig}
 
+% Margins and spacing
 \usepackage[margin=1in]{geometry}
 %\usepackage{setspace}  % double spacing
 %\doublespacing
 \usepackage[skip=10pt]{parskip}  % Remove indents
 \setcounter{secnumdepth}{0}  % Remove section numbering
 
-\usepackage{hyperref}
+% Figure formatting
+\usepackage[labelfont=bf, labelsep=period]{caption}
+\renewcommand{\figurename}{Fig}
+
+% References
 \usepackage[doi=false,url=false]{biblatex}
 \addbibresource{../refs.bib}
+\usepackage{hyperref}
 
 % DOCUMENT
 \begin{document}
