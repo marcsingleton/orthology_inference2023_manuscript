@@ -2,11 +2,16 @@
 
 % PACKAGE AND ENVIRONMENT CONFIGURATIONS
 \usepackage{amsmath}
+\DeclareMathOperator*{\argmax}{arg\!\max}
+\DeclareMathOperator*{\argmin}{arg\!\min}
+
 \usepackage{graphicx}
 
 % Code listings
 \usepackage[outputdir=out]{minted}
 \usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+\tcbset{colframe=white}
 \usepackage{lmodern}
 
 % Margins and spacing
@@ -50,59 +55,63 @@
 \definecolor{bgcolor}{RGB}{247,247,247}
 
 \newlength{\promptwidth}
-\setlength{\promptwidth}{0.5in}
+\setlength{\promptwidth}{0.375in}
 
 \newcommand{\prompt}[2]
 {\makebox[0pt][r]{\texttt{\color{#2}#1:\ }}\vspace{-\baselineskip}}
 
 \newenvironment
 {NotebookIn}
-{
- \VerbatimEnvironment
+{%
+ \VerbatimEnvironment%
  \begin{tcolorbox}[sharp corners,
                    frame empty,
+                   breakable,
                    size=fbox,
                    colback=bgcolor,
                    left skip=\promptwidth,
                    title=\prompt{In}{incolor},
-                   attach title to upper]
- \begin{minted}{python}
+                   attach title to upper]%
+ \begin{minted}{python}%
 }
-{
- \end{minted}
- \end{tcolorbox}
+{%
+ \end{minted}%
+ \end{tcolorbox}%
 }
 
 \newenvironment
 {NotebookOut}
-{
+{%
+ \VerbatimEnvironment%
  \begin{tcolorbox}[sharp corners,
                    frame empty,
+                   breakable,
                    size=fbox,
                    colback=white,
                    left skip=\promptwidth,
                    title=\prompt{Out}{outcolor},
-                   attach title to upper]
- \\ \ttfamily
+                   attach title to upper]%
+ \begin{minted}{text}%
 }
-{
- \end{tcolorbox}
+{%
+ \end{minted}%
+ \end{tcolorbox}%
 }
 
 \newenvironment
 {NotebookImage}
-{
+{%
  \begin{tcolorbox}[sharp corners,
                    frame empty,
                    size=fbox,
                    colback=white,
                    left skip=\promptwidth,
                    title=\prompt{Out}{outcolor},
-                   attach title to upper]
- \\
+                   attach title to upper]%
+ \\%
 }
-{
- \end{tcolorbox}
+{%
+ \end{tcolorbox}%
 }
 
 % DOCUMENT
@@ -205,6 +214,7 @@ Finally, thank you to my partner, Joseph, for going on this crazy ride with me. 
 \chapter{Tools and tutorials for fitting mixture models and HMMs}
 \graphicspath{{chapter3/}}
 \input{chapter3/introduction.tex}
+\input{chapter3/training_tutorial}
 
 \printbibliography[heading=bibintoc]
 
@@ -215,7 +225,13 @@ Finally, thank you to my partner, Joseph, for going on this crazy ride with me. 
 \renewcommand{\thetable}{\thechapter\arabic{table}}
 
 \chapter{Supporting information for chapter 1}
+\label{appendix:a}
 \graphicspath{{chapter1/figures/}}
 \input{chapter1/chapter1_supporting.tex}
+
+\chapter{Supporting information for chapter 3}
+\label{appendix:b}
+\setlength{\promptwidth}{0in}  % No indent for appendix code
+\input{chapter3/training_tutorial_supporting.tex}
 
 \end{document}
