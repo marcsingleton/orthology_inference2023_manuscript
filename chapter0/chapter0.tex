@@ -47,7 +47,10 @@
 %    C. Protein disorder means their atoms do not have fixed spatial relationships
 %       1. In contrast, disordered proteins are described as ``conformational ensembles''
 %       2. They are constantly sampling conformations which may have large differences in the spatial relationships between residues
-%    D. Protein folding driven by hydrophobic interactions
+%       3. The conformations of disordered regions may adopt more extended conformations or collapsed conformations
+%       3. The composition of a disordered region dictates its conformational profile. However, to describe
+%       4. As mentioned previously, proteins are linear chains of amino acids, and the amino alphabet contains 20 letters
+%       5. Though each amino acid is chemically unique, many of their properties can be understood in terms of
 %       1. Disordered regions largely characterized by enrichment and depletion in hydrophilic and hydrophobic residues, respectively
 %       2. Hydrophobic residues are ``water-fearing,'' and like oil in water, they tend to self-associate.
 %       3. Hydrophilic residues are ``water-loving,'' and easily interact with water.
@@ -56,7 +59,7 @@
 %       1. Although, disordered regions are conformationally heterogeneous, they
 %V. IDRs are functional
 %    A. Flexibility confers several advantages
-%        1. Structural flexibility is directly related to functional plasticity
+%        1. The structural flexibility of IDRs is directly related their functional plasticity
 %        2. Proteins involved in signaling, transport, and catalysis require specific geometries to interact their intended targets efficiently
 %        3. Disordered proteins can interact with multiple targets
 %            i. Environmental signals can fine-tune which interacts are preferred
@@ -89,16 +92,34 @@
 %    A. Summarize Stadler's papers and others
 %
 %AIMS
-%I. Structure-function relationships of disordered proteins are unclear
-%    A. Examples of studies that have found specific cases of conservation in IDRs
-%    B. Alan Moses paper as reference in yeast
+%I. Despite significant increases in the accuracy of computational methods which predict disorder from sequence alone, the relationship between sequence and function in IDRs remains poorly understood, and functions are not readily associated with arbitrary IDRs.
+%    A. In contrast, folded domains can identified by characteristic sequences of amino acids
+%        1. Because structured domains make specific contacts between residues, their sequences of amino acids are generally conserved or evolve slowly
+%        2. Thus, for structured domains their specific sequence of amino acids constitute a unique signature
+%        3. Traditional bioinformatics methods use these signatures to detect similarities between proteins
+%        4. Structural and functional information is transferred between proteins with similar sequences
+%        5. In practice, however, this is extremely difficult. Fully mapping the relationship between sequences and structure was an active area of research for decades
+%            a. Recent developments in machine learning have largely resolved this question in most cases, but still required an advanced computational model trained on nearly two hundred thousand experimentally determined structures.
+%    B. Disordered proteins, however, challenge this sequence-dependent model of protein structure and function.
+%    X. Though there are exceptions, many IDRs evolve extremely rapidly and are not identifiable by the specific sequence of amino acids
+%    C. However, growing evidence that IDRs evolve under a different set of constraints
+%        0. Rather than preserving a specific sequence in order to preserve contacts and structure, they preserve distributed features such as composition, length, charge, or the presence of motifs
+%        1. Because many sequences can yield an IDR with a specific conformational profile or local arrangements, they are not constrained to preserve the precise order of amino acid residues
+%    D. Examples of studies that have found specific cases of conservation in IDRs
+%        1. Earlier specific examples of feature conservation in proteins
+%        2. However, a recent study from Zarin et al was the first to demonstrate of widespread of feature conservation in IDRs across an entire proteome, that is the set of all proteins found in an organism
+%    E. The analyses used simulations and evolutionary comparisons across a set of yeast genomes, a foundational model organism in molecular biology research. However, no subsequent studies have investigated similar patterns of conservations, or any patterns of conservation at all, characterize in IDRs in other systems.
+%        0. No conservation global patterns of conservation would suggest such preserved conservation are unique to yeast
+%        1. Patterns of conservation but are distinct from yeast would indicate global patterns
+%        2. Similar patterns of conservation with similar functional associations would indicate a universal taxonomy of IDRs
 %II. Use evolutionary analyses to identify conserved properties of disordered regions
-%    A. Conservation is powerful signal of function
-%        1. Examples of other studies that applied evolution
-%    B. Outline overall approach and make correspondence to chapters
-%        1. Identification of orthologous groups
-%        2. Application of evolutionary analyses
-%
+%    A. Though modern molecular genetic and gene editing techniques it is in principle possible to test the relationship between distributed features and the structure and function of specific proteins in living systems directly, the vast number of combinations make this approach infeasible in practice.
+%    B. Instead life constantly explores the space of allowed proteins through evolutionary changes
+%    C. Properties which are unimportant for a protein's function, or at a larger scale, an organism's survival offer no benefit for their maintenance and are gradually degraded and ultimately lost
+%    A. Thus, conservation is powerful signal of function, which are illuminated by evolutionary comparisons between related sequences.
+%    X. Such comparisons, however, require the identification of IDRs with common ancestry that perform ``equivalent'' functions across many distinct organisms. Given the difficulties with identifying equivalent IDRs, this may seem like a chicken and egg problem. Fortunately IDRs are frequently associated with more conserved folded domains. Thus, identifying evolutionarily related sequences by their overall sequence signatures and ``aligning'' can in turn identify IDRs with common ancestry. Thus the first step of these analyses is the identification of such proteins with common ancestry, called orthologs. Since the rise full genome sequencing in the late 1990s, researchers have developed computational methods for identifying orthologs and aligning them. While these methods are generally effective, they are conducted by automated computational pipelines and therefore prone to errors, especially when highly divergent disordered. Fortunately over the past five years, advances in DNA sequencing technology has yielded a dramatic increase in the number of genomes available for analysis. However, conventional methods have not fully leveraged this increase in information to improve the process of identifying and aligning orthologous sequences. Thus, in my first chapter I developed new methods for leveraging this information and apply it them to a set of Drosophila genomes. Drosophila is a
+% In my second chapter, I use the alignments generated in the first chapter to analyze IDRs with a variety of evolutionary models. Finally, in my third chapter I discuss several general purpose computational tools I developed in the process.
+% X. Finally in the third chapter
 %======= DRAFT =======
 \section{Background}
 Life is a physical phenomenon. Despite the complexity of living things, their processes are governed by the same physical laws that describe planets' motion around the sun and the decay of uranium atoms into lighter elements. However, many systems are too complex to describe with physical models and equations, so scientists simplify them into levels of abstraction that are more useful. (This is the origin of the common observation that biology is applied chemistry and chemistry is applied physics.) For example, Punnett squares facilitate the prediction of genotypes and phenotypes by distilling the complexities and nuances of diverse reproductive systems into a set of simple rules. However, since life spans a scale from single cells to entire ecosystems, biology likely employs more layers of abstraction than any other scientific discipline. One of the most powerful and widely used frameworks within the life sciences is biochemistry, which characterizes biological processes in terms of their component molecules and chemical reactions. A specific focus is four classes of macromolecules called nucleic acids, carbohydrates, lipids, and proteins, all of which are unique to biological systems. Though not all biological molecules are macromolecules\footnote{Macromolecule is a loose term applied to molecules with high molecular mass. In practice, it usually refers to one of the classes listed above, among a few other prominent non-biological examples.} and not all biological macromolecules fit neatly in one of these four categories, much of life at the molecular level is understood in terms of their structure and function. Each of the four has a characteristic role. Nucleic acids, \textit{i.e.} DNA and RNA, are responsible for information storage and transfer. Carbohydrates primarily store energy but can also act as structural components of cells. Lipids are a diverse class of oily molecules which are components of cell membranes, store energy, and transmit signals. Proteins have a range of functions, including catalyzing reactions, transmitting signals, transporting materials, and providing structure. Many of these overlap with the functions of the other macromolecule classes because proteins are involved in virtually every biological process. However, unlike the others, which are often passive participants, proteins are highly active and dynamic. They respond to signals, change shape, and often use the other macromolecules as substrates in their activities. Proteins are essentially the molecular machines that carry out life's functions.
