@@ -196,12 +196,13 @@ Finally, thank you to my partner, Joseph, for going on this crazy ride with me. 
 \clearpage
 
 \tableofcontents
-
+\newpage  % End page so numbering is set properly
 \setcounter{chapter}{-1}  % Set chapter counter to 0
-\chapter{Introduction}
-\graphicspath{{chapter0/figures/}}
 \setcounter{page}{1}  % Reset page counter after pre-main content
 \pagenumbering{arabic}  % Set numbering style to arabic for main content
+
+\chapter{Introduction}
+\graphicspath{{chapter0/figures/}}
 \input{chapter0/chapter0.tex}
 
 \chapter{Leveraging genomic redundancy to improve inference and alignment of orthologous proteins}
