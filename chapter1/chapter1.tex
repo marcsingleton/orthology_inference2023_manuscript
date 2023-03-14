@@ -48,7 +48,7 @@ The identification of sets of densely connected nodes in graphs is known as comm
 However, connected components and triangle clustering are special cases of the more general \textit{k}-clique percolation algorithm where \textit{k} equals two and three, respectively. The clique percolation algorithm detects clusters by first identifying cliques, sets of nodes which are fully connected, of a specified size \textit{k} in the graph (Fig.~\ref{fig:percolation}A). Clusters are then taken as the connected components of an overlap graph where an edge exists between two cliques if they share \textit{k}-1 nodes in common. An intuitive way to visualize this algorithm is by ``rolling'' a clique of some size \textit{k} over the graph (Fig.~\ref{fig:percolation}B). More specifically, a cluster is initiated when a set of nodes which form a \textit{k}-clique is identified. The cluster expands by shifting the \textit{k}-clique to an adjacent \textit{k}-clique that shares \textit{k}-1 nodes in common with the current \textit{k}-clique. A cluster stops expanding when there are no adjacent \textit{k}-cliques, and the algorithm terminates when there are no \textit{k}-cliques which are not part of a cluster. The strength of this algorithm is its ability to exclude sparsely connected nodes from clusters with an easily tunable parameter \textit{k}. Higher values of \textit{k} require greater overlap between a candidate node and those already in the cluster and therefore produce tighter clusters at the cost of excluding more speculative orthology relationships (Fig.~\ref{fig:percolation}C). We set \textit{k} to four as compromise between these concerns, yielding 22,813 orthologous groups, a plurality of which contained all 33 species (Fig.~\ref{sfig:clusters}).
 
 \begin{figure}[h!]
-\includegraphics[width=\textwidth]{percolation/percolation.png}
+\includegraphics[width=\textwidth]{percolation/out/percolation.png}
 \includegraphics[width=\textwidth]{percolation/out/005F.png}
 \centering
 \caption{\textbf{Clique percolation algorithm.}
@@ -93,7 +93,7 @@ Phylogenetic HMMs (phylo-HMMs) are statistical models that incorporate phylogene
 After the model was trained on manually labeled examples, it was used to assign a label to the columns in each alignment. Columns assigned to states 1A and 1B are the regions of interest for downstream analyses since the gaps generally follow the expected pattern given the phylogenetic tree. In contrast, columns assigned to states 2 and 3 largely corresponded to the long poorly supported segments and phylogenetically discordant regions discussed previously and were therefore removed from the alignments. In the example decoded alignment shown, the decoded states closely follow the expected patterns (Fig.~\ref{fig:hmm}B). Overall, 29\% of alignments were trimmed of at least one segment or region. However, 87\% of the trims were segment trims, meaning the removed segments were largely inferred as state 3 and therefore were likely long poorly supported segments aligned to few if any other sequences (Fig.~\ref{sfig:insertion_trim}).
 
 \begin{figure}[h!]
-\includegraphics[width=\textwidth]{hmm/hmm_architecture.png}
+\includegraphics[width=\textwidth]{hmm/out/hmm_architecture.png}
 \includegraphics[width=\textwidth]{hmm/out/2252.png}
 \centering
 \caption{\textbf{HMM emission architecture and a decoded alignment.}
