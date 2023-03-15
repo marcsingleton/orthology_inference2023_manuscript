@@ -6,8 +6,8 @@ import re
 import matplotlib.pyplot as plt
 import numpy as np
 import skbio
-from src.draw import plot_msa
-from src.utils import read_fasta
+from src1.draw import plot_msa
+from src1.utils import read_fasta
 
 records = [('0167', 'A', 2357, 2714, 2763, 2831),
            ('2770', 'B', 2440, 2831, 2235, 2743),

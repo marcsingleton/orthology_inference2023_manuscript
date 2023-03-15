@@ -8,9 +8,9 @@ import homomorph
 import matplotlib.pyplot as plt
 import numpy as np
 import skbio
-from src.draw import plot_msa_data
-from src.ortho_MSA import phylo
-from src.utils import read_fasta
+from src1.draw import plot_msa_data
+from src1.ortho_MSA import phylo
+from src1.utils import read_fasta
 
 OGids = ['2252', '2A57', '360E']
 msa_path = '../../orthology_inference/analysis/ortho_MSA/realign_fastas/out/'

@@ -5,7 +5,7 @@ import os
 import matplotlib.pyplot as plt
 import skbio
 from matplotlib import rcParams
-from src.draw import plot_tree
+from src1.draw import plot_tree
 
 if not os.path.exists('out/'):
     os.mkdir('out/')
