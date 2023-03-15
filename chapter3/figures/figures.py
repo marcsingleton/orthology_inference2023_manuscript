@@ -13,7 +13,7 @@ import scipy.stats as stats
 from homomorph import HMM
 from numpy import exp, log
 from sklearn.metrics import roc_curve
-from utils import fit_CML
+from src3.utils import fit_CML
 
 dpi = 300
 legend_kwargs = {'frameon': False, 'loc': 'center left', 'bbox_to_anchor': (1, 0.5)}
