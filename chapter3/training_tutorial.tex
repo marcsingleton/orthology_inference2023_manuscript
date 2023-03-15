@@ -819,7 +819,7 @@ start_dist_hat
 
 Let's now code the main loop, beginning with the definition of the stopping conditions. We can operationally define convergence as when the improvement in the log-likelihood is below some threshold, \texttt{epsilon}. In practice, this may take too long, so we'll also define a maximum number of iterations, \texttt{maxiter}. What follows, then, is a fairly straightforward implementation of the equations we derived previously. There are two nuanced points, however. First, to preserve the model structure, the counts are always taken over the allowed transitions or emissions. (In theory, disallowed transitions or emissions should always have a probability of zero, but floating point errors may yield unexpected results.) Second, the forward and backward variables are scaled to sum to one at each time step for numerical stability. Thus, the true value at time $t$ is a product of the raw value and all scaling factors up to and including time $t$. (Since the backward variable is calculated recursively from the final instead of the first observation, the product is taken from $t$ to $T$.) A side effect of this representation is $P(Y=y|\Theta)$ is simply the product of all scaling factors.
 
-For brevity, the input code is given in Appendix~\ref{appendix:b}, and only the final values are shown below.
+For brevity, the input code is given in Appendix~\ref{appendix:c}, and only the final values are shown below.
 
 \begin{NotebookOut}
 FINAL VALUES
