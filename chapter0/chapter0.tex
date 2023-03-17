@@ -1,127 +1,3 @@
-%======= OUTLINE =======
-%
-%BACKGROUND
-%Survery of historical developments that inform dissertation
-%Write at a high school or early college biology level
-%
-%I. Proteins are the molecular machines that drive biology
-%    A. Four major macromolecules and briefly discuss broad roles of each
-%        1. Nucleic acids
-%        2. Carbohydrates
-%        3. Lipids
-%        4. Protein
-%    B. Some major examples of proteins
-%        1. Hemoglobin and sickle cell
-%        2. Color blindness and opsins
-%        3. Lactase and lactose intolerance
-%II. Proteins are linear chains of amino acids with a three-dimensional structure
-%    A. Background on biochemistry, primary, secondary, and tertiary structure
-%    B. Structure-function relationships returning to previous hemoglobin example
-%    C. Structural biology seeks to determine protein structures to understand function
-%    D. Overview of structural methods including purification steps
-%        1. X-ray crystallography
-%        2. NMR
-%        3. cryo-EM
-%III. IDRs do not adopt a stable structure
-%    A. History of disordered proteins and initial recognition
-%        1. Success of structural methods
-%    B. Disordered proteins are challenging to study with traditional methods
-%    C. Genome sequencing and computational tools revealed disordered proteins are ubiquitous
-%IV. IDRs have sequence-structure relationships (of a different kind)
-%    A. Prompted by these observations, researchers began to clarify the sequence-structure-function relationships that characterize protein disorder
-%        1. They discovered that related to structure and sequence but the details differ
-%    B. Though structured proteins are not completely rigid, they generally have a small number of structures
-%        1. As mentioned previously, even before disorder was recognized as a common feature of proteins, scientists understood proteins were not completely rigid
-%        2. At the molecular level, everything is in constant motion. For example, at room temperature the average water molecule moves at a speed of SPEED.
-%            i. However, collisions and interactions with other water molecules generally prevent them from escaping into the atmosphere
-%        3. Proteins are also in motion, but they are constrained both by the rigid bonds and interactions between amino acid residues in the chain
-%        4. Thus, all proteins flex and breathe. However, these motions are minor variations on the stable structure.
-%        5. In other cases, proteins have multiple structures which are related to different functional states.
-%            i. For example, hemoglobin has two forms, traditionally called T and R.
-%            ii. The T form is hemoglobin's oxygen-free state.
-%            iii. On binding oxygen, its structure changes slightly, with the shift on the scale of a few hydrogen atoms at the points of greatest change.
-%            iv. This changes the orientation between the atoms in hemoglobin that interact with oxygen, allowing it to bind more tightly.
-%            v. Promotes oxygen uptake at other three binding sites, promoting efficiently transport
-%        6. Although proteins have multiple conformations, they are generally stable and the intermediates are not.
-%        7. Thus, proteins with multiple conformations generally exist in discrete states.
-%    C. Protein disorder means their atoms do not have fixed spatial relationships
-%       1. In contrast, disordered proteins are described as ``conformational ensembles''
-%       2. They are constantly sampling conformations which may have large differences in the spatial relationships between residues
-%       3. The conformations of disordered regions may adopt more extended conformations or collapsed conformations
-%       3. The composition of a disordered region dictates its conformational profile. However, to describe
-%       4. As mentioned previously, proteins are linear chains of amino acids, and the amino alphabet contains 20 letters
-%       5. Though each amino acid is chemically unique, many of their properties can be understood in terms of
-%       1. Disordered regions largely characterized by enrichment and depletion in hydrophilic and hydrophobic residues, respectively
-%       2. Hydrophobic residues are ``water-fearing,'' and like oil in water, they tend to self-associate.
-%       3. Hydrophilic residues are ``water-loving,'' and easily interact with water.
-%       4. Hydrophobic interacts are a major force driving protein folding, and many folded proteins have a hydrophobic core
-%    E. Sequence-structure relationships in disordered proteins
-%       1. Although, disordered regions are conformationally heterogeneous, they
-%V. IDRs are functional
-%    A. Flexibility confers several advantages
-%        1. The structural flexibility of IDRs is directly related their functional plasticity
-%        2. Proteins involved in signaling, transport, and catalysis require specific geometries to interact their intended targets efficiently
-%        3. Disordered proteins can interact with multiple targets
-%            i. Environmental signals can fine-tune which interacts are preferred
-%            ii. Proteins, structured and disordered, frequently undergo modifications which change their behavior
-%            iii. A common modification is phosphorylation where a phosphate group is attached to a specific amino acid in the protein
-%                a. Phosphate groups contain three negative charges, so the addition can dramatically affect a protein's folding energetics and induce a change in structure
-%            iv. Thus, phosphorylations commonly toggle proteins between an inactive and active state
-%                a. Proteins are phosphorylated by a class of proteins called kinases, which are in turn activated by interactions with or modifications by other proteins
-%                b. A single stimulus can set off a sequence of events, called a signaling cascade, spanning hundreds of reactions between as many distinct proteins
-%                c. Biologists are sometimes descriptive to a fault, resulting in proteins like MAP kinase kinase kinase which phosphorylates MAP kinase kinase which phosphorylates MAP kinase which phosphorylates the MAP protein. [FOOTNOTE]
-%            v. Because IDRs expose much of their chain to the surrounding environment, they have many sites which are available for modification
-%                a. Thus, they often function as hubs in networks of signaling pathways [CITATION]
-%                b. Some IDRs are roughly like molecular computers which integrate signals from varying sources
-%    B. Survey of disordered proteins and their functions
-%        1. Linkers
-%        2. Signaling
-%VI. IDRs are enriched in transcriptional machinery
-%    A. Introduce transcription via the central dogma
-%    B. Describe transcription factors, cofactors, transcriptional machinery
-%        1. Examples of different transcription factors
-%    C. Describe properties of transcription factors
-%        1. DNA binding and activation domains
-%        2. Different flavors of activation domains
-%    D. How transcription factors find their targets to initiate specific genetic programs is one of the major outstanding questions in molecular biology
-%VII. IDRs are associated with phase separation
-%    A. Describe phase separation in general
-%    B. Describe phase separation as related to proteins
-%    C. Describe functions of phase separation and relationship to subcellular structures
-%VIII. IDR-mediated phase separation is a possible mechanism for initiating transcription
-%    A. Summarize Stadler's papers and others
-%
-%AIMS
-%I. Despite significant advances in predicting disorder from sequence alone and relating those predictions to specific conformational profiles, the relationship between sequence and function in IDRs remains poorly understood. Thus, functions are not readily associated with arbitrary IDRs.
-%    A. In contrast, folded domains can identified by characteristic sequences of amino acids
-%        1. Because structured domains make specific contacts between residues, their sequences of amino acids are generally conserved or evolve slowly
-%        2. Thus, for structured domains their specific sequence of amino acids constitute a unique signature
-%        3. Traditional bioinformatics methods use these signatures to detect similarities between proteins
-%        4. Structural and functional information is transferred between proteins with similar sequences
-%        5. In practice, however, this is extremely difficult. Fully mapping the relationship between sequence and structure of folded domains was an active area of research for decades
-%            a. Recent developments in machine learning have in many senses solved this problem, but still required an advanced computational model trained on nearly two hundred thousand experimentally determined structures.
-%    B. Disordered proteins, however, challenge this sequence-dependent model of protein structure and function.
-%    X. Though there are exceptions, many IDRs evolve extremely rapidly and are not identifiable by the specific sequence of amino acids
-%    C. However, growing evidence that IDRs evolve under a different set of constraints
-%        0. Rather than preserving a specific sequence in order to preserve contacts and structure, they preserve distributed features such as composition, length, charge, or the presence of motifs
-%        1. Because many sequences can yield an IDR with a specific conformational profile or local arrangements, they are not constrained to preserve the precise order of amino acid residues
-%    D. Examples of studies that have found specific cases of conservation in IDRs
-%        1. Earlier specific examples of feature conservation in proteins
-%        2. However, a recent study from Zarin et al was the first to demonstrate of widespread of feature conservation in IDRs across an entire proteome, that is the set of all proteins found in an organism
-%    E. The analyses used simulations and evolutionary comparisons across a set of yeast genomes, a foundational model organism in molecular biology research. However, no subsequent studies have investigated similar patterns of conservations, or any patterns of conservation at all, characterize in IDRs in other systems.
-%        0. No conservation global patterns of conservation would suggest such preserved conservation are unique to yeast
-%        1. Patterns of conservation but are distinct from yeast would indicate global patterns
-%        2. Similar patterns of conservation with similar functional associations would indicate a universal taxonomy of IDRs
-%II. Use evolutionary analyses to identify conserved properties of disordered regions
-%    A. Though modern molecular genetic and gene editing techniques it is in principle possible to test the relationship between distributed features and the structure and function of specific proteins in living systems directly, the vast number of combinations make this approach infeasible in practice.
-%    B. Instead life constantly explores the space of allowed proteins through evolutionary changes
-%    C. Properties which are unimportant for a protein's function, or at a larger scale, an organism's survival offer no benefit for their maintenance and are gradually degraded and ultimately lost
-%    A. Thus, conservation is powerful signal of function, which are illuminated by evolutionary comparisons between related sequences.
-%    X. Such comparisons, however, require the identification of IDRs with common ancestry that perform ``equivalent'' functions across many distinct organisms. Given the difficulties with identifying equivalent IDRs, this may seem like a chicken and egg problem. Fortunately IDRs are frequently associated with more conserved folded domains. Thus, identifying evolutionarily related sequences by their overall sequence signatures and ``aligning'' can in turn identify IDRs with common ancestry. Thus the first step of these analyses is the identification of such proteins with common ancestry, called orthologs. Since the rise full genome sequencing in the late 1990s, researchers have developed computational methods for identifying orthologs and aligning them. While these methods are generally effective, they are conducted by automated computational pipelines and therefore prone to errors, especially when highly divergent disordered. Fortunately over the past five years, advances in DNA sequencing technology has yielded a dramatic increase in the number of genomes available for analysis. However, conventional methods have not fully leveraged this increase in information to improve the process of identifying and aligning orthologous sequences. Thus, in my first chapter I developed new methods for leveraging this information and apply it them to a set of Drosophila genomes. Drosophila is a
-% In my second chapter, I use the alignments generated in the first chapter to analyze IDRs with a variety of evolutionary models. Finally, in my third chapter I discuss several general purpose computational tools I developed in the process.
-% X. Finally in the third chapter
-%======= DRAFT =======
-
 \begin{abstract}
 \noindent
 Living systems are governed by the interactions between large collections of atoms called macromolecules. The most important class of these macromolecules are proteins, which are the molecular machines that carry out a cell's processes. Though proteins are linear chains of simpler building blocks called amino acids, many proteins accomplish their functions by ``folding'' into well-defined three-dimensional structures. For many years scientists believed fixed structures were necessary for protein function, but by the early 2000s, however, evidence had accumulated that unstructured or ``intrinsically disordered'' regions (IDRs) were ubiquitous in proteins. Furthermore, these regions were essential for many cellular processes such as signaling and regulation. Although our understanding of the structure and function of IDRs has grown significantly over the past two decades, predicting their functions from their sequences of amino acids remains a significant challenge. Because IDRs are structurally unconstrained, their sequences evolve rapidly and are therefore not amenable to traditional bioinformatics analyses which depend on the precise order of amino acids to make comparisons with known proteins. There is increasing evidence, though, that IDRs conserve distributed features such as their chemical composition or net charge, and a recent study clustered IDRs with similar patterns of conserved features into groups with distinct functions. This study, however, was restricted to IDRs in a set of yeast genomes, so it is unclear if these global relationships between conserved features and function are unique to yeast or a general property of IDR evolution. Thus, in this work I conduct a similar set of evolutionary analyses of IDRs in the genomes of 33 different species of fruit flies.
@@ -154,10 +30,17 @@ The structural diversity of IDRs is directly related to their functional plastic
 
 Some of the most prominent examples of IDRs in cell signaling and regulation are the activation domains of transcription factors. Each cell expresses a unique complement of proteins that in large part determines its identity.
 
-Although the previous discussion has presented of disorder and structure as distinct phenomona, disorder is a spectrum
-MorFs
-folding on binding
-fuzzy complexes
+% IDRs are enriched in transcriptional machinery
+%    A. Introduce transcription via the central dogma
+%    B. Describe transcription factors, cofactors, transcriptional machinery
+%        1. Examples of different transcription factors
+%    C. Describe properties of transcription factors
+%        1. DNA binding and activation domains
+%        2. Different flavors of activation domains
+%    D. How transcription factors find their targets to initiate specific genetic programs is one of the major outstanding questions in molecular biology
+
+% Disorder is spectrum
+%    A. MorFs, folding on binding, fuzzy complexes
 
 \section{Aims}
 
