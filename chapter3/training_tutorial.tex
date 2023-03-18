@@ -31,7 +31,7 @@ In this case, the loss is expressed as a sum over individual examples. This is e
 L(D, f, \Theta) = L(\Theta).
 \end{equation*}
 
-The optimized or ``learned'' parameters are then written as
+The optimized or learned parameters are then written as
 
 \begin{equation*}
 \hat{\Theta} = \argmin_\Theta L(\Theta).
@@ -116,7 +116,7 @@ Since log-likelihoods are easier to work with, we take the logarithm of both sid
 &= \log a_{0x_1} + \sum_{t=1}^{T-1} \log a_{x_t x_{t+1}} + \sum_{t=1}^T \log e_{x_t}(y_t). \\
 \end{align*}
 
-This is now a fairly clean expression since at each step we ``pick'' the right transition probability and emission distribution using the state sequence. However, it will be useful both theoretically and computationally to write this expression in terms of the number of times each transition appears in the sequence. To do this, we first need the Kronecker delta function, which is defined as
+This is now a fairly clean expression since at each step we pick the right transition probability and emission distribution using the state sequence. However, it will be useful both theoretically and computationally to write this expression in terms of the number of times each transition appears in the sequence. To do this, we first need the Kronecker delta function, which is defined as
 
 \begin{equation*}
 \delta_{ij} =
@@ -232,9 +232,9 @@ Original form: [(2, 'A'), (1, 'A'), (1, 'A'), (1, 'A'), (1, 'A')]
 New form: [(2, 1, 1, 1, 1), ('A', 'A', 'A', 'A', 'A')]
 \end{NotebookOut}
 
-We're now ready to implement the MLEs for the transition probabilities. Before, though, we should discuss selection of the model structure, that is, the number of states and the allowed transitions between those states. Since in this case the data are simulated, we know the structure exactly. However, modeling real-world data is often far more complicated since it's rare to have perfect knowledge of the data generating process even if the states are labeled. Thus, it's tempting to use a ``fully connected'' model that allows transitions between each pair of states and let the model learn what transitions are actually used from the data. That said, constraining the allowed transitions can lead to better models, particularly if the constraints reflect a feature of the underlying process.
+We're now ready to implement the MLEs for the transition probabilities. Before, though, we should discuss selection of the model structure, that is, the number of states and the allowed transitions between those states. Since in this case the data are simulated, we know the structure exactly. However, modeling real-world data is often far more complicated since it's rare to have perfect knowledge of the data generating process even if the states are labeled. Thus, it's tempting to use a fully connected model that allows transitions between each pair of states and let the model learn what transitions are actually used from the data. That said, constraining the allowed transitions can lead to better models, particularly if the constraints reflect a feature of the underlying process.
 
-For this example, we'll assume that we have some ``domain knowledge'' that permits us to know the states and their allowed transitions. For example, state 2 can transition to every state, but states 1 and 3 can only transition to themselves and state 2. It's also customary to add a small pseudocount to the allowed transitions to ensure they're permitted by our model in the rare chance that we don't observe them in the data. There are a variety of ways to implement this, but in the approach shown below we first instantiate a transition count dictionary with the pseudocounts. We then iterate over the data to add the observed transitions and afterwards normalize the counts by the total number for each initial state to obtain the estimated transition probabilities.
+For this example, we'll assume that we have some domain knowledge that permits us to know the states and their allowed transitions. For example, state 2 can transition to every state, but states 1 and 3 can only transition to themselves and state 2. It's also customary to add a small pseudocount to the allowed transitions to ensure they're permitted by our model in the rare chance that we don't observe them in the data. There are a variety of ways to implement this, but in the approach shown below we first instantiate a transition count dictionary with the pseudocounts. We then iterate over the data to add the observed transitions and afterwards normalize the counts by the total number for each initial state to obtain the estimated transition probabilities.
 
 The strength of this approach is it yields a nested dictionary which we can use as an input to the \texttt{HMM} class. We'll actually use the original \texttt{t\_dists} to establish the model structure, but if it weren't available, we could create a similar nested object which encodes the same information. (Unfortunately, it's hard to avoid specifying at least some portions of the model manually unless it's fully-connected or its structure is highly modular.)
 
@@ -613,7 +613,7 @@ N\hat{\mu} &= \sum_{i=1}^N x_i \\
 \hat{\mu} &= \frac{\sum_{i=1}^N x_i}{N} = \bar{x} \\
 \end{align*}
 
-Now let's find the MLE for $\sigma^2$. Another nuance for the normal distribution in particular is the derivative is taken relative to the variance, $\sigma^2$, and not the standard deviation, $\sigma$. Though this choice does not impact the resulting formula, it both simplifies the calculation and reflects the natural role of the variance as the more ``fundamental'' statistical quantity.
+Now let's find the MLE for $\sigma^2$. Another nuance for the normal distribution in particular is the derivative is taken relative to the variance, $\sigma^2$, and not the standard deviation, $\sigma$. Though this choice does not impact the resulting formula, it both simplifies the calculation and reflects the natural role of the variance as the more fundamental statistical quantity.
 
 \textbf{Step 1: Differentiate the log-likelihood function}
 \begin{align*}
@@ -701,7 +701,7 @@ Putting everything together we have
 n_{ij} = \frac{1}{P(Y=y|\Theta)} \sum_{t=1}^{T-1} f_i(t)a_{ij}e_j(y_{t+1})b_j(t+1).
 \end{equation*}
 
-Now let's tackle the emission distributions. When the states are known, the MLEs are the same, but instead of counting transitions between states, we count emissions. (The emissions essentially take on the role of the ``target'' state $j$.) When the states are unknown, we replace these counts with how much we think each state is responsible for each emission. In other words, if at time $t$ we observe emission $i$ and we calculate an 90\% chance of state 1 and a 10\% chance of state 2, we assign a 0.9 count towards $n_{1i}$ and a 0.1 count towards $n_{2i}$. Written mathematically,
+Now let's tackle the emission distributions. When the states are known, the MLEs are the same, but instead of counting transitions between states, we count emissions. (The emissions essentially take on the role of the target state $j$.) When the states are unknown, we replace these counts with how much we think each state is responsible for each emission. In other words, if at time $t$ we observe emission $i$ and we calculate an 90\% chance of state 1 and a 10\% chance of state 2, we assign a 0.9 count towards $n_{1i}$ and a 0.1 count towards $n_{2i}$. Written mathematically,
 
 \begin{align*}
 n_{ij}
@@ -732,7 +732,7 @@ data = [model.simulate(200, random_state=i) for i in range(10)]
 data = [list(zip(*example)) for example in data]
 \end{NotebookIn}
 
-To start the algorithm, we first need a model structure and initial estimates for its parameters. To keep the Baum-Welch approach on equal footing with the previous example, we'll assume we know the disallowed transitions but not the disallowed emissions. For the initial estimates, we'll use uniform random values to keep the code simple, but more sophisticated approaches can use specific distributions for each parameter. Though it's good practice to use the best result from several different random initializations, if the initial parameters are hard coded, the states must be different from each other in some way. If the states are all identical, there's no way for the model to ``break symmetry,'' and all the updates will yield parameters that are the same as the initial ones.
+To start the algorithm, we first need a model structure and initial estimates for its parameters. To keep the Baum-Welch approach on equal footing with the previous example, we'll assume we know the disallowed transitions but not the disallowed emissions. For the initial estimates, we'll use uniform random values to keep the code simple, but more sophisticated approaches can use specific distributions for each parameter. Though it's good practice to use the best result from several different random initializations, if the initial parameters are hard coded, the states must be different from each other in some way. If the states are all identical, there's no way for the model to break symmetry, and all the updates will yield parameters that are the same as the initial ones.
 
 \begin{NotebookIn}
 random.seed(1)
@@ -996,7 +996,7 @@ Let's now derive the update equation for the variance.
                          {\sum_{t=1}^T w_{it}} \\
 \end{align*}
 
-Again, the update equation has the same form as the corresponding MLE except each term in the sum is weighted. This is a common occurrence when using the EM algorithm and is a consequence of the construction of the objective function as a weighted sum of log-likelihood functions. Thus, when the MLEs are interpretable as quantities like counts or averages, the corresponding update equations are often ``weighted'' versions of those estimators. Of course, it's not always obvious how the weights will come into play, especially for MLEs which don't have an obvious interpretation, so it's good idea to solve the equations or look up a reference rather than guessing.
+Again, the update equation has the same form as the corresponding MLE except each term in the sum is weighted. This is a common occurrence when using the EM algorithm and is a consequence of the construction of the objective function as a weighted sum of log-likelihood functions. Thus, when the MLEs are interpretable as quantities like counts or averages, the corresponding update equations are often weighted versions of those estimators. Of course, it's not always obvious how the weights will come into play, especially for MLEs which don't have an obvious interpretation, so it's good idea to solve the equations or look up a reference rather than guessing.
 
 \section{Discriminative training}
 
