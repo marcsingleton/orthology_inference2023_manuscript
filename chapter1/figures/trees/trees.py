@@ -24,7 +24,7 @@ xlabels = ['amino acid', 'nucleotide']
 title_labels = ['A', 'B']
 dpi = 300
 
-fig, axs = plt.subplots(1, 2, figsize=(7.5, 4), layout='tight')
+fig, axs = plt.subplots(1, 2, figsize=(7.5, 4), layout='constrained')
 for ax, tree, xlabel, title_label in zip(axs, trees, xlabels, title_labels):
     plot_tree(tree, ax=ax, tip_fontsize=8,
               support_labels=True, support_format_spec='.2f', support_fontsize=8.5,
