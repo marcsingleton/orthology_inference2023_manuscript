@@ -1,7 +1,7 @@
 # Top level directories
 /build/
 /orthology_inference
-/src
+/src*
 
 # All directories
 out*/
