@@ -4,7 +4,6 @@ import os
 
 import matplotlib.pyplot as plt
 import pandas as pd
-from matplotlib.figure import SubplotParams
 
 # Load OGids
 OGids = []
@@ -26,8 +25,9 @@ OGid_groups = df.groupby(['OGid'])
 if not os.path.exists('out/'):
     os.mkdir('out/')
 
-fig = plt.figure(figsize=(7.5, 4), subplotpars=SubplotParams(0.25, 0.325, 0.9, 0.925))
+fig = plt.figure(figsize=(7.5, 4))
 gs = plt.GridSpec(2, 2)
+rect = (0.25, 0.325, 0.65, 0.6)
 
 # Number of OGs with trims
 values = [len(set(OGids)) - df['OGid'].nunique(), df['OGid'].nunique()]
@@ -40,7 +40,7 @@ subfig.suptitle('A', x=0.025, y=0.975, fontweight='bold')
 # Distribution of number sequences with trims in OGs
 counts = OGid_groups['ppid'].nunique().value_counts()
 subfig = fig.add_subfigure(gs[0, 1], facecolor='none')
-ax = subfig.add_subplot()
+ax = subfig.add_axes(rect)
 ax.bar(counts.index, counts.values, width=1)
 ax.set_xlabel('Number of unique sequences with trims in OG')
 ax.set_ylabel('Number of OGs')
@@ -48,7 +48,7 @@ subfig.suptitle('B', x=0.025, y=0.975, fontweight='bold')
 
 # Distribution of length of trims
 subfig = fig.add_subfigure(gs[1, 0], facecolor='none')
-ax = subfig.add_subplot()
+ax = subfig.add_axes(rect)
 ax.hist(df['length'], bins=100)
 ax.set_xlabel('Length of trim')
 ax.set_ylabel('Number of trims')
@@ -56,7 +56,7 @@ subfig.suptitle('C', x=0.025, y=0.975, fontweight='bold')
 
 # Distribution of length ratio of trims
 subfig = fig.add_subfigure(gs[1, 1], facecolor='none')
-ax = subfig.add_subplot()
+ax = subfig.add_axes(rect)
 ax.hist(df['length_ratio'], bins=50)
 ax.set_xlabel('Length ratio of trim')
 ax.set_ylabel('Number of trims')

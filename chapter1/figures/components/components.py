@@ -7,7 +7,6 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import networkx as nx
 import pandas as pd
-from matplotlib.figure import SubplotParams
 from numpy import linspace
 
 component_id_groups = [('000C', '001E'),
@@ -19,9 +18,8 @@ component_id_groups = [('000C', '001E'),
 
 fig_width = 7.5
 fig_height = 5.625
-wspace = 0
-hspace = 0
 height_ratios = [2, 1]
+rect = (0.25, 0.25, 0.65, 0.65)
 dpi = 300
 
 margin_width = 0
@@ -82,10 +80,10 @@ if not os.path.exists('out/'):
     os.mkdir('out/')
 
 for component_ids in component_id_groups:
-    fig = plt.figure(figsize=(fig_width, fig_height), subplotpars=SubplotParams(0.25, 0.25, 0.9, 0.9, 0, 0))
-    gs = plt.GridSpec(2, len(component_ids), wspace=wspace, hspace=hspace, height_ratios=height_ratios)
-    panel_width = fig_width / (len(component_ids) + (len(component_ids) - 1) * wspace)
-    panel_height = fig_height * height_ratios[0] / (sum(height_ratios) + hspace)
+    fig = plt.figure(figsize=(fig_width, fig_height))
+    gs = plt.GridSpec(2, len(component_ids), height_ratios=height_ratios)
+    panel_width = fig_width / len(component_ids)
+    panel_height = fig_height * height_ratios[0] / sum(height_ratios)
 
     for i, (component_id, panel_label) in enumerate(zip(component_ids, panel_labels)):
         # Create graph
@@ -150,7 +148,7 @@ for component_ids in component_id_groups:
         ax.axis('off')
 
     subfig = fig.add_subfigure(gs[1, 0])
-    ax = subfig.add_subplot(aspect='equal')
+    ax = subfig.add_axes(rect, aspect='equal')
     poly = ax.hexbin(df['ppidnum'], df['gnidnum'], bins='log', gridsize=30, mincnt=1, linewidth=0)
     ax.set_xlabel('Number of proteins in component')
     ax.set_ylabel('Number of unique\ngenes in component')
@@ -165,7 +163,7 @@ for component_ids in component_id_groups:
         counts[degree] = counts.get(degree, 0) + 1
 
     subfig = fig.add_subfigure(gs[1, 1])
-    ax = subfig.add_subplot()
+    ax = subfig.add_axes(rect)
     ax.bar(counts.keys(), counts.values(), width=1)
     ax.set_xlabel('Degree of node')
     ax.set_ylabel('Number of nodes')

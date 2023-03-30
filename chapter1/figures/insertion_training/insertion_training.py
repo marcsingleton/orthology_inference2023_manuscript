@@ -4,7 +4,6 @@ import os
 import json
 
 import matplotlib.pyplot as plt
-from matplotlib.figure import SubplotParams
 from matplotlib.lines import Line2D
 
 spid_regex = r'spid=([a-z]+)'
@@ -37,8 +36,9 @@ with open('../../orthology_inference/analysis/ortho_MSA/insertion_hmm/out/model.
 if not os.path.exists('out/'):
     os.mkdir('out/')
 
-fig = plt.figure(figsize=(7.5, 5.5), subplotpars=SubplotParams(0.3, 0.225, 0.9, 0.9, 0, 0))
+fig = plt.figure(figsize=(7.5, 5.5))
 gs = plt.GridSpec(2, 4, height_ratios=[1, 1.5])
+gridspec_kw = {'left': 0.3, 'right': 0.9, 'top': 0.9, 'bottom': 0.225, 'hspace': 0.15}
 
 # Plot state distribution
 counts = {label: 0 for label in state_labels}
@@ -56,7 +56,7 @@ subfig.suptitle('A', x=0.025, y=0.975, fontweight='bold')
 xs = [record['iter_num'] for record in history]
 ys = [record['ll'] for record in history]
 subfig = fig.add_subfigure(gs[0, 2:])
-ax = subfig.add_subplot()
+ax = subfig.add_axes((0.3, 0.225, 0.6, 0.675))
 ax.plot(xs, ys)
 ax.set_xlabel('Iteration')
 ax.set_ylabel('Conditional\nlog-likelihood')
@@ -65,7 +65,7 @@ subfig.suptitle('B', x=0.025, y=0.975, fontweight='bold')
 # Plot model parameters
 params = ['pi', 'q0', 'q1']
 subfig = fig.add_subfigure(gs[1, 0], facecolor='none')
-axs = subfig.subplots(len(params), 1, sharex=True, gridspec_kw={'hspace': 0.15})
+axs = subfig.subplots(len(params), 1, sharex=True, gridspec_kw=gridspec_kw)
 for label, color in zip(state_labels, state_colors):
     for ax, param in zip(axs, params):
         xs = [record['iter_num'] for record in history]
@@ -77,7 +77,7 @@ subfig.suptitle('C', x=0.025, y=0.975, fontweight='bold')
 
 params = ['p0', 'p1']
 subfig = fig.add_subfigure(gs[1, 1], facecolor='none')
-axs = subfig.subplots(len(params), 1, sharex=True, gridspec_kw={'hspace': 0.15})
+axs = subfig.subplots(len(params), 1, sharex=True, gridspec_kw=gridspec_kw)
 for label, color in zip(state_labels, state_colors):
     for ax, param in zip(axs, params):
         xs = [record['iter_num'] for record in history]
@@ -89,7 +89,7 @@ subfig.suptitle('D', x=0.025, y=0.975, fontweight='bold')
 
 params = ['a', 'b']
 subfig = fig.add_subfigure(gs[1, 2], facecolor='none')
-axs = subfig.subplots(len(params), 1, sharex=True, gridspec_kw={'hspace': 0.15})
+axs = subfig.subplots(len(params), 1, sharex=True, gridspec_kw=gridspec_kw)
 for label, color in zip(state_labels, state_colors):
     for ax, param in zip(axs, params):
         xs = [record['iter_num'] for record in history]
@@ -100,7 +100,7 @@ axs[-1].set_xlabel('Iteration')
 subfig.suptitle('E', x=0.025, y=0.975, fontweight='bold')
 
 subfig = fig.add_subfigure(gs[1, 3], facecolor='none')
-axs = subfig.subplots(len(state_labels), 1, sharex=True, gridspec_kw={'hspace': 0.15})
+axs = subfig.subplots(len(state_labels), 1, sharex=True, gridspec_kw=gridspec_kw)
 for label, color in zip(state_labels, state_colors):
     for ax, param in zip(axs, state_labels):
         if param == label:

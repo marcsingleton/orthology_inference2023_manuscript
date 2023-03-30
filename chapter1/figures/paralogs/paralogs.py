@@ -4,7 +4,6 @@ import os
 
 import matplotlib.pyplot as plt
 import pandas as pd
-from matplotlib.figure import SubplotParams
 
 # Load OGs
 OGs1 = {}
@@ -34,18 +33,19 @@ df = pd.DataFrame(rows)
 if not os.path.exists('out/'):
     os.mkdir('out/')
 
-fig = plt.figure(figsize=(7.5, 4.5), subplotpars=SubplotParams(0.15, 0.275, 0.85, 0.9, 0, 0))
+fig = plt.figure(figsize=(7.5, 4.5))
 gs = plt.GridSpec(2, 2)
+rect = (0.15, 0.275, 0.7, 0.625)
 
 counts = (df['delta'] == 0).value_counts()
 labels = [('w/o in-paralogs' if idx else 'w/ in-paralogs') + f'\n({value:,})' for idx, value in zip(counts.index, counts.values)]
 subfig = fig.add_subfigure(gs[0, 0])
-ax = subfig.add_subplot()
+ax = subfig.add_axes(rect)
 ax.pie(counts.values, labels=labels, labeldistance=2, textprops={'ha': 'center'})
 subfig.suptitle('A', x=0.025, y=0.975, fontweight='bold')
 
 subfig = fig.add_subfigure(gs[1, 0])
-ax = subfig.add_subplot()
+ax = subfig.add_axes(rect)
 hb = ax.hexbin(df['ppidnum1'], df['ppidnum2'], bins='log', gridsize=25, mincnt=1, linewidth=0)
 ax.set_xlabel('Number of proteins\nin OG w/o in-paralogs')
 ax.set_ylabel('Number of proteins\nin OG w/ in-paralogs')
@@ -55,14 +55,14 @@ ax.set_aspect(1)
 
 counts = df.loc[df['delta'] != 0, 'delta'].value_counts()
 subfig = fig.add_subfigure(gs[0, 1])
-ax = subfig.add_subplot()
+ax = subfig.add_axes(rect)
 ax.bar(counts.index, counts.values, width=1)
 ax.set_xlabel('Number of in-paralogs in OG')
 ax.set_ylabel('Number of OGs')
 subfig.suptitle('B', x=0.025, y=0.975, fontweight='bold')
 
 subfig = fig.add_subfigure(gs[1, 1])
-ax = subfig.add_subplot()
+ax = subfig.add_axes(rect)
 ax.bar(counts.index, counts.values, width=1)
 ax.set_xlabel('Number of in-paralogs in OG')
 ax.set_ylabel('Number of OGs')
