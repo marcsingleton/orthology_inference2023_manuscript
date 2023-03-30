@@ -4,7 +4,6 @@ import os
 import re
 
 import matplotlib.pyplot as plt
-import numpy as np
 import skbio
 from src1.draw import plot_msa
 from src1.utils import read_fasta
@@ -29,8 +28,8 @@ legend_fontsize = 5
 legend_handletextpad = 0.5
 legend_markerscale = 1
 
-fig_width = 3.75
-fig_height = 2.5
+panel_width = 7.5
+panel_height = 2.5
 dpi = 600
 
 panel_label_fontsize = 'large'
@@ -43,53 +42,44 @@ tip_order = {tip.name: i for i, tip in enumerate(tree_order.tips())}
 if not os.path.exists('out/'):
     os.mkdir('out/')
 
-for OGid, panel_label, start1, stop1, start2, stop2 in records:
-        path1 = f'../../orthology_inference/analysis/ortho_MSA/get_repseqs/out/{OGid}.afa'
-        path2 = f'../../orthology_inference/analysis/ortho_MSA/realign_fastas/out/{OGid}.afa'
+records = records[:-1]  # Exclude final alignment
+fig = plt.figure(figsize=(panel_width, len(records) * panel_height))
+gs = plt.GridSpec(len(records), 2)
+for row_idx, record in enumerate(records):
+    OGid, panel_label, start1, stop1, start2, stop2 = record
 
-        msa1 = []
-        for header, seq in read_fasta(path1):
-            spid = re.search(spid_regex, header).group(1)
-            msa1.append({'spid': spid, 'seq': seq})
-        msa1 = sorted(msa1, key=lambda x: tip_order[x['spid']])
+    msa1 = []
+    for header, seq in read_fasta(f'../../orthology_inference/analysis/ortho_MSA/get_repseqs/out/{OGid}.afa'):
+        spid = re.search(spid_regex, header).group(1)
+        msa1.append({'spid': spid, 'seq': seq})
+    msa1 = sorted(msa1, key=lambda x: tip_order[x['spid']])
 
-        msa2 = []
-        for header, seq in read_fasta(path2):
-            spid = re.search(spid_regex, header).group(1)
-            msa2.append({'spid': spid, 'seq': seq})
-        msa2 = sorted(msa2, key=lambda x: tip_order[x['spid']])
+    msa2 = []
+    for header, seq in read_fasta(f'../../orthology_inference/analysis/ortho_MSA/realign_fastas/out/{OGid}.afa'):
+        spid = re.search(spid_regex, header).group(1)
+        msa2.append({'spid': spid, 'seq': seq})
+    msa2 = sorted(msa2, key=lambda x: tip_order[x['spid']])
 
-        # Plot original MSA
-        fig = plot_msa([record['seq'][start1:stop1] for record in msa1],
-                       figsize=(fig_width, fig_height),
-                       hspace=hspace, left=adjust_left1, bottom=adjust_bottom, right=adjust_right1, top=adjust_top,
-                       x_start=start1, x_labelsize=x_labelsize)
-        fig.text(panel_label_offset / fig_height, 1 - panel_label_offset / fig_width, panel_label, fontsize=panel_label_fontsize, fontweight='bold',
-                 horizontalalignment='left', verticalalignment='top')
-        fig.set_size_inches((fig_width, fig_height))
-        plt.suptitle('Before', fontsize=suptitle_fontsize)
-        plt.savefig(f'out/{panel_label}1_{OGid}.png', dpi=dpi)
-        plt.savefig(f'out/{panel_label}1_{OGid}.tiff', dpi=dpi)
-        plt.close()
+    # Plot original MSA
+    subfig = fig.add_subfigure(gs[row_idx, 0])
+    subfig = plot_msa([record['seq'][start1:stop1] for record in msa1],
+                      fig=subfig,
+                      hspace=hspace, left=adjust_left1, bottom=adjust_bottom, right=adjust_right1, top=adjust_top,
+                      x_start=start1, x_labelsize=x_labelsize)
+    subfig.text(panel_label_offset / panel_height, 1 - panel_label_offset / panel_width, panel_label,
+                fontsize=panel_label_fontsize, fontweight='bold',
+                horizontalalignment='left', verticalalignment='top')
+    subfig.suptitle('Before', fontsize=suptitle_fontsize)
 
-        # Plot re-aligned MSA
-        fig = plot_msa([record['seq'][start2:stop2] for record in msa2],
-                       figsize=(fig_width, fig_height),
-                       hspace=hspace, left=adjust_left2, bottom=adjust_bottom, right=adjust_right2, top=adjust_top,
-                       x_start=start2, x_labelsize=x_labelsize,
-                       msa_legend=True, legend_kwargs={'bbox_to_anchor': legend_position, 'loc': 'center left', 'fontsize': legend_fontsize,
-                                                       'handletextpad': legend_handletextpad, 'markerscale': legend_markerscale, 'handlelength': 1})
-        plt.suptitle('After', fontsize=suptitle_fontsize)
-        plt.savefig(f'out/{panel_label}2_{OGid}.png', dpi=dpi)
-        plt.savefig(f'out/{panel_label}2_{OGid}.tiff', dpi=dpi)
-        plt.close()
-
-images = []
-for record in records[:-1]:
-    OGid, panel_label = record[0], record[1]
-    image1 = plt.imread(f'out/{panel_label}1_{OGid}.png')
-    image2 = plt.imread(f'out/{panel_label}2_{OGid}.png')
-    images.append(np.concatenate([image1, image2], axis=1))
-image = np.concatenate(images)
-plt.imsave('out/merged.png', image)
-
+    # Plot re-aligned MSA
+    subfig = fig.add_subfigure(gs[row_idx, 1])
+    subfig = plot_msa([record['seq'][start2:stop2] for record in msa2],
+                      fig=subfig,
+                      hspace=hspace, left=adjust_left2, bottom=adjust_bottom, right=adjust_right2, top=adjust_top,
+                      x_start=start2, x_labelsize=x_labelsize,
+                      msa_legend=True, legend_kwargs={'bbox_to_anchor': legend_position, 'loc': 'center left', 'fontsize': legend_fontsize,
+                                                      'handletextpad': legend_handletextpad, 'markerscale': legend_markerscale, 'handlelength': 1})
+    subfig.suptitle('After', fontsize=suptitle_fontsize)
+fig.savefig(f'out/realignment.png', dpi=dpi)
+fig.savefig(f'out/realignment.tiff', dpi=dpi)
+plt.close()
