@@ -5,7 +5,6 @@ import json
 
 import matplotlib.pyplot as plt
 from matplotlib.figure import SubplotParams
-from matplotlib.gridspec import GridSpec
 from matplotlib.lines import Line2D
 
 ppid_regex = r'ppid=([A-Za-z0-9_.]+)'
@@ -42,7 +41,7 @@ if not os.path.exists('out/'):
     os.mkdir('out/')
 
 fig = plt.figure(figsize=(7.5, 5.5), subplotpars=SubplotParams(0.325, 0.225, 0.9, 0.9, 0, 0))
-gs = GridSpec(2, 6, height_ratios=[1, 1.5])
+gs = plt.GridSpec(2, 6, height_ratios=[1, 1.5])
 
 # Plot state distribution
 counts = {label: 0 for label in state_labels}

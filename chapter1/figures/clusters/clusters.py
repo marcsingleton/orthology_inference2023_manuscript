@@ -5,7 +5,6 @@ import os
 import matplotlib.pyplot as plt
 import pandas as pd
 from matplotlib.figure import SubplotParams
-from matplotlib.gridspec import GridSpec
 
 # Load genomes
 spids = set()
@@ -45,7 +44,7 @@ if not os.path.exists('out/'):
     os.mkdir('out/')
 
 fig = plt.figure(figsize=(7.5, 4.5), subplotpars=SubplotParams(0.25, 0.2, 1, 0.9))
-gs = GridSpec(2, 2)
+gs = plt.GridSpec(2, 2)
 
 counts_OGid = OGs[['spid', 'OGid']].drop_duplicates()['spid'].value_counts().sort_index()
 labels, height = zip(*counts_OGid.items())

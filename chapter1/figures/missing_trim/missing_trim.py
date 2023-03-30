@@ -5,7 +5,6 @@ import os
 import matplotlib.pyplot as plt
 import pandas as pd
 from matplotlib.figure import SubplotParams
-from matplotlib.gridspec import GridSpec
 
 # Load OGids
 OGids = []
@@ -28,7 +27,7 @@ if not os.path.exists('out/'):
     os.mkdir('out/')
 
 fig = plt.figure(figsize=(7.5, 4), subplotpars=SubplotParams(0.25, 0.325, 0.9, 0.925))
-gs = GridSpec(2, 2)
+gs = plt.GridSpec(2, 2)
 
 # Number of OGs with trims
 values = [len(set(OGids)) - df['OGid'].nunique(), df['OGid'].nunique()]

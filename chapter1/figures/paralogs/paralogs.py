@@ -5,7 +5,6 @@ import os
 import matplotlib.pyplot as plt
 import pandas as pd
 from matplotlib.figure import SubplotParams
-from matplotlib.gridspec import GridSpec
 
 # Load OGs
 OGs1 = {}
@@ -36,7 +35,7 @@ if not os.path.exists('out/'):
     os.mkdir('out/')
 
 fig = plt.figure(figsize=(7.5, 4.5), subplotpars=SubplotParams(0.15, 0.275, 0.85, 0.9, 0, 0))
-gs = GridSpec(2, 2)
+gs = plt.GridSpec(2, 2)
 
 counts = (df['delta'] == 0).value_counts()
 labels = [('w/o in-paralogs' if idx else 'w/ in-paralogs') + f'\n({value:,})' for idx, value in zip(counts.index, counts.values)]

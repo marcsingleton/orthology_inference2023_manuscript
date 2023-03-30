@@ -8,7 +8,6 @@ import matplotlib.pyplot as plt
 import networkx as nx
 import pandas as pd
 from matplotlib.figure import SubplotParams
-from matplotlib.gridspec import GridSpec
 from numpy import linspace
 
 component_id_groups = [('000C', '001E'),
@@ -84,7 +83,7 @@ if not os.path.exists('out/'):
 
 for component_ids in component_id_groups:
     fig = plt.figure(figsize=(fig_width, fig_height), subplotpars=SubplotParams(0.25, 0.25, 0.9, 0.9, 0, 0))
-    gs = GridSpec(2, len(component_ids), wspace=wspace, hspace=hspace, height_ratios=height_ratios)
+    gs = plt.GridSpec(2, len(component_ids), wspace=wspace, hspace=hspace, height_ratios=height_ratios)
     panel_width = fig_width / (len(component_ids) + (len(component_ids) - 1) * wspace)
     panel_height = fig_height * height_ratios[0] / (sum(height_ratios) + hspace)
 

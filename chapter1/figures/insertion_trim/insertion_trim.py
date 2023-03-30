@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from matplotlib.figure import SubplotParams
-from matplotlib.gridspec import GridSpec
 
 # Load OGids
 OGids = []
@@ -33,7 +32,7 @@ if not os.path.exists('out/'):
     os.mkdir('out')
 
 fig = plt.figure(figsize=(7.5, 8), subplotpars=SubplotParams(0.25, 0.325, 0.9, 0.925))
-gs = GridSpec(4, 2)
+gs = plt.GridSpec(4, 2)
 
 # Pie chart by presence of trims
 union = set(df1['OGid']) | set(df2['OGid'])
