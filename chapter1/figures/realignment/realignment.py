@@ -13,8 +13,6 @@ records = [('0167', 'A', 2357, 2714, 2763, 2831),
            ('2770', 'B', 2440, 2831, 2235, 2743),
            ('23D9', 'C', 731, 1150, 702, 982),
            ('35D6', 'D', 2774, 3162, 3003, 3355)]
-msa_path1 = '../../orthology_inference/analysis/ortho_MSA/get_repseqs/out/'
-msa_path2 = '../../orthology_inference/analysis/ortho_MSA/realign_fastas/out/'
 spid_regex = r'spid=([a-z]+)'
 
 adjust_left1 = 0.02
@@ -46,8 +44,8 @@ if not os.path.exists('out/'):
     os.mkdir('out/')
 
 for OGid, panel_label, start1, stop1, start2, stop2 in records:
-        path1 = f'{msa_path1}/{OGid}.afa'
-        path2 = f'{msa_path2}/{OGid}.afa'
+        path1 = f'../../orthology_inference/analysis/ortho_MSA/get_repseqs/out/{OGid}.afa'
+        path2 = f'../../orthology_inference/analysis/ortho_MSA/realign_fastas/out/{OGid}.afa'
 
         msa1 = []
         for header, seq in read_fasta(path1):

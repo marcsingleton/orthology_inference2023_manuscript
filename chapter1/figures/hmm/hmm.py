@@ -13,7 +13,6 @@ from src1.ortho_MSA import phylo
 from src1.utils import read_fasta
 
 OGids = ['2252', '2A57', '360E']
-msa_path = '../../orthology_inference/analysis/ortho_MSA/realign_fastas/out/'
 spid_regex = r'spid=([a-z]+)'
 
 state_labels = ['1A', '1B', '2', '3']
@@ -53,7 +52,7 @@ if not os.path.exists('out/'):
 for OGid in OGids:
     # Load MSA
     msa = []
-    for header, seq in read_fasta(f'{msa_path}/{OGid}.afa'):
+    for header, seq in read_fasta(f'../../orthology_inference/analysis/ortho_MSA/realign_fastas/out/{OGid}.afa'):
         spid = re.search(spid_regex, header).group(1)
         msa.append({'spid': spid, 'seq': seq})
     msa = sorted(msa, key=lambda x: tip_order[x['spid']])
