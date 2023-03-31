@@ -74,7 +74,7 @@ Though the pipeline’s quality control measures ensure a high degree of overall
 The aligner MAFFT has a mode for addressing over-alignment with a parameter, \textit{a\textsubscript{max}}, that adjusts the strength of the correction~\cite{Katoh2013, Katoh2016}. \textit{a\textsubscript{max}} varies between 0 and 1, with higher values yielding a stronger correction. While values above 0.8 completely eliminate over-alignment and successfully align highly conserved regions, the alignment as a whole is severely degraded, as even homologous sequences with a small amount of divergence are separated by gaps. Thus, in our pipeline orthologous groups were aligned in two stages. In the first, the sequences were aligned with a strong correction of 0.7. Highly conserved regions were identified, which divided the alignment into a complementary set of diverged regions. The sequences in each of these regions were extracted and aligned separately with a more conservative value for \textit{a\textsubscript{max}} of 0.4. The resulting ``sub-alignments'' were ``stitched'' back into their positions in the original alignment. By defining highly conserved ``anchor'' regions, this approach largely prevents the alignment of chance sequence similarities in long poorly supported segments (Fig.~\ref{fig:realignment}, right).
 
 \begin{figure}[h!]
-\includegraphics[width=\textwidth]{realignment/out/merged.png}
+\includegraphics[width=\textwidth]{realignment/out/realignment.png}
 \centering
 \caption{\textbf{Alignment with long poorly supported segments.}
 The alignments of representative sequences in orthologous groups 0167 \textbf{(A)}, 2770 \textbf{(B)}, and 23D9 \textbf{(C)} before and after refinement.}
