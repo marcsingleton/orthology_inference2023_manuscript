@@ -1,6 +1,5 @@
 # Top level directories
 /build/
-/orthology_inference
 /src*
 
 # All directories
@@ -12,4 +11,5 @@ out*/
 
 # Special cases
 .gitignore
-/src/utilities/
+/chapter1/orthology_inference
+/chapter2/IDR_evolution
