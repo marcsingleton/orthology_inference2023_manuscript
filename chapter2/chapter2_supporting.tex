@@ -1,1 +1,359 @@
 Here's where my chapter 2 appendix will go!
+
+\begin{landscape}
+\footnotesize
+\begin{longtable}{|l|l|l|l|l|l|}
+\caption{\textbf{Features and their definitions.}}
+\label{stable:features}
+% Start first head
+\hline
+\textbf{Feature ID}    & \textbf{Feature name}                                                            & \textbf{Group name}                                                & \textbf{Source} & \textbf{Description}                                                                                                             & \begin{tabular}[c]{@{}l@{}}\textbf{Changes from}\\\textbf{Zarin \textit{et al.}}\end{tabular}
+\endfirsthead
+
+% Start head
+\multicolumn{6}{l}
+{\textbf{\tablename\ \thetable} (continued)} \\
+\hline
+\textbf{Feature ID}    & \textbf{Feature name}                                                            & \textbf{Group name}                                                & \textbf{Source} & \textbf{Description}                                                                                                             & \begin{tabular}[c]{@{}l@{}}\textbf{Changes from}\\\textbf{Zarin \textit{et al.}}\end{tabular}
+\endhead
+
+% Start foot
+\multicolumn{6}{|c|}{Continued on next page} \\
+\hline
+\endfoot
+
+% Start last foot
+\endlastfoot
+
+\hline
+fraction\_S            & S fraction                                                                       & \begin{tabular}[c]{@{}l@{}}amino acid\\content\end{tabular}        &                 &                                                                                                                                  &                                                                                                \\
+\hline
+fraction\_P            & P fraction                                                                       & \begin{tabular}[c]{@{}l@{}}amino acid\\content\end{tabular}        &                 &                                                                                                                                  &                                                                                                \\
+\hline
+fraction\_T            & T fraction                                                                       & \begin{tabular}[c]{@{}l@{}}amino acid\\content\end{tabular}        &                 &                                                                                                                                  &                                                                                                \\
+\hline
+fraction\_A            & A fraction                                                                       & \begin{tabular}[c]{@{}l@{}}amino acid\\content\end{tabular}        &                 &                                                                                                                                  &                                                                                                \\
+\hline
+fraction\_H            & H fraction                                                                       & \begin{tabular}[c]{@{}l@{}}amino acid\\content\end{tabular}        &                 &                                                                                                                                  &                                                                                                \\
+\hline
+fraction\_Q            & Q fraction                                                                       & \begin{tabular}[c]{@{}l@{}}amino acid\\content\end{tabular}        &                 &                                                                                                                                  &                                                                                                \\
+\hline
+fraction\_N            & N fraction                                                                       & \begin{tabular}[c]{@{}l@{}}amino acid\\content\end{tabular}        &                 &                                                                                                                                  &                                                                                                \\
+\hline
+fraction\_G            & G fraction                                                                       & \begin{tabular}[c]{@{}l@{}}amino acid\\content\end{tabular}        &                 &                                                                                                                                  &                                                                                                \\
+\hline
+FCR                    & \begin{tabular}[c]{@{}l@{}}fraction charged\\residues\end{tabular}               & \begin{tabular}[c]{@{}l@{}}charge\\properties\end{tabular}         &                 & basic residue fraction + acidic residue fraction                                                                                 &                                                                                                \\
+\hline
+NCPR                   & \begin{tabular}[c]{@{}l@{}}net charge\\per residue\end{tabular}                  & \begin{tabular}[c]{@{}l@{}}charge\\properties\end{tabular}         &                 & basic residue fraction - acidic residue fraction                                                                                 &                                                                                                \\
+\hline
+net\_charge            & net charge                                                                       & \begin{tabular}[c]{@{}l@{}}charge\\properties\end{tabular}         &                 & \#{[}RK] - \#{[}DE]                                                                                                              &                                                                                                \\
+\hline
+net\_charge\_P         & \begin{tabular}[c]{@{}l@{}}net charge with\\phosphorylation\end{tabular}         & \begin{tabular}[c]{@{}l@{}}charge\\properties\end{tabular}         &                 & \begin{tabular}[c]{@{}l@{}}net charge including phosphorylation of [ST]P\\consensus sites with -1.5 charge per site\end{tabular} &                                                                                                \\
+\hline
+kappa                  & kappa                                                                            & \begin{tabular}[c]{@{}l@{}}charge\\properties\end{tabular}         & localcider      & \begin{tabular}[c]{@{}l@{}}measure of separation between positively\\and negatively charged residues\end{tabular}                &                                                                                                \\
+\hline
+omega                  & omega                                                                            & \begin{tabular}[c]{@{}l@{}}charge\\properties\end{tabular}         & localcider      & \begin{tabular}[c]{@{}l@{}}measure of separation between charged\\residues or prolines and all other residues\end{tabular}       &                                                                                                \\
+\hline
+SCD                    & \begin{tabular}[c]{@{}l@{}}sequence charge\\decoration\end{tabular}              & \begin{tabular}[c]{@{}l@{}}charge\\properties\end{tabular}         & localcider      & \begin{tabular}[c]{@{}l@{}}measure of separation between positively\\and negatively charged residues\end{tabular}                &                                                                                                \\
+\hline
+RK\_ratio              & R/K ratio                                                                        & \begin{tabular}[c]{@{}l@{}}charge\\properties\end{tabular}         &                 & \begin{tabular}[c]{@{}l@{}}adjusted ratio of arginine to\\lysine residues: (\#R + 1)/(\#K + 1)\end{tabular}                      &                                                                                                \\
+\hline
+ED\_ratio              & E/D ratio                                                                        & \begin{tabular}[c]{@{}l@{}}charge\\properties\end{tabular}         &                 & \begin{tabular}[c]{@{}l@{}}adjusted ratio of glutamic acid to\\aspartic acid residues: (\#E + 1)/(\#D + 1)\end{tabular}          &                                                                                                \\
+\hline
+fraction\_acidic       & \begin{tabular}[c]{@{}l@{}}acidic\\residue fraction~\end{tabular}                & \begin{tabular}[c]{@{}l@{}}physiochemical\\properties\end{tabular} &                 &                                                                                                                                  &                                                                                                \\
+\hline
+fraction\_basic        & \begin{tabular}[c]{@{}l@{}}basic\\residue fraction\end{tabular}                  & \begin{tabular}[c]{@{}l@{}}physiochemical\\properties\end{tabular} &                 &                                                                                                                                  &                                                                                                \\
+\hline
+fraction\_aliphatic    & \begin{tabular}[c]{@{}l@{}}aliphatic\\residue fraction\end{tabular}              & \begin{tabular}[c]{@{}l@{}}physiochemical\\properties\end{tabular} &                 &                                                                                                                                  &                                                                                                \\
+\hline
+fraction\_polar        & \begin{tabular}[c]{@{}l@{}}polar\\residue fraction\end{tabular}                  & \begin{tabular}[c]{@{}l@{}}physiochemical\\properties\end{tabular} &                 &                                                                                                                                  & removed glycine                                                                                \\
+\hline
+fraction\_chainexp     & \begin{tabular}[c]{@{}l@{}}chain-expanding\\residue fraction\end{tabular}        & \begin{tabular}[c]{@{}l@{}}physiochemical\\properties\end{tabular} &                 &                                                                                                                                  &                                                                                                \\
+\hline
+fraction\_aromatic     & \begin{tabular}[c]{@{}l@{}}aromatic\\residue fraction\end{tabular}               & \begin{tabular}[c]{@{}l@{}}physiochemical\\properties\end{tabular} &                 &                                                                                                                                  &                                                                                                \\
+\hline
+fraction\_disorder     & \begin{tabular}[c]{@{}l@{}}disorder-promoting\\residue fraction\end{tabular}     & \begin{tabular}[c]{@{}l@{}}physiochemical\\properties\end{tabular} &                 &                                                                                                                                  &                                                                                                \\
+\hline
+radius\_gyration       & radius of gyration                                                               & \begin{tabular}[c]{@{}l@{}}physiochemical\\properties\end{tabular} &                 & number of residues to the 0.6 power                                                                                              & \begin{tabular}[c]{@{}l@{}}substituted\\for length\end{tabular}                                \\
+\hline
+hydropathy             & hydropathy                                                                       & \begin{tabular}[c]{@{}l@{}}physiochemical\\properties\end{tabular} & localcider      & normalized Kyte-Doolittle scale                                                                                                  &                                                                                                \\
+\hline
+isopoint               & isoelectric point                                                                & \begin{tabular}[c]{@{}l@{}}physiochemical\\properties\end{tabular} & isoelectric     & pH where charge of peptide is neutral                                                                                            &                                                                                                \\
+\hline
+PPII\_propensity       & PPII propensity                                                                  & \begin{tabular}[c]{@{}l@{}}physiochemical\\properties\end{tabular} & localcider      & \begin{tabular}[c]{@{}l@{}}propensity for proline to form\\left-handed helices\end{tabular}                                      &                                                                                                \\
+\hline
+repeat\_Q              & Q repeat fraction                                                                & \begin{tabular}[c]{@{}l@{}}repeats and\\complexity\end{tabular}    &                 & fraction 2 or more consecutive Q                                                                                                 &                                                                                                \\
+\hline
+repeat\_N              & N repeat fraction                                                                & \begin{tabular}[c]{@{}l@{}}repeats and\\complexity\end{tabular}    &                 & fraction 2 or more consecutive N                                                                                                 &                                                                                                \\
+\hline
+repeat\_S              & S repeat fraction                                                                & \begin{tabular}[c]{@{}l@{}}repeats and\\complexity\end{tabular}    &                 & fraction 2 or more consecutive S                                                                                                 &                                                                                                \\
+\hline
+repeat\_G              & G repeat fraction                                                                & \begin{tabular}[c]{@{}l@{}}repeats and\\complexity\end{tabular}    &                 & fraction 2 or more consectuive G                                                                                                 &                                                                                                \\
+\hline
+repeat\_E              & E repeat fraction                                                                & \begin{tabular}[c]{@{}l@{}}repeats and\\complexity\end{tabular}    &                 & fraction 2 or more consecutive E                                                                                                 &                                                                                                \\
+\hline
+repeat\_D              & D repeat fraction                                                                & \begin{tabular}[c]{@{}l@{}}repeats and\\complexity\end{tabular}    &                 & fraction 2 or more consecutive D                                                                                                 &                                                                                                \\
+\hline
+repeat\_K              & K repeat fraction                                                                & \begin{tabular}[c]{@{}l@{}}repeats and\\complexity\end{tabular}    &                 & fraction 2 or more consecutive K                                                                                                 &                                                                                                \\
+\hline
+repeat\_R              & R repeat fraction                                                                & \begin{tabular}[c]{@{}l@{}}repeats and\\complexity\end{tabular}    &                 & fraction 2 or more consecutive R                                                                                                 &                                                                                                \\
+\hline
+repeat\_P              & P repeat fraction                                                                & \begin{tabular}[c]{@{}l@{}}repeats and\\complexity\end{tabular}    &                 & fraction 2 or more consecutive P                                                                                                 &                                                                                                \\
+\hline
+repeat\_QN             & {[}QN] repeat fraction                                                           & \begin{tabular}[c]{@{}l@{}}repeats and\\complexity\end{tabular}    &                 & fraction 2 or more consecutive [QN]                                                                                              &                                                                                                \\
+\hline
+repeat\_RG             & {[}RG] repeat fraction                                                           & \begin{tabular}[c]{@{}l@{}}repeats and\\complexity\end{tabular}    &                 & fraction 2 or more consecutive [RG]                                                                                              &                                                                                                \\
+\hline
+repeat\_FG             & {[}FG] repeat fraction                                                           & \begin{tabular}[c]{@{}l@{}}repeats and\\complexity\end{tabular}    &                 & fraction 2 or more consecutive [FG]                                                                                              &                                                                                                \\
+\hline
+repeat\_SG             & {[}SG] repeat fraction                                                           & \begin{tabular}[c]{@{}l@{}}repeats and\\complexity\end{tabular}    &                 & fraction 2 or more consecutive [SG]                                                                                              &                                                                                                \\
+\hline
+repeat\_SR             & {[}SR] repeat fraction                                                           & \begin{tabular}[c]{@{}l@{}}repeats and\\complexity\end{tabular}    &                 & fraction 2 or more consecutive [SR]                                                                                              &                                                                                                \\
+\hline
+repeat\_AP             & {[}KAP] repeat fraction                                                          & \begin{tabular}[c]{@{}l@{}}repeats and\\complexity\end{tabular}    &                 & fraction 2 or more consecutive [KAP]                                                                                             &                                                                                                \\
+\hline
+repeat\_TS             & {[}PTS] repeat fraction                                                          & \begin{tabular}[c]{@{}l@{}}repeats and\\complexity\end{tabular}    &                 & fraction 2 or more consecutive [PTS]                                                                                             &                                                                                                \\
+\hline
+wf\_complexity         & \begin{tabular}[c]{@{}l@{}}Wootton-Federhen\\sequence complexity\end{tabular}    & \begin{tabular}[c]{@{}l@{}}repeats and\\complexity\end{tabular}    & localcider      & \begin{tabular}[c]{@{}l@{}}complexity based on SEG algorithm:\\blob length=IDR length, step size=1\end{tabular}                  &                                                                                                \\
+\hline
+CLV\_Separin\_Metazoa  & separase cleavage motif                                                          & motifs                                                             &                 &                                                                                                                                  & \begin{tabular}[c]{@{}l@{}}Metazoa motif\\instead of fungi\end{tabular}                        \\
+\hline
+DEG\_APCC\_KENBOX\_2   & \begin{tabular}[c]{@{}l@{}}APCC-binding\\destruction motif\end{tabular}          & motifs                                                             &                 &                                                                                                                                  &                                                                                                \\
+\hline
+DEG\_APCC\_TPR\_1      & APCC-TPR-docking motif                                                           & motifs                                                             &                 &                                                                                                                                  &                                                                                                \\
+\hline
+DOC\_CKS1\_1           & Cks1 ligand                                                                      & motifs                                                             &                 &                                                                                                                                  &                                                                                                \\
+\hline
+DOC\_MAPK\_DCC\_7      & MAPK docking motif                                                               & motifs                                                             &                 &                                                                                                                                  &                                                                                                \\
+\hline
+DOC\_MAPK\_gen\_1      & MAPK docking motif                                                               & motifs                                                             &                 &                                                                                                                                  &                                                                                                \\
+\hline
+DOC\_MAPK\_HePTP\_8    & MAPK docking motif                                                               & motifs                                                             &                 &                                                                                                                                  &                                                                                                \\
+\hline
+DOC\_PP1\_RVXF\_1      & PP1-docking motif RVXF                                                           & motifs                                                             &                 &                                                                                                                                  &                                                                                                \\
+\hline
+DOC\_PP2B\_PxIxI\_1    & \begin{tabular}[c]{@{}l@{}}calcineurin (PP2B)-\\docking motif PxIxI\end{tabular} & motifs                                                             &                 &                                                                                                                                  &                                                                                                \\
+\hline
+LIG\_APCC\_Cbox\_1     & \begin{tabular}[c]{@{}l@{}}APC/C\_Apc2-docking\\motif\end{tabular}               & motifs                                                             &                 &                                                                                                                                  & \begin{tabular}[c]{@{}l@{}}Metazoa motif\\instead of fungi\end{tabular}                        \\
+\hline
+LIG\_AP\_GAE\_1        & \begin{tabular}[c]{@{}l@{}}gamma-adaptin ear\\interaction motif\end{tabular}     & motifs                                                             &                 &                                                                                                                                  &                                                                                                \\
+\hline
+LIG\_CaM\_IQ\_9        & \begin{tabular}[c]{@{}l@{}}helical calmodulin\\binding motif\end{tabular}        & motifs                                                             &                 &                                                                                                                                  &                                                                                                \\
+\hline
+LIG\_EH\_1             & EH ligand                                                                        & motifs                                                             &                 &                                                                                                                                  &                                                                                                \\
+\hline
+LIG\_eIF4E\_1          & eIF4E binding motif                                                              & motifs                                                             &                 &                                                                                                                                  &                                                                                                \\
+\hline
+LIG\_GLEBS\_BUB3\_1    & GLEBS motif                                                                      & motifs                                                             &                 &                                                                                                                                  &                                                                                                \\
+\hline
+LIG\_LIR\_Gen\_1       & \begin{tabular}[c]{@{}l@{}}Atg8 protein\\family ligands\end{tabular}             & motifs                                                             &                 &                                                                                                                                  & \begin{tabular}[c]{@{}l@{}}same ELM entry,\\but updated regex\end{tabular}                     \\
+\hline
+LIG\_PCNA\_PIPBox\_1   & PCNA binding PIP box                                                             & motifs                                                             &                 &                                                                                                                                  & \begin{tabular}[c]{@{}l@{}}same ELM entry,\\but updated regex\end{tabular}                     \\
+\hline
+LIG\_SUMO\_SIM\_par\_1 & \begin{tabular}[c]{@{}l@{}}SUMO interaction\\site\end{tabular}                   & motifs                                                             &                 &                                                                                                                                  &                                                                                                \\
+\hline
+MOD\_CDK\_SPxK\_1      & \begin{tabular}[c]{@{}l@{}}CDK phosphorylation\\site\end{tabular}                & motifs                                                             &                 &                                                                                                                                  &                                                                                                \\
+\hline
+MOD\_LATS\_1           & \begin{tabular}[c]{@{}l@{}}LATS kinase\\phosphorylation motif\end{tabular}       & motifs                                                             &                 &                                                                                                                                  &                                                                                                \\
+\hline
+MOD\_SUMO\_for\_1      & sumoylation site                                                                 & motifs                                                             &                 &                                                                                                                                  &                                                                                                \\
+\hline
+TRG\_ER\_FFAT\_1       & FFAT motif                                                                       & motifs                                                             &                 &                                                                                                                                  & \begin{tabular}[c]{@{}l@{}}same ELM entry,\\but updated regex\end{tabular}                     \\
+\hline
+TRG\_Golgi\_diPhe\_1   & ER export signals                                                                & motifs                                                             &                 &                                                                                                                                  &                                                                                                \\
+\hline
+TRG\_NLS\_MonoExtN\_4  & \begin{tabular}[c]{@{}l@{}}classical nuclear\\localization signals\end{tabular}  & motifs                                                             &                 &                                                                                                                                  &                                                                                                \\
+\hline
+MOD\_CDK\_STP          & \begin{tabular}[c]{@{}l@{}}CDK phosphorylation\\motif\end{tabular}               & motifs                                                             &                 &                                                                                                                                  &                                                                                                \\
+\hline
+MOD\_MEC1              & \begin{tabular}[c]{@{}l@{}}Mec1 phosphorylation\\motif\end{tabular}              & motifs                                                             &                 &                                                                                                                                  &                                                                                                \\
+\hline
+MOD\_PRK1              & \begin{tabular}[c]{@{}l@{}}Prk1 phosphorylation\\motif\end{tabular}              & motifs                                                             &                 &                                                                                                                                  &                                                                                                \\
+\hline
+MOD\_IPL1              & \begin{tabular}[c]{@{}l@{}}Ipl1 phosphorylation\\motif\end{tabular}              & motifs                                                             &                 &                                                                                                                                  &                                                                                                \\
+\hline
+MOD\_PKA               & \begin{tabular}[c]{@{}l@{}}Pka phosphorylation\\motif\end{tabular}               & motifs                                                             &                 &                                                                                                                                  &                                                                                                \\
+\hline
+MOD\_CKII              & \begin{tabular}[c]{@{}l@{}}Ckii phosphorylation\\motif\end{tabular}              & motifs                                                             &                 &                                                                                                                                  &                                                                                                \\
+\hline
+MOD\_IME2              & \begin{tabular}[c]{@{}l@{}}Ime2 phosphorylation\\motif\end{tabular}              & motifs                                                             &                 &                                                                                                                                  &                                                                                                \\
+\hline
+DOC\_PRO               & proline rich motif                                                               & motifs                                                             &                 &                                                                                                                                  &                                                                                                \\
+\hline
+TRG\_ER\_HDEL          & ER localization motif                                                            & motifs                                                             &                 &                                                                                                                                  &                                                                                                \\
+\hline
+TRG\_MITOCHONDRIA      & \begin{tabular}[c]{@{}l@{}}mitochondrial\\localization motif\end{tabular}        & motifs                                                             &                 &                                                                                                                                  &                                                                                                \\
+\hline
+MOD\_ISOMERASE         & \begin{tabular}[c]{@{}l@{}}disulfide isomerase\\motif\end{tabular}               & motifs                                                             &                 &                                                                                                                                  &                                                                                                \\
+\hline
+TRG\_FG                & \begin{tabular}[c]{@{}l@{}}FG nucleoporin\\motif\end{tabular}                    & motifs                                                             &                 &                                                                                                                                  &                                                                                                \\
+\hline
+INT\_RGG               & RGG motif                                                                        & motifs                                                             &                 &                                                                                                                                  &                                                                                                \\
+\hline
+\end{longtable}
+\end{landscape}
+
+\begin{landscape}
+\footnotesize
+\begin{longtable}{|l|l|}
+\caption{\textbf{Feature regular expresions.}}
+\label{stable:regexes}
+% Start first head
+\hline
+\textbf{Feature ID}    & \textbf{Regular expression}
+\endfirsthead
+
+% Start head
+\multicolumn{2}{l}
+{\textbf{\tablename\ \thetable} (continued)} \\
+\hline
+\textbf{Feature ID}    & \textbf{Regular expression}
+\endhead
+
+% Start foot
+\multicolumn{2}{|c|}{Continued on next page} \\
+\hline
+\endfoot
+
+% Start last foot
+\endlastfoot
+
+\hline
+fraction\_S            & S                                                                                                                          \\
+\hline
+fraction\_P            & P                                                                                                                          \\
+\hline
+fraction\_T            & T                                                                                                                          \\
+\hline
+fraction\_A            & A                                                                                                                          \\
+\hline
+fraction\_H            & H                                                                                                                          \\
+\hline
+fraction\_Q            & Q                                                                                                                          \\
+\hline
+fraction\_N            & N                                                                                                                          \\
+\hline
+fraction\_G            & G                                                                                                                          \\
+\hline
+fraction\_acidic       & {[}DE]                                                                                                                     \\
+\hline
+fraction\_basic        & {[}RK]                                                                                                                     \\
+\hline
+fraction\_aliphatic    & {[}ALMIV]                                                                                                                  \\
+\hline
+fraction\_polar        & {[}QNSTCH]                                                                                                                 \\
+\hline
+fraction\_chainexp     & {[}EDRKP]                                                                                                                  \\
+\hline
+fraction\_aromatic     & {[}FYW]                                                                                                                    \\
+\hline
+fraction\_disorder     & {[}TAGRDHQKSEP]                                                                                                            \\
+\hline
+repeat\_Q              & Q\{2,\}                                                                                                                    \\
+\hline
+repeat\_N              & N\{2,\}                                                                                                                    \\
+\hline
+repeat\_S              & S\{2,\}                                                                                                                    \\
+\hline
+repeat\_G              & G\{2,\}                                                                                                                    \\
+\hline
+repeat\_E              & E\{2,\}                                                                                                                    \\
+\hline
+repeat\_D              & D\{2,\}                                                                                                                    \\
+\hline
+repeat\_K              & K\{2,\}                                                                                                                    \\
+\hline
+repeat\_R              & R\{2,\}                                                                                                                    \\
+\hline
+repeat\_P              & P\{2,\}                                                                                                                    \\
+\hline
+repeat\_QN             & {[}QN]\{2,\}                                                                                                               \\
+\hline
+repeat\_RG             & {[}RG]\{2,\}                                                                                                               \\
+\hline
+repeat\_FG             & {[}FG]\{2,\}                                                                                                               \\
+\hline
+repeat\_SG             & {[}SG]\{2,\}                                                                                                               \\
+\hline
+repeat\_SR             & {[}SR]\{2,\}                                                                                                               \\
+\hline
+repeat\_AP             & {[}KAP]\{2,\}                                                                                                              \\
+\hline
+repeat\_TS             & {[}PTS]\{2,\}                                                                                                              \\
+\hline
+CLV\_Separin\_Metazoa  & E[IMPVL][MLVP]R.                                                                                                           \\
+\hline
+DEG\_APCC\_KENBOX\_2   & .KEN.                                                                                                                      \\
+\hline
+DEG\_APCC\_TPR\_1      & .[ILM]R                                                                                                                    \\
+\hline
+DOC\_CKS1\_1           & {[}MPVLIFWYQ].(T)P..                                                                                                       \\
+\hline
+DOC\_MAPK\_DCC\_7      & {[}RK].\{2,4\}{[}LIVP]P.[LIV].[LIVMF]\textbar{}{[}RK].\{2,4\}{[}LIVP].P[LIV].[LIVMF]                                       \\
+\hline
+DOC\_MAPK\_gen\_1      & {[}KR]\{0,2\}{[}KR].\{0,2\}{[}KR].\{2,4\}{[}ILVM].[ILVF]                                                                   \\
+\hline
+DOC\_MAPK\_HePTP\_8    & ([LIV][\^{}P][\^{}P][RK]....[LIVMP].[LIV].[LIVMF])\textbar{}([LIV][\^{}P][\^{}P][RK][RK]G.\{4,7\}{[}LIVMP].[LIV].[LIVMF])  \\
+\hline
+DOC\_PP1\_RVXF\_1      & ..[RK].\{0,1\}{[}VIL][\^{}P][FW].                                                                                          \\
+\hline
+DOC\_PP2B\_PxIxI\_1    & .P[\^{}P]I[\^{}P][IV][\^{}P]                                                                                               \\
+\hline
+LIG\_APCC\_Cbox\_1     & {[}DE]R[YFH][ILFVM][PAG].R                                                                                                 \\
+\hline
+LIG\_AP\_GAE\_1        & {[}DE][DES][DEGAS]F[SGAD][DEAP][LVIMFD]                                                                                    \\
+\hline
+LIG\_CaM\_IQ\_9        & {[}ACLIVTM][\^{}P][\^{}P][ILVMFCT]Q[\^{}P][\^{}P][\^{}P][RK][\^{}P]\{4,5\}{[}RKQ][\^{}P][\^{}P]                            \\
+\hline
+LIG\_EH\_1             & .NPF.                                                                                                                      \\
+\hline
+LIG\_eIF4E\_1          & Y....L[VILMF]                                                                                                              \\
+\hline
+LIG\_GLEBS\_BUB3\_1    & {[}EN][FYLW][NSQ].EE[ILMVF][\^{}P][LIVMFA]                                                                                 \\
+\hline
+LIG\_LIR\_Gen\_1       & {[}EDST].\{0,2\}{[}WFY][\^{}RKPGWFY][\^{}PG][ILVFM]((.\{0,4\}{[}PLAFIVMY])\textbar{}(\$)\textbar{}(.\{0,3\}{[}ED]))        \\
+\hline
+LIG\_PCNA\_PIPBox\_1   & {[}QM].[\^{}FHWY][LIVM][\^{}P][\^{}PFWYMLIV](([FYHL][FYW])\textbar{}([FYH][FYWL]))..                                       \\
+\hline
+LIG\_SUMO\_SIM\_par\_1 & {[}DEST]\{0,5\}.[VILPTM][VIL][DESTVILMA][VIL].\{0,1\}{[}DEST]\{1,10\}                                                      \\
+\hline
+MOD\_CDK\_SPxK\_1      & ...([ST])P.[KR]                                                                                                            \\
+\hline
+MOD\_LATS\_1           & H.[KR]..([ST])[\^{}P]                                                                                                      \\
+\hline
+MOD\_SUMO\_for\_1      & {[}VILMAFP](K).E                                                                                                           \\
+\hline
+TRG\_ER\_FFAT\_1       & {[}EDS].\{0,4\}{[}ED][FY][FYKREM][DE][AC].\{1,2\}{[}EDST]                                                                  \\
+\hline
+TRG\_Golgi\_diPhe\_1   & Q.\{6,6\}FF.\{6,7\}                                                                                                        \\
+\hline
+TRG\_NLS\_MonoExtN\_4  & (([PKR].\{0,1\}{[}\^{}DE])\textbar{}([PKR]))((K[RK])\textbar{}(RK))(([\^{}DE][KR])\textbar{}([KR][\^{}DE]))[\^{}DE]        \\
+\hline
+MOD\_CDK\_STP          & {[}ST]P                                                                                                                    \\
+\hline
+MOD\_MEC1              & {[}ST]Q                                                                                                                    \\
+\hline
+MOD\_PRK1              & {[}LIVM]....TG                                                                                                             \\
+\hline
+MOD\_IPL1              & {[}RK].[ST][LIV]                                                                                                           \\
+\hline
+MOD\_PKA               & R[RK].S                                                                                                                    \\
+\hline
+MOD\_CKII              & {[}ST][DE].[DE]                                                                                                            \\
+\hline
+MOD\_IME2              & RP.[ST]                                                                                                                    \\
+\hline
+DOC\_PRO               & P..P                                                                                                                       \\
+\hline
+TRG\_ER\_HDEL          & HDEL                                                                                                                       \\
+\hline
+TRG\_MITOCHONDRIA      & {[}MR]L[RK]                                                                                                                \\
+\hline
+MOD\_ISOMERASE         & C..C                                                                                                                       \\
+\hline
+TRG\_FG                & F.FG\textbar{}GLFG                                                                                                         \\
+\hline
+INT\_RGG               & RGG\textbar{}RG                                                                                                            \\
+\hline
+\end{longtable}
+\end{landscape}
