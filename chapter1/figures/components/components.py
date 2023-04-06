@@ -130,7 +130,7 @@ for component_ids in component_id_groups:
         wlen = wmax - wmin
 
         subfig = fig.add_subfigure(gs[0, i])
-        ax = subfig.add_axes([0, 0, 1, 1], aspect='equal')
+        ax = subfig.add_axes((0, 0, 1, 1), aspect='equal')
 
         nx.draw_networkx_edges(nx_graph, positions, ax=ax, edgelist=edges, alpha=edge_alpha2, width=edge_width2, edge_color=ws, edge_cmap=cmap)
         nx.draw_networkx_nodes(nx_graph, positions, ax=ax, node_size=node_size2, linewidths=0, node_color=node_color2)

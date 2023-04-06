@@ -212,8 +212,8 @@ for component_id in component_ids:
         x0 = i / len(OGs_k)
         width = panel_width / fig_width
         height = panel_height / fig_height
-        axes_rect = (x0 + margin_width, margin_height, width, height)
-        ax = fig.add_axes(axes_rect)
+        rect = (x0 + margin_width, margin_height, width, height)
+        ax = fig.add_axes(rect)
 
         nx.draw_networkx_edges(nx_graph, positions, ax=ax, edge_color=null_color, alpha=edge_alpha1, width=edge_width1)
         nx.draw_networkx_nodes(nx_graph, positions, ax=ax, node_size=node_size1, linewidths=0, node_color=node_colors)
