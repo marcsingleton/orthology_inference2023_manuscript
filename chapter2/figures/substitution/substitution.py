@@ -74,14 +74,14 @@ for label, record in records.items():
 plots = [(records['50R_disorder'], records['50R_order'], 'ematrix', 'exchangeability', 'B'),
          (records['50R_disorder'], records['50R_order'], 'rmatrix', 'rate', 'C')]
 
-fig = plt.figure(figsize=(7.5, 5))
-gs = plt.GridSpec(2, len(plots), height_ratios=[1, 1.5])
-rect = (0.1, 0.125, 0.85, 0.8)
+fig = plt.figure(figsize=(7.5, 6.25))
+gs = plt.GridSpec(1 + len(plots), 3)
+rect = (0.125, 0.1, 0.65, 0.8)
 
 width = 0.2
 bars = [records['50R_disorder'], records['50R_order']]
 subfig = fig.add_subfigure(gs[0, :])
-ax = subfig.add_axes(rect)
+ax = subfig.add_axes((0.1, 0.125, 0.85, 0.8))
 for i, record in enumerate(bars):
     freqs = record.freqs.mean(axis=0)
     std = record.freqs.std(axis=0)
@@ -94,20 +94,38 @@ ax.set_ylabel('Frequency')
 ax.legend()
 subfig.suptitle('A', x=0.0125, y=0.975, fontweight='bold')  # Half because panel is double length
 
+panel_labels = ['B', 'C', 'D', 'E', 'F', 'G']
 for gs_idx, plot in enumerate(plots):
     record1, record2, data_label, title_label, panel_label = plot
     matrix1 = getattr(record1, data_label).mean(axis=0)
     matrix2 = getattr(record2, data_label).mean(axis=0)
-    rs = np.log10(matrix1 / matrix2)
-    vext = np.nanmax(np.abs(rs))
+    vmax = max(matrix1.max(), matrix2.max())
+    ratio = np.log10(matrix1 / matrix2)
+    vext = np.nanmax(np.abs(ratio))
 
-    subfig = fig.add_subfigure(gs[1, gs_idx])
+    subfig = fig.add_subfigure(gs[gs_idx+1, 0])
     ax = subfig.add_axes(rect)
-    im = ax.imshow(rs, vmin=-vext, vmax=vext, cmap='RdBu')
+    im = ax.imshow(matrix1, vmin=0, vmax=vmax, cmap='Greys')
     ax.set_xticks(range(len(alphabet)), alphabet, fontsize=7)
     ax.set_yticks(range(len(alphabet)), alphabet, fontsize=7)
-    subfig.colorbar(im)
-    subfig.suptitle(panel_label, x=0.025, y=0.975, fontweight='bold')
+    subfig.colorbar(im, cax=ax.inset_axes((1.05, 0, 0.05, 1)))
+    subfig.suptitle(panel_labels[3*gs_idx], x=0.0375, y=0.975, fontweight='bold')  # 1.5x because panel is third length
+
+    subfig = fig.add_subfigure(gs[gs_idx+1, 1])
+    ax = subfig.add_axes(rect)
+    im = ax.imshow(matrix2, vmin=0, vmax=vmax, cmap='Greys')
+    ax.set_xticks(range(len(alphabet)), alphabet, fontsize=7)
+    ax.set_yticks(range(len(alphabet)), alphabet, fontsize=7)
+    subfig.colorbar(im, cax=ax.inset_axes((1.05, 0, 0.05, 1)))
+    subfig.suptitle(panel_labels[3*gs_idx+1], x=0.0375, y=0.975, fontweight='bold')  # 1.5x because panel is third length
+
+    subfig = fig.add_subfigure(gs[1+gs_idx, 2])
+    ax = subfig.add_axes(rect)
+    im = ax.imshow(ratio, vmin=-vext, vmax=vext, cmap='RdBu')
+    ax.set_xticks(range(len(alphabet)), alphabet, fontsize=7)
+    ax.set_yticks(range(len(alphabet)), alphabet, fontsize=7)
+    subfig.colorbar(im, cax=ax.inset_axes((1.05, 0, 0.05, 1)))
+    subfig.suptitle(panel_labels[3*gs_idx+2], x=0.0375, y=0.975, fontweight='bold')  # 1.5x because panel is third length
 fig.savefig('out/substitution.png', dpi=300)
 plt.close()
 
