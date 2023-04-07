@@ -127,6 +127,7 @@ for gs_idx, plot in enumerate(plots):
     subfig.colorbar(im, cax=ax.inset_axes((1.05, 0, 0.05, 1)))
     subfig.suptitle(panel_labels[3*gs_idx+2], x=0.0375, y=0.975, fontweight='bold')  # 1.5x because panel is third length
 fig.savefig('out/substitution.png', dpi=300)
+fig.savefig('out/substitution.tiff', dpi=300)
 plt.close()
 
 # HEATMAP
@@ -143,6 +144,7 @@ for data_label, title_label in plots:
         ax.set_title(record.label)
     fig.colorbar(ScalarMappable(Normalize(0, vmax), cmap='Greys'), ax=axs, fraction=0.025)
     fig.savefig(f'out/heatmap_{data_label}.png', dpi=300)
+    fig.savefig(f'out/heatmap_{data_label}.tiff', dpi=300)
     plt.close()
 
 # CORRELATION GRID
@@ -172,6 +174,7 @@ for gs_idx, plot in enumerate(plots):
     subfig.colorbar(im, cax=ax.inset_axes((1.05, 0, 0.05, 1)))
     subfig.suptitle(panel_label, x=0.025, y=0.975, fontweight='bold')
 fig.savefig(f'out/heatmap_corr.png', dpi=300)
+fig.savefig(f'out/heatmap_corr.tiff', dpi=300)
 plt.close()
 
 # VARIATION
@@ -212,4 +215,5 @@ for record1, record2, data_label in plots:
         subfig.suptitle(panel_labels[3*gs_idx+2], x=0.0375, y=0.975, fontweight='bold')
 
     fig.savefig(f'out/CV_{data_label}.png', dpi=300)
+    fig.savefig(f'out/CV_{data_label}.tiff', dpi=300)
     plt.close()
