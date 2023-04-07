@@ -11,6 +11,8 @@ from matplotlib.colors import Normalize
 from matplotlib.cm import ScalarMappable
 from src2.utils import read_iqtree, read_paml
 
+dpi = 300
+
 paml_order = ['A', 'R', 'N', 'D', 'C', 'Q', 'E', 'G', 'H', 'I', 'L', 'K', 'M', 'F', 'P', 'S', 'T', 'W', 'Y', 'V']
 labels = ['0R_disorder', '50R_disorder', '100R_disorder', '0R_order', '50R_order', '100R_order']
 labels_suffix = r'_[0-9]+'
@@ -126,8 +128,8 @@ for gs_idx, plot in enumerate(plots):
     ax.set_yticks(range(len(alphabet)), alphabet, fontsize=6, ha='center')
     subfig.colorbar(im, cax=ax.inset_axes((1.05, 0, 0.05, 1)))
     subfig.suptitle(panel_labels[3*gs_idx+2], x=0.0375, y=0.975, fontweight='bold')  # 1.5x because panel is third length
-fig.savefig('out/substitution.png', dpi=300)
-fig.savefig('out/substitution.tiff', dpi=300)
+fig.savefig('out/substitution.png', dpi=dpi)
+fig.savefig('out/substitution.tiff', dpi=dpi)
 plt.close()
 
 # HEATMAP
@@ -143,8 +145,8 @@ for data_label, title_label in plots:
         ax.set_yticks(range(len(alphabet)), alphabet, fontsize=7, ha='center')
         ax.set_title(record.label)
     fig.colorbar(ScalarMappable(Normalize(0, vmax), cmap='Greys'), ax=axs, fraction=0.025)
-    fig.savefig(f'out/heatmap_{data_label}.png', dpi=300)
-    fig.savefig(f'out/heatmap_{data_label}.tiff', dpi=300)
+    fig.savefig(f'out/heatmap_{data_label}.png', dpi=dpi)
+    fig.savefig(f'out/heatmap_{data_label}.tiff', dpi=dpi)
     plt.close()
 
 # CORRELATION GRID
@@ -173,8 +175,8 @@ for gs_idx, plot in enumerate(plots):
     ax.set_yticks(range(len(labels)), labels, fontsize=8)
     subfig.colorbar(im, cax=ax.inset_axes((1.05, 0, 0.05, 1)))
     subfig.suptitle(panel_label, x=0.025, y=0.975, fontweight='bold')
-fig.savefig(f'out/heatmap_corr.png', dpi=300)
-fig.savefig(f'out/heatmap_corr.tiff', dpi=300)
+fig.savefig(f'out/heatmap_corr.png', dpi=dpi)
+fig.savefig(f'out/heatmap_corr.tiff', dpi=dpi)
 plt.close()
 
 # VARIATION
@@ -214,6 +216,6 @@ for record1, record2, data_label in plots:
         ax.set_ylabel('Coefficient of variation')
         subfig.suptitle(panel_labels[3*gs_idx+2], x=0.0375, y=0.975, fontweight='bold')
 
-    fig.savefig(f'out/CV_{data_label}.png', dpi=300)
-    fig.savefig(f'out/CV_{data_label}.tiff', dpi=300)
+    fig.savefig(f'out/CV_{data_label}.png', dpi=dpi)
+    fig.savefig(f'out/CV_{data_label}.tiff', dpi=dpi)
     plt.close()
