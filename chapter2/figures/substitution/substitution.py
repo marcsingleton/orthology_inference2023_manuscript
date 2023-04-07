@@ -178,7 +178,7 @@ plt.close()
 plots = [(records['50R_disorder'], records['50R_order'], 'ematrix'),
          (records['50R_disorder'], records['50R_order'], 'rmatrix')]
 for record1, record2, data_label in plots:
-    fig = plt.figure(figsize=(7.5, 5))
+    fig = plt.figure(figsize=(7.5, 3.5))
     gs = plt.GridSpec(2, 3)
     rect = (0.1, 0.1, 0.7, 0.8)
 
@@ -191,25 +191,25 @@ for record1, record2, data_label in plots:
         subfig = fig.add_subfigure(gs[gs_idx, 0])
         ax = subfig.add_axes(rect)
         im = ax.imshow(mean, cmap='Greys')
-        ax.set_xticks(range(len(alphabet)), alphabet, fontsize=7)
-        ax.set_yticks(range(len(alphabet)), alphabet, fontsize=7, ha='center')
+        ax.set_xticks(range(len(alphabet)), alphabet, fontsize=6)
+        ax.set_yticks(range(len(alphabet)), alphabet, fontsize=6, ha='center')
         fig.colorbar(im, cax=ax.inset_axes((1.05, 0, 0.05, 1)))
         subfig.suptitle(panel_labels[3*gs_idx], x=0.0375, y=0.975, fontweight='bold')
 
         subfig = fig.add_subfigure(gs[gs_idx, 1])
         ax = subfig.add_axes(rect)
         im = ax.imshow(std / mean, cmap='Greys')
-        ax.set_xticks(range(len(alphabet)), alphabet, fontsize=7)
-        ax.set_yticks(range(len(alphabet)), alphabet, fontsize=7, ha='center')
+        ax.set_xticks(range(len(alphabet)), alphabet, fontsize=6)
+        ax.set_yticks(range(len(alphabet)), alphabet, fontsize=6, ha='center')
         fig.colorbar(im, cax=ax.inset_axes((1.05, 0, 0.05, 1)))
         subfig.suptitle(panel_labels[3*gs_idx+1], x=0.0375, y=0.975, fontweight='bold')
 
         subfig = fig.add_subfigure(gs[gs_idx, 2])
-        ax = subfig.add_axes((0.275, 0.2, 0.675, 0.65))
+        ax = subfig.add_axes((0.275, 0.25, 0.675, 0.65))
         ax.scatter(mean, std / mean, s=10, alpha=0.5, edgecolor='none')
         ax.set_xlabel('Mean')
         ax.set_ylabel('Coefficient of variation')
         subfig.suptitle(panel_labels[3*gs_idx+2], x=0.0375, y=0.975, fontweight='bold')
 
-    fig.savefig(f'out/panel_CV_{data_label}.png', dpi=300)
+    fig.savefig(f'out/CV_{data_label}.png', dpi=300)
     plt.close()
