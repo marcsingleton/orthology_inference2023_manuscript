@@ -1,4 +1,42 @@
-Here's where my chapter 2 appendix will go!
+\begin{figure}[h!]
+\includegraphics[width=\textwidth]{substitution/out/heatmap_ematrix.png}
+\centering
+\caption{\textbf{Exchangeability matrices fit under different sampling strategies.}
+Each panel is a mean of the exchangeability coefficients derived from the meta-alignments created by a single sampling strategy ($n = 25$). The prefix and suffix in the title of each panel indicate the maximum gap fraction and region type of the columns in the meta-alignments. For example, the columns in the ``50R\_disorder'' set of meta-alignments were fewer than 50\% gaps and sampled from the disorder subset.}
+\label{sfig:heatmap_ematrix}
+\end{figure}
+
+\begin{figure}[h!]
+\includegraphics[width=\textwidth]{substitution/out/heatmap_rmatrix.png}
+\centering
+\caption{\textbf{Rate matrices fit under different sampling strategies.}
+Each panel is a mean of the exchangeability coefficients derived from the meta-alignments created by a single sampling strategy ($n = 25$). See Fig.~\ref{sfig:CV_ematrix} for an explanation of the panel labels.}
+\label{sfig:heatmap_rmatrix}
+\end{figure}
+
+\begin{figure}[h!]
+\includegraphics[width=\textwidth]{substitution/out/heatmap_corr.png}
+\centering
+\caption{\textbf{Correlations between mean exchangeability and rate matrices fit under different sampling strategies.}
+\textbf{(A)} Correlations between the mean exchangeability matrices in Fig.~\ref{sfig:heatmap_ematrix}. \textbf{(B)} Correlations between the mean rate matrices in Fig.~\ref{sfig:heatmap_rmatrix}.}
+\label{sfig:heatmap_corr}
+\end{figure}
+
+\begin{figure}[h!]
+\includegraphics[width=\textwidth]{substitution/out/CV_ematrix.png}
+\centering
+\caption{\textbf{Coefficients of variation of the exchangeability matrices.}
+For all panels, the top and bottoms rows correspond to the 50R\_disorder and 50R\_order meta-alignment sets, respectively. \textbf{(A, D)} Mean exchangeability matrices. \textbf{(B, E)} Coefficients of variation (ratio of the standard deviation to the mean) of exchangeability matrices. \textbf{(C, F)} The coefficient of variation is inversely proportional to the mean, indicating the variation in the parameter estimates is constant relative to their magnitude.}
+\label{sfig:CV_ematrix}
+\end{figure}
+
+\begin{figure}[h!]
+\includegraphics[width=\textwidth]{substitution/out/CV_rmatrix.png}
+\centering
+\caption{\textbf{Coefficients of variation of the rate matrices.}
+For all panels, the top and bottoms rows correspond to the 50R\_disorder and 50R\_order meta-alignment sets, respectively. \textbf{(A, D)} Mean rate matrices. \textbf{(B, E)} Coefficients of variation (ratio of the standard deviation to the mean) of rate matrices. \textbf{(C, F)} The coefficient of variation is inversely proportional to the mean, indicating the variation in the parameter estimates is constant relative to their magnitude.}
+\label{sfig:CV_rmatrix}
+\end{figure}
 
 \begin{landscape}
 \footnotesize
