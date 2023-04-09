@@ -27,18 +27,22 @@ ppid_regex = r'ppid=([A-Za-z0-9_.]+)'
 spid_regex = r'spid=([a-z]+)'
 min_length = 30
 
-panel_OGids = ['1DBA', '20C5', '27E5', '1432', '2554', '2805', '07E3', '0F47', '22B5']
+panel_records = [('0F47', 0, None),
+                 ('07E3', 350, 650),
+                 ('146F', 125, 525),
+                 ('1432', 9, 325)]
 plt.rcParams['xtick.labelsize'] = 8
 plt.rcParams['ytick.labelsize'] = 8
 plt.rcParams['axes.labelsize'] = 8
-width_ratios = [0.3, 0.3, 0.4]
-rect_B = (0.4, 0.08, 0.5375, 0.9)
-rect_CD = (0.3, 0.24, 0.65, 0.65)
+plt.rcParams['legend.fontsize'] = 8
+width_ratios = (0.3, 0.3, 0.4)
+rect_B = (0.375, 0.06, 0.5475, 0.92)
+rect_CD = (0.25, 0.18, 0.7, 0.7)
 rect_E = (0.5, 0.325, 0.475, 0.65)
-
-plot_msa_kwargs = {'hspace': 0.02, 'left': 0.2, 'right': 0.825, 'top': 0.925, 'bottom': 0.03, 'anchor': (0, 0.5),
+plot_msa_kwargs = {'hspace': 0.01, 'left': 0.15, 'right': 0.85, 'top': 0.95, 'bottom': 0.025, 'anchor': (0, 0.5),
                    'data_min': -0.05, 'data_max': 1.05,
-                   'msa_legend': True, 'legend_kwargs': {'bbox_to_anchor': (0.825, 0.5), 'loc': 'center left', 'fontsize': 8,
+                   'tree_position': 0, 'tree_width': 0.15,
+                   'msa_legend': True, 'legend_kwargs': {'bbox_to_anchor': (0.85, 0.5), 'loc': 'center left', 'fontsize': 8,
                                                          'handletextpad': 0.5, 'markerscale': 1.5, 'handlelength': 1}}
 
 tree_template = skbio.read('../../IDR_evolution/data/trees/consensus_LG/100R_NI.nwk', 'newick', skbio.TreeNode)
@@ -47,11 +51,11 @@ tip_order = {tip.name: i for i, tip in enumerate(tree_template.tips())}
 if not os.path.exists('out/'):
     os.mkdir('out/')
 
-fig = plt.figure(figsize=(7.5, 8.75))
+fig = plt.figure(figsize=(7.5, 8.5))
 gs = plt.GridSpec(4, 3, width_ratios=width_ratios)
 dp = fig.dpi_scale_trans.transform((0.0625, -0.0625))
 
-for panel_OGid in panel_OGids:
+for panel_OGid, panel_start, panel_stop in panel_records:
     # --- PANEL A ---
     # Load MSA
     msa = []
@@ -142,11 +146,11 @@ for panel_OGid in panel_OGids:
 
     # Plot all score traces
     subfig = fig.add_subfigure(gs[:2, :2])
-    plot_msa_data([record['seq'] for record in msa], aligned_scores,
+    plot_msa_data([record['seq'][panel_start:panel_stop] for record in msa], aligned_scores[:, panel_start:panel_stop],
                   fig=subfig, figsize=(4.5, 4.325),
-                  data_linewidths=1, data_colors=[node2color[tip] for tip in tree.tips()],
+                  x_start=panel_start, data_linewidths=1, data_colors=[node2color[tip] for tip in tree.tips()],
                   tree=tree, tree_kwargs={'linewidth': 0.75, 'linecolor': node2color,
-                                          'tip_labels': False, 'xmin_pad': 0.05, 'xmax_pad': 0.025},
+                                          'tip_labels': False, 'xmin_pad': 0.025, 'xmax_pad': 0.025},
                   **plot_msa_kwargs)
     axs = [ax for i, ax in enumerate(fig.axes) if i % 2 == 1]
     for ax in axs:
@@ -186,7 +190,7 @@ for panel_OGid in panel_OGids:
     subfig = fig.add_subfigure(gs[:3, 2])
     ax = subfig.add_axes(rect_B)
     ax.invert_yaxis()
-    ax.set_ymargin(0.01)
+    ax.set_ymargin(0.005)
     ax.barh(ys, xs)
     ax.set_yticks(ys, feature_labels, fontsize=5.5)
     ax.set_xlabel('Correlation')
@@ -234,7 +238,7 @@ for panel_OGid in panel_OGids:
         xs = -np.log10(data['pvalue'])
         ys = np.arange(y0, y0 + 2 * len(xs), 2)
         for GOid, name in zip(data['GOid'], data['name']):
-            label = f'{shorten(name, width=80, placeholder="...")} ({GOid})'
+            label = f'{shorten(name, width=80, placeholder=" ...")} ({GOid})'
             labels.append(label)
         y0 += 2 * len(xs)
         ax.barh(ys, xs, label=aspect_label, height=1.25)
@@ -247,6 +251,6 @@ for panel_OGid in panel_OGids:
     x, y = subfig.transSubfigure.inverted().transform(subfig.transSubfigure.transform((0, 1)) + dp)
     subfig.suptitle('E', x=x, y=y, ha='left', fontweight='bold')
 
-    fig.savefig(f'out/scores_{panel_OGid}.png', dpi=300)
-    fig.savefig(f'out/scores_{panel_OGid}.tiff', dpi=300)
+    fig.savefig(f'out/scores_{panel_OGid}.png', dpi=400)
+    fig.savefig(f'out/scores_{panel_OGid}.tiff', dpi=400)
     plt.close()
