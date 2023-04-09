@@ -24,7 +24,7 @@ adjust_top = 0.925
 hspace = 0.3
 x_labelsize = 5
 legend_position = (0.86, 0.5)
-legend_fontsize = 5
+legend_fontsize = 6
 legend_handletextpad = 0.5
 legend_markerscale = 1
 
