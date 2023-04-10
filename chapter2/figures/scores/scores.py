@@ -231,7 +231,7 @@ for panel_OGid, panel_start, panel_stop in panel_records:
     subfig.suptitle('D', x=x, y=y, ha='left', fontweight='bold')
 
     # --- PANEL E ---
-    pvalues = pd.read_table('../../IDR_evolution/analysis/GOpred/score_enrich/out/pvalues_regions.tsv')
+    pvalues = pd.read_table('../../IDR_evolution/analysis/GO/score_enrich/out/pvalues_regions.tsv')
 
     subfig = fig.add_subfigure(gs[3, :])
     ax = subfig.add_axes(rect_E)
