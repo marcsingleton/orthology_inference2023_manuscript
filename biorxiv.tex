@@ -16,13 +16,12 @@
 \renewcommand{\figurename}{Fig}
 
 % References
-\usepackage[doi=false,url=false]{biblatex}
-\addbibresource{../refs.bib}
+\usepackage[backend=biber, style=nature, doi=false, url=false]{biblatex}
+\addbibresource{refs.bib}
 \usepackage{hyperref}
 
 % DOCUMENT
 \begin{document}
-\graphicspath{{./figures/}}
 
 % Title must be 250 characters or less
 \begin{flushleft}
@@ -45,7 +44,8 @@ Michael Eisen\textsuperscript{1,2,3}
 
 \end{flushleft}
 
-\input{chapter1.tex}
+\graphicspath{{chapter1/figures/}}
+\input{chapter1/chapter1.tex}
 
 \section{Acknowledgments}
 We thank the past and present members of the Eisen lab for helpful discussions and their assistance in revising the manuscript.
@@ -60,6 +60,6 @@ We thank the past and present members of the Eisen lab for helpful discussions a
 \renewcommand{\thetable}{S\arabic{table}}
 
 \section*{Supporting information}
-\input{chapter1_supporting.tex}
+\input{chapter1/chapter1_supporting.tex}
 
 \end{document}
