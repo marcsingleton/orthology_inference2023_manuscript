@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import skbio
+from matplotlib.patches import Patch
 from src2.draw import plot_msa_data
 from src2.phylo import get_brownian_weights
 from src2.utils import read_fasta
@@ -44,6 +45,8 @@ plot_msa_kwargs = {'hspace': 0.01, 'left': 0.15, 'right': 0.85, 'top': 0.95, 'bo
                    'tree_position': 0, 'tree_width': 0.15,
                    'msa_legend': True, 'legend_kwargs': {'bbox_to_anchor': (0.85, 0.5), 'loc': 'center left', 'fontsize': 8,
                                                          'handletextpad': 0.5, 'markerscale': 1.5, 'handlelength': 1}}
+color3 = '#b07aa1'
+grey = '#e6e6e6'
 
 tree_template = skbio.read('../../IDR_evolution/data/trees/consensus_LG/100R_NI.nwk', 'newick', skbio.TreeNode)
 tip_order = {tip.name: i for i, tip in enumerate(tree_template.tips())}
@@ -51,6 +54,7 @@ tip_order = {tip.name: i for i, tip in enumerate(tree_template.tips())}
 if not os.path.exists('out/'):
     os.mkdir('out/')
 
+# === MAIN FIGURE ===
 fig = plt.figure(figsize=(7.5, 8.5))
 gs = plt.GridSpec(4, 3, width_ratios=width_ratios)
 dp = fig.dpi_scale_trans.transform((0.0625, -0.0625))
@@ -254,3 +258,32 @@ for panel_OGid, panel_start, panel_stop in panel_records:
     fig.savefig(f'out/scores_{panel_OGid}.png', dpi=400)
     fig.savefig(f'out/scores_{panel_OGid}.tiff', dpi=400)
     plt.close()
+
+# === RATE SUPPLEMENT ===
+# Load regions as segments
+rows = []
+with open(f'../../IDR_evolution/analysis/IDRpred/region_filter/out/regions_{min_length}.tsv') as file:
+    field_names = file.readline().rstrip('\n').split('\t')
+    for line in file:
+        fields = {key: value for key, value in zip(field_names, line.rstrip('\n').split('\t'))}
+        OGid, start, stop, disorder = fields['OGid'], int(fields['start']), int(fields['stop']), fields['disorder'] == 'True'
+        rows.append({'OGid': OGid, 'start': start, 'stop': stop, 'disorder': disorder})
+all_regions = pd.DataFrame(rows)
+
+contrasts = pd.read_table(f'../../IDR_evolution/analysis/brownian/get_contrasts/out/scores/contrasts_{min_length}.tsv')
+contrasts = all_regions.merge(contrasts, how='left', on=['OGid', 'start', 'stop'])
+contrasts = contrasts.set_index(['OGid', 'start', 'stop', 'disorder', 'contrast_id'])
+
+rates = (contrasts ** 2).groupby(['OGid', 'start', 'stop', 'disorder']).mean()
+quantile = rates['score_fraction'].quantile(0.9, interpolation='higher')  # Capture at least 90% of data with higher
+
+fig, axs = plt.subplots(2, 1, gridspec_kw={'left': 0.1, 'right': 0.9, 'top': 0.975, 'bottom': 0.1})
+for ax in axs:
+    ax.axvspan(quantile, rates['score_fraction'].max(), color=grey)
+    ax.hist(rates['score_fraction'], bins=150, color=color3)
+    ax.set_ylabel('Number of regions')
+axs[1].set_xlabel('Score rate')
+axs[1].set_yscale('log')
+fig.legend(handles=[Patch(facecolor=color3, label='all')], bbox_to_anchor=(0.9, 0.5), loc='center left')
+fig.savefig('out/scores_histogram.png', dpi=300)
+plt.close()
