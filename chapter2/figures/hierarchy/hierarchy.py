@@ -2,10 +2,10 @@
 
 import os
 
-import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from matplotlib.patches import Patch, Rectangle
 from scipy.cluster.hierarchy import linkage
 from scipy.spatial.distance import pdist
 from src2.brownian.linkage import make_tree
@@ -15,8 +15,11 @@ pdidx = pd.IndexSlice
 min_length = 30
 
 min_indel_columns = 5  # Indel rates below this value are set to 0
-min_aa_rate = 0.5
+min_aa_rate = 1
 min_indel_rate = 0.1
+
+color1 = '#4e79a7'
+grey = '#e6e6e6'
 
 # Load regions
 rows = []
@@ -24,8 +27,7 @@ with open(f'../../IDR_evolution/analysis/IDRpred/region_filter/out/regions_{min_
     field_names = file.readline().rstrip('\n').split('\t')
     for line in file:
         fields = {key: value for key, value in zip(field_names, line.rstrip('\n').split('\t'))}
-        OGid, start, stop, disorder = fields['OGid'], int(fields['start']), int(fields['stop']), fields[
-            'disorder'] == 'True'
+        OGid, start, stop, disorder = fields['OGid'], int(fields['start']), int(fields['stop']), fields['disorder'] == 'True'
         rows.append({'OGid': OGid, 'start': start, 'stop': stop, 'disorder': disorder})
 all_regions = pd.DataFrame(rows)
 
@@ -39,13 +41,16 @@ column_idx = ['OGid', 'start', 'stop', 'disorder']
 region_keys = asr_rates.loc[row_idx, column_idx]
 
 models = pd.read_table(f'../../IDR_evolution/analysis/brownian/get_models/out/models_{min_length}.tsv', header=[0, 1])
-df = region_keys.merge(models.droplevel(1, axis=1), how='left', on=['OGid', 'start', 'stop'])
-df = df.set_index(['OGid', 'start', 'stop', 'disorder'])
+models = region_keys.merge(models.droplevel(1, axis=1), how='left', on=['OGid', 'start', 'stop'])
+models = models.set_index(['OGid', 'start', 'stop', 'disorder'])
 
 feature_groups = {}
 feature_labels = []
 nonmotif_labels = []
-for column_label, group_label in models.columns:
+with open(f'../../IDR_evolution/analysis/brownian/get_models/out/models_{min_length}.tsv') as file:
+    column_labels = file.readline().rstrip('\n').split('\t')
+    group_labels = file.readline().rstrip('\n').split('\t')
+for column_label, group_label in zip(column_labels, group_labels):
     if not column_label.endswith('_loglikelihood_BM') or group_label == 'ids_group':
         continue
     feature_label = column_label.removesuffix('_loglikelihood_BM')
@@ -59,14 +64,42 @@ for column_label, group_label in models.columns:
 
 columns = {}
 for feature_label in feature_labels:
-    columns[f'{feature_label}_AIC_BM'] = 2 * (2 - df[f'{feature_label}_loglikelihood_BM'])
-    columns[f'{feature_label}_AIC_OU'] = 2 * (3 - df[f'{feature_label}_loglikelihood_OU'])
+    columns[f'{feature_label}_AIC_BM'] = 2 * (2 - models[f'{feature_label}_loglikelihood_BM'])
+    columns[f'{feature_label}_AIC_OU'] = 2 * (3 - models[f'{feature_label}_loglikelihood_OU'])
     columns[f'{feature_label}_delta_AIC'] = columns[f'{feature_label}_AIC_BM'] - columns[f'{feature_label}_AIC_OU']
-    columns[f'{feature_label}_sigma2_ratio'] = df[f'{feature_label}_sigma2_BM'] / df[f'{feature_label}_sigma2_OU']
-df = pd.concat([df, pd.DataFrame(columns)], axis=1)
+    columns[f'{feature_label}_sigma2_ratio'] = models[f'{feature_label}_sigma2_BM'] / models[f'{feature_label}_sigma2_OU']
+models = pd.concat([models, pd.DataFrame(columns)], axis=1)
 
 if not os.path.exists('out/'):
     os.mkdir('out/')
+
+# ASR rate histogram with cutoff
+fig = plt.figure(figsize=(7.5, 3))
+gs = plt.GridSpec(1, 2)
+rect = (0.15, 0.25, 0.825, 0.7)
+
+subfig = fig.add_subfigure(gs[0, 0], facecolor='none')
+ax = subfig.add_axes(rect)
+xs = asr_rates.loc[asr_rates['disorder'], 'aa_rate_mean']
+ax.axvspan(min_aa_rate, xs.max(), color=grey)
+ax.hist(xs, bins=100)
+ax.set_xlabel('Average amino acid rate in region')
+ax.set_ylabel('Number of regions')
+subfig.suptitle('A', x=0.025, y=0.975, fontweight='bold')
+
+subfig = fig.add_subfigure(gs[0, 1], facecolor='none')
+ax = subfig.add_axes(rect)
+xs = asr_rates.loc[asr_rates['disorder'], 'indel_rate_mean']
+ax.axvspan(min_indel_rate, xs.max(), color=grey)
+ax.hist(xs, bins=100)
+ax.set_xlabel('Average indel rate in region')
+ax.set_ylabel('Number of regions')
+subfig.suptitle('B', x=0.025, y=0.975, fontweight='bold')
+
+fig.legend(handles=[Patch(facecolor=color1, label='disorder')], bbox_to_anchor=(0.5, -0.025), loc='lower center')
+fig.savefig(f'out/hierarchy_histogram.png')
+fig.savefig(f'out/hierarchy_histogram.tiff')
+plt.close()
 
 # Hierarchical heatmap
 legend_args = {'aa_group': ('Amino acid content', 'grey', ''),
@@ -83,7 +116,7 @@ gridspec_kw = {'width_ratios': [0.1, 0.9], 'wspace': 0,
 column_labels = []
 for group_label in group_labels:
     column_labels.extend([f'{feature_label}_delta_AIC' for feature_label in feature_groups[group_label]])
-array = np.nan_to_num(df.loc[pdidx[:, :, :, True], column_labels].to_numpy(), nan=1)  # Re-arrange and convert to array
+array = np.nan_to_num(models.loc[pdidx[:, :, :, True], column_labels].to_numpy(), nan=1)  # Re-arrange and convert to array
 
 cdm = pdist(array, metric='correlation')
 lm = linkage(cdm, method='average')
@@ -133,10 +166,10 @@ handles = []
 for group_label in group_labels:
     label, color, hatch = legend_args[group_label]
     dx = len(feature_groups[group_label]) / len(column_labels)
-    rectangle = mpatches.Rectangle((x, 0), dx, 1, label=label, facecolor=color, hatch=hatch,
-                                   edgecolor='black', linewidth=0.75, clip_on=False)
-    ax.add_patch(rectangle)
-    handles.append(rectangle)
+    rect = Rectangle((x, 0), dx, 1, label=label, facecolor=color, hatch=hatch,
+                     edgecolor='black', linewidth=0.75, clip_on=False)
+    ax.add_patch(rect)
+    handles.append(rect)
     x += dx
 ax.legend(handles=handles, loc='upper center', bbox_to_anchor=(0.25, 0), fontsize=8)
 ax.set_xticks([])
@@ -154,4 +187,5 @@ cax.set_title('$\mathregular{AIC_{BM} - AIC_{OU}}$', fontdict={'fontsize': 10})
 fig.colorbar(im, cax=cax, orientation='horizontal')
 
 fig.savefig(f'out/hierarchy.png', dpi=600)
+fig.savefig(f'out/hierarchy.tiff', dpi=600)
 plt.close()
