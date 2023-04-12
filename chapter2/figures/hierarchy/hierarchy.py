@@ -19,7 +19,6 @@ min_aa_rate = 1
 min_indel_rate = 0.1
 
 color1 = '#4e79a7'
-grey = '#e6e6e6'
 
 # Load regions
 rows = []
@@ -81,7 +80,7 @@ rect = (0.15, 0.25, 0.825, 0.7)
 subfig = fig.add_subfigure(gs[0, 0], facecolor='none')
 ax = subfig.add_axes(rect)
 xs = asr_rates.loc[asr_rates['disorder'], 'aa_rate_mean']
-ax.axvspan(min_aa_rate, xs.max(), color=grey)
+ax.axvspan(min_aa_rate, xs.max(), color='#e6e6e6')
 ax.hist(xs, bins=100)
 ax.set_xlabel('Average amino acid rate in region')
 ax.set_ylabel('Number of regions')
@@ -90,7 +89,7 @@ subfig.suptitle('A', x=0.025, y=0.975, fontweight='bold')
 subfig = fig.add_subfigure(gs[0, 1], facecolor='none')
 ax = subfig.add_axes(rect)
 xs = asr_rates.loc[asr_rates['disorder'], 'indel_rate_mean']
-ax.axvspan(min_indel_rate, xs.max(), color=grey)
+ax.axvspan(min_indel_rate, xs.max(), color='#e6e6e6')
 ax.hist(xs, bins=100)
 ax.set_xlabel('Average indel rate in region')
 ax.set_ylabel('Number of regions')

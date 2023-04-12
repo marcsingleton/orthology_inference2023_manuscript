@@ -46,7 +46,6 @@ plot_msa_kwargs = {'hspace': 0.01, 'left': 0.15, 'right': 0.85, 'top': 0.95, 'bo
                    'msa_legend': True, 'legend_kwargs': {'bbox_to_anchor': (0.85, 0.5), 'loc': 'center left', 'fontsize': 8,
                                                          'handletextpad': 0.5, 'markerscale': 1.5, 'handlelength': 1}}
 color3 = '#b07aa1'
-grey = '#e6e6e6'
 
 tree_template = skbio.read('../../IDR_evolution/data/trees/consensus_LG/100R_NI.nwk', 'newick', skbio.TreeNode)
 tip_order = {tip.name: i for i, tip in enumerate(tree_template.tips())}
@@ -279,7 +278,7 @@ quantile = rates['score_fraction'].quantile(0.9, interpolation='higher')  # Capt
 
 fig, axs = plt.subplots(2, 1, gridspec_kw={'left': 0.1, 'right': 0.9, 'top': 0.975, 'bottom': 0.1})
 for ax in axs:
-    ax.axvspan(quantile, rates['score_fraction'].max(), color=grey)
+    ax.axvspan(quantile, rates['score_fraction'].max(), color='#e6e6e6')
     ax.hist(rates['score_fraction'], bins=150, color=color3)
     ax.set_ylabel('Number of regions')
 axs[1].set_xlabel('Score rate')
