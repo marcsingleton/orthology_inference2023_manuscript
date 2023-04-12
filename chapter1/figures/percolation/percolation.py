@@ -222,7 +222,8 @@ for component_id in component_ids:
 
         ax.set_title(f'$k$ = {k}', pad=0, fontdict={'fontsize': 'small'})
         ax.axis('off')
-    x = fig.text(panel_label_offset / fig_width, 1 - panel_label_offset / fig_height, panel_label, fontsize=panel_label_fontsize, fontweight='bold',
+    x = fig.text(panel_label_offset / fig_width, 1 - panel_label_offset / fig_height, panel_label,
+                 fontsize=panel_label_fontsize, fontweight='bold',
                  horizontalalignment='left', verticalalignment='top')
     fig.savefig(f'out/{component_id}.png', dpi=dpi)
     fig.savefig(f'out/{component_id}.tiff', dpi=dpi)

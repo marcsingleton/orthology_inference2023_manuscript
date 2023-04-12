@@ -143,7 +143,8 @@ for component_ids in component_id_groups:
         cbar = subfig.colorbar(mpl.cm.ScalarMappable(norm=mpl.colors.Normalize(wmin, wmax), cmap=cmap), cax=cax, orientation='horizontal')
         cbar.ax.set_xticks(ticks, ticklabels, fontsize=cbar_fontsize)
 
-        subfig.text(panel_label_offset / fig_width, 1 - panel_label_offset / fig_height, panel_label, fontsize=panel_label_fontsize, fontweight='bold',
+        subfig.text(panel_label_offset / fig_width, 1 - panel_label_offset / fig_height, panel_label,
+                    fontsize=panel_label_fontsize, fontweight='bold',
                     horizontalalignment='left', verticalalignment='top')
         ax.axis('off')
 
@@ -153,7 +154,8 @@ for component_ids in component_id_groups:
     ax.set_xlabel('Number of proteins in component')
     ax.set_ylabel('Number of unique\ngenes in component')
     fig.colorbar(poly, ax=ax)
-    subfig.text(panel_label_offset / fig_width, 1 - panel_label_offset / fig_height, 'C', fontsize=panel_label_fontsize, fontweight='bold',
+    subfig.text(panel_label_offset / fig_width, 1 - panel_label_offset / fig_height, 'C',
+                fontsize=panel_label_fontsize, fontweight='bold',
                 horizontalalignment='left', verticalalignment='top')
 
     degrees = sorted([len(adjs) for adjs in graph.values()])
@@ -167,7 +169,8 @@ for component_ids in component_id_groups:
     ax.bar(counts.keys(), counts.values(), width=1)
     ax.set_xlabel('Degree of node')
     ax.set_ylabel('Number of nodes')
-    subfig.text(panel_label_offset / fig_width, 1 - panel_label_offset / fig_height, 'D', fontsize=panel_label_fontsize, fontweight='bold',
+    subfig.text(panel_label_offset / fig_width, 1 - panel_label_offset / fig_height, 'D',
+                fontsize=panel_label_fontsize, fontweight='bold',
                 horizontalalignment='left', verticalalignment='top')
 
     fig.savefig(f'out/{component_ids[0]}-{component_ids[1]}.png', dpi=dpi)
