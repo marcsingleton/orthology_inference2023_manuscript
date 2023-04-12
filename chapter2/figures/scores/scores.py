@@ -36,15 +36,21 @@ plt.rcParams['xtick.labelsize'] = 8
 plt.rcParams['ytick.labelsize'] = 8
 plt.rcParams['axes.labelsize'] = 8
 plt.rcParams['legend.fontsize'] = 8
+fig_width = 7.5
+fig_height = 8.5
 width_ratios = (0.3, 0.3, 0.4)
 rect_B = (0.375, 0.06, 0.5475, 0.92)
 rect_CD = (0.25, 0.18, 0.7, 0.7)
 rect_E = (0.5, 0.325, 0.475, 0.65)
-plot_msa_kwargs = {'hspace': 0.01, 'left': 0.15, 'right': 0.85, 'top': 0.95, 'bottom': 0.025, 'anchor': (0, 0.5),
-                   'data_min': -0.05, 'data_max': 1.05,
-                   'tree_position': 0, 'tree_width': 0.15,
-                   'msa_legend': True, 'legend_kwargs': {'bbox_to_anchor': (0.85, 0.5), 'loc': 'center left', 'fontsize': 8,
-                                                         'handletextpad': 0.5, 'markerscale': 1.5, 'handlelength': 1}}
+plot_msa_kwargs_template = {'figsize': (fig_width * (width_ratios[0] + width_ratios[1]), fig_height / 2),
+                            'left': 0.15, 'right': 0.85, 'top': 0.95, 'bottom': 0.025, 'anchor': (0, 0.5),
+                            'hspace': 0.01,
+                            'data_min': -0.05, 'data_max': 1.05,
+                            'data_linewidths': 1,
+                            'tree_position': 0, 'tree_width': 0.15,
+                            'tree_kwargs': {'linewidth': 0.75, 'tip_labels': False, 'xmin_pad': 0.025, 'xmax_pad': 0.025},
+                            'msa_legend': True, 'legend_kwargs': {'bbox_to_anchor': (0.85, 0.5), 'loc': 'center left', 'fontsize': 8,
+                                                                  'handletextpad': 0.5, 'markerscale': 1.5, 'handlelength': 1}}
 color3 = '#b07aa1'
 
 tree_template = skbio.read('../../IDR_evolution/data/trees/consensus_LG/100R_NI.nwk', 'newick', skbio.TreeNode)
@@ -54,7 +60,7 @@ if not os.path.exists('out/'):
     os.mkdir('out/')
 
 # === MAIN FIGURE ===
-fig = plt.figure(figsize=(7.5, 8.5))
+fig = plt.figure(figsize=(fig_width, fig_height))
 gs = plt.GridSpec(4, 3, width_ratios=width_ratios)
 dp = fig.dpi_scale_trans.transform((0.0625, -0.0625))
 
@@ -148,12 +154,15 @@ for panel_OGid, panel_start, panel_stop in panel_records:
             node2names[node] = names
 
     # Plot all score traces
+    plot_msa_kwargs = plot_msa_kwargs_template.copy()
+    plot_msa_kwargs['tree_kwargs']['linecolor'] = node2color
+
     subfig = fig.add_subfigure(gs[:2, :2])
     plot_msa_data([record['seq'][panel_start:panel_stop] for record in msa], aligned_scores[:, panel_start:panel_stop],
-                  fig=subfig, figsize=(4.5, 4.325),
-                  x_start=panel_start, data_linewidths=1, data_colors=[node2color[tip] for tip in tree.tips()],
-                  tree=tree, tree_kwargs={'linewidth': 0.75, 'linecolor': node2color,
-                                          'tip_labels': False, 'xmin_pad': 0.025, 'xmax_pad': 0.025},
+                  fig=subfig,
+                  x_start=panel_start,
+                  data_colors=[node2color[tip] for tip in tree.tips()],
+                  tree=tree,
                   **plot_msa_kwargs)
     axs = [ax for i, ax in enumerate(fig.axes) if i % 2 == 1]
     for ax in axs:
