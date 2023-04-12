@@ -94,7 +94,7 @@ ax.set_xticks(range(len(alphabet)), alphabet)
 ax.set_xlabel('Amino acid')
 ax.set_ylabel('Frequency')
 ax.legend()
-subfig.suptitle('A', x=0.0125, y=0.975, fontweight='bold')  # Half because panel is double length
+subfig.suptitle('A', x=0.0125, y=0.975, fontweight='bold')  # Half usual value because panel is full-width
 
 panel_labels = ['B', 'C', 'D', 'E', 'F', 'G']
 for gs_idx, plot in enumerate(plots):
