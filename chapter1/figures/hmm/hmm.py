@@ -12,29 +12,26 @@ from src1.draw import plot_msa_data
 from src1.ortho_MSA import phylo
 from src1.utils import read_fasta
 
-OGids = ['2252', '2A57', '360E']
 spid_regex = r'spid=([a-z]+)'
 
+OGids = ['2252', '2A57', '360E']
 state_labels = ['1A', '1B', '2', '3']
 state_colors = ['C0', 'C3', 'C1', 'C2']
-
-adjust_left = 0.1
-adjust_bottom = 0.05
-adjust_right = 0.905
-adjust_top = 0.925
-
-height_ratio = 0.5
-hspace = 0.3
-x_labelsize = 5
-legend_position = (0.915, 0.5)
-legend_fontsize = 6
-legend_handletextpad = 0.5
-legend_markerscale = 1
 
 fig_width = 7.5
 fig_height = 3
 dpi = 400
-
+plot_msa_kwargs = {'figsize': (fig_width, fig_height),
+                   'left': 0.1, 'right': 0.92, 'top': 0.95, 'bottom': 0.05, 'anchor': (0, 0.5),
+                   'height_ratio': 0.75, 'hspace': 0.01,
+                   'x_labelsize': 5,
+                   'data_min': -0.05, 'data_max': 1.05,
+                   'data_labels': state_labels, 'data_linewidths': 1, 'data_colors': state_colors,
+                   'tree_position': 0, 'tree_width': 0.1,
+                   'tree_kwargs': {'linewidth': 0.5, 'tip_labels': False, 'xmin_pad': 0.01, 'xmax_pad': 0.025},
+                   'msa_legend': True,
+                   'legend_kwargs': {'bbox_to_anchor': (0.92, 0.5), 'loc': 'center left', 'fontsize': 6,
+                                     'handletextpad': 0.5, 'markerscale': 1, 'handlelength': 1}}
 panel_label = 'B'
 panel_label_fontsize = 'large'
 panel_label_offset = 0.025
@@ -102,16 +99,9 @@ for OGid in OGids:
     fbs = model.forward_backward(idx_seq)
     data = [fbs[label] for label in state_labels]
 
-    fig = plot_msa_data([record['seq'] for record in msa], data,
-                        tree=tree, tree_kwargs={'linewidth': 0.5, 'tip_labels': False, 'xmin_pad': 0.01, 'xmax_pad': 0.025},
-                        height_ratio=height_ratio, hspace=hspace,
-                        figsize=(fig_width, fig_height),
-                        left=adjust_left, bottom=adjust_bottom, right=adjust_right, top=adjust_top, anchor=(0, 0.5),
-                        data_max=1.05, data_min=-0.05, data_labels=state_labels, data_colors=state_colors,
-                        x_labelsize=x_labelsize,
-                        msa_legend=True, legend_kwargs={'bbox_to_anchor': legend_position, 'loc': 'center left', 'fontsize': legend_fontsize,
-                                                        'handletextpad': legend_handletextpad, 'markerscale': legend_markerscale, 'handlelength': 1})
-    fig.text(panel_label_offset / fig_width, 1 - panel_label_offset / fig_height, panel_label, fontsize=panel_label_fontsize, fontweight='bold',
+    fig = plot_msa_data([record['seq'] for record in msa], data, tree=tree, **plot_msa_kwargs)
+    fig.text(panel_label_offset / fig_width, 1 - panel_label_offset / fig_height, panel_label,
+             fontsize=panel_label_fontsize, fontweight='bold',
              horizontalalignment='left', verticalalignment='top')
     plt.savefig(f'out/{OGid}.png', dpi=dpi)
     plt.savefig(f'out/{OGid}.tiff', dpi=dpi)
