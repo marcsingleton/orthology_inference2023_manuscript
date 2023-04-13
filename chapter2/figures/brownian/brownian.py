@@ -122,8 +122,7 @@ gs = plt.GridSpec(1, 2)
 rectA = (0.15, 0.15, 0.55, 0.75)
 rectB = (0.15, 0.15, 0.55, 0.75)
 
-roots_nonmotif = roots[nonmotif_labels]
-disorder = roots.loc[pdidx[:, :, :, :], :]
+disorder = roots.loc[pdidx[:, :, :, True], :]
 disorder_nonmotif = disorder[nonmotif_labels]
 
 data = zscore(disorder_nonmotif)
@@ -189,8 +188,7 @@ records = {('0A8A', 1102, 1200): {'panel_label': 'E', 'fig_width_ratio': 0.5,
                                   'color': 'C1',
                                   'gs': gs[3, :], 'plot_msa_kwargs': plot_msa_kwargs2}}
 
-rates_nonmotif = rates[nonmotif_labels]
-disorder = rates.loc[pdidx[:, :, :, :], :]
+disorder = rates.loc[pdidx[:, :, :, True], :]
 disorder_nonmotif = disorder[nonmotif_labels]
 
 data = zscore(disorder_nonmotif)
