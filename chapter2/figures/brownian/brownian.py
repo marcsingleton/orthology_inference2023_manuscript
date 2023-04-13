@@ -115,13 +115,15 @@ rates = (contrasts ** 2).groupby(['OGid', 'start', 'stop', 'disorder']).mean()
 if not os.path.exists(f'out/'):
     os.mkdir(f'out/')
 
-# === MAIN FIGURE ROOTS ===
+# === TWO PANEL PCA PLOTS ===
+# ===========================
 fig_width = 7.5
 fig_height = 3
 gs = plt.GridSpec(1, 2)
 rectA = (0.15, 0.15, 0.55, 0.75)
 rectB = (0.15, 0.15, 0.55, 0.75)
 
+# === MAIN FIGURE ROOTS ===
 disorder = roots.loc[pdidx[:, :, :, True], :]
 disorder_nonmotif = disorder[nonmotif_labels]
 
@@ -156,6 +158,43 @@ subfig.suptitle('B', x=0.025, y=0.975, fontweight='bold')
 
 fig.savefig('out/root.png', dpi=400)
 fig.savefig('out/root.tiff', dpi=400)
+plt.close()
+
+# === SUPPLEMENT ORDER ===
+order = rates.loc[pdidx[:, :, :, False], :]
+order_nonmotif = rates[nonmotif_labels]
+
+data = zscore(order_nonmotif)
+pca = PCA(n_components=pca_components)
+transform = pca.fit_transform(data.to_numpy())
+
+fig = plt.figure(figsize=(fig_width, fig_height))
+
+# --- PANEL A ---
+subfig = fig.add_subfigure(gs[0, 0])
+ax = subfig.add_axes(rectA)
+hb = ax.hexbin(transform[:, 1], transform[:, 2], cmap=cmap, **hexbin_kwargs_log)
+ax.set_xlabel('PC2')
+ax.set_ylabel('PC3')
+handles = [Line2D([], [], label='order', marker='h', markerfacecolor=cmap(handle_markerfacecolor),
+                  markersize=8, markeredgecolor='none', linestyle='none')]
+ax.legend(handles=handles)
+subfig.colorbar(hb, cax=ax.inset_axes((1.1, 0, 0.05, 1)))
+subfig.suptitle('A', x=0.025, y=0.975, fontweight='bold')
+
+# --- PANEL B ---
+subfig = fig.add_subfigure(gs[0, 1])
+ax = subfig.add_axes(rectB)
+ax.hexbin(transform[:, 1], transform[:, 2], cmap=cmap, **hexbin_kwargs_log)
+ax.set_xlabel('PC2')
+ax.set_ylabel('PC3')
+add_pca_arrows(ax, pca, data.columns, 1, 2,
+               legend_kwargs=legend_kwargs,
+               arrow_scale=arrow_scale, arrow_colors=arrow_colors, arrowstyle_kwargs=arrowstyle_kwargs)
+subfig.suptitle('B', x=0.025, y=0.975, fontweight='bold')
+
+fig.savefig('out/order.png', dpi=400)
+fig.savefig('out/order.tiff', dpi=400)
 plt.close()
 
 # === MAIN FIGURE RATES ===
