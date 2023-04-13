@@ -116,6 +116,12 @@ if not os.path.exists(f'out/'):
     os.mkdir(f'out/')
 
 # === MAIN FIGURE ROOTS ===
+fig_width = 7.5
+fig_height = 3
+gs = plt.GridSpec(1, 2)
+rectA = (0.15, 0.15, 0.55, 0.75)
+rectB = (0.15, 0.15, 0.55, 0.75)
+
 roots_nonmotif = roots[nonmotif_labels]
 disorder = roots.loc[pdidx[:, :, :, :], :]
 disorder_nonmotif = disorder[nonmotif_labels]
@@ -124,10 +130,7 @@ data = zscore(disorder_nonmotif)
 pca = PCA(n_components=pca_components)
 transform = pca.fit_transform(data.to_numpy())
 
-fig = plt.figure(figsize=(7.5, 3))
-gs = plt.GridSpec(1, 2)
-rectA = (0.15, 0.15, 0.55, 0.75)
-rectB = (0.15, 0.15, 0.55, 0.75)
+fig = plt.figure(figsize=(fig_width, fig_height))
 
 # --- PANEL A ---
 subfig = fig.add_subfigure(gs[0, 0])
@@ -156,18 +159,8 @@ fig.savefig('out/root.png', dpi=dpi)
 fig.savefig('out/root.tiff', dpi=dpi)
 
 # === MAIN FIGURE RATES ===
-rates_nonmotif = rates[nonmotif_labels]
-disorder = rates.loc[pdidx[:, :, :, :], :]
-disorder_nonmotif = disorder[nonmotif_labels]
-
-data = zscore(disorder_nonmotif)
-pca = PCA(n_components=pca_components)
-transform = pca.fit_transform(data.to_numpy())
-ids2idx = {ids: idx for idx, ids in enumerate(data.index.droplevel('disorder'))}
-
 fig_width = 7.5
 fig_height = 8
-fig = plt.figure(figsize=(fig_width, fig_height))
 gs = plt.GridSpec(4, 2, height_ratios=[1.5, 1.5, 1, 1])
 rectA = (0.15, 0.2, 0.55, 0.75)
 rectB = (0.175, 0.2, 0.55, 0.75)
@@ -195,6 +188,17 @@ records = {('0A8A', 1102, 1200): {'panel_label': 'E', 'fig_width_ratio': 0.5,
            ('04B0', 0, 159):     {'panel_label': 'G', 'fig_width_ratio': 1,
                                   'color': 'C1',
                                   'gs': gs[3, :], 'plot_msa_kwargs': plot_msa_kwargs2}}
+
+rates_nonmotif = rates[nonmotif_labels]
+disorder = rates.loc[pdidx[:, :, :, :], :]
+disorder_nonmotif = disorder[nonmotif_labels]
+
+data = zscore(disorder_nonmotif)
+pca = PCA(n_components=pca_components)
+transform = pca.fit_transform(data.to_numpy())
+ids2idx = {ids: idx for idx, ids in enumerate(data.index.droplevel('disorder'))}
+
+fig = plt.figure(figsize=(fig_width, fig_height))
 
 # --- PANEL A ---
 subfig = fig.add_subfigure(gs[0, 0])
