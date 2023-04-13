@@ -63,7 +63,7 @@ arrow_colors = ['#4e79a7', '#f28e2b', '#e15759', '#499894', '#59a14f', '#f1ce63'
                 '#a0cbe8', '#ffbe7d', '#ff9d9a', '#86bcb6', '#8cd17d', '#b6992d', '#d4a6c8', '#fabfd2']
 arrow_scale = 0.99
 arrowstyle_kwargs = ArrowStyle('simple', head_length=8, head_width=8, tail_width=2.5)
-dpi = 400
+dpi = 300
 
 tree_template = skbio.read('../../IDR_evolution/data/trees/consensus_LG/100R_NI.nwk', 'newick', skbio.TreeNode)
 tip_order = {tip.name: i for i, tip in enumerate(tree_template.tips())}
@@ -154,8 +154,9 @@ add_pca_arrows(ax, pca, data.columns, 0, 1,
                arrow_scale=arrow_scale, arrow_colors=arrow_colors, arrowstyle_kwargs=arrowstyle_kwargs)
 subfig.suptitle('B', x=0.025, y=0.975, fontweight='bold')
 
-fig.savefig('out/root.png', dpi=dpi)
-fig.savefig('out/root.tiff', dpi=dpi)
+fig.savefig('out/root.png', dpi=400)
+fig.savefig('out/root.tiff', dpi=400)
+plt.close()
 
 # === MAIN FIGURE RATES ===
 fig_width = 7.5
@@ -289,8 +290,9 @@ for (OGid, start, stop), params in records.items():
         bar_ax.add_patch(plt.Rectangle((0, 0), 1, 1, color=params['color']))
         bar_ax.set_axis_off()
 
-fig.savefig('out/rate.png', dpi=dpi)
-fig.savefig('out/rate.tiff', dpi=dpi)
+fig.savefig('out/rate.png', dpi=400)
+fig.savefig('out/rate.tiff', dpi=400)
+plt.close()
 
 """
 Here are some scratch work for ranking candidate regions.
