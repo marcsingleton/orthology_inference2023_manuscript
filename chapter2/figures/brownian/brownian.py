@@ -294,6 +294,99 @@ fig.savefig('out/rate.png', dpi=400)
 fig.savefig('out/rate.tiff', dpi=400)
 plt.close()
 
+# === VARIANCE PLOTS ===
+# ======================
+
+fig_width = 7.5
+fig_height = 2.75
+width_ratios = [0.3, 0.3, 0.4]
+
+# === SUPPLEMENT ROOTS ===
+disorder = roots.loc[pdidx[:, :, :, True], :]
+disorder_nonmotif = disorder[nonmotif_labels]
+
+fig = plt.figure(figsize=(fig_width, fig_height))
+gs = plt.GridSpec(1, len(width_ratios), width_ratios=width_ratios)
+
+# --- PANEL A ---
+data = disorder_nonmotif
+
+var = data.var().sort_values(ascending=False)
+truncate = pd.concat([var[:9], pd.Series({'other': var[9:].sum()})])
+subfig = fig.add_subfigure(gs[0, 0])
+ax = subfig.subplots(gridspec_kw={'bottom': 0.3})
+ax.pie(truncate.values, labels=truncate.index, labeldistance=None)
+ax.legend(loc='upper center', bbox_to_anchor=(0.5, 0), fontsize=7, ncol=2)
+subfig.suptitle('A', x=0.0125/width_ratios[0], y=0.975, fontweight='bold')
+
+# --- PANELS B-C ---
+data = zscore(disorder_nonmotif)
+pca = PCA(n_components=pca_components)
+pca.fit(data.to_numpy())
+
+var = data.var().sort_values(ascending=False)
+truncate = pd.concat([var[:9], pd.Series({'other': var[9:].sum()})])
+subfig = fig.add_subfigure(gs[0, 1])
+ax = subfig.subplots(gridspec_kw={'bottom': 0.3})
+ax.pie(truncate.values, labels=truncate.index, labeldistance=None)
+ax.legend(loc='upper center', bbox_to_anchor=(0.5, 0), fontsize=7, ncol=2)
+subfig.suptitle('B', x=0.0125/width_ratios[1], y=0.975, fontweight='bold')
+
+# Scree plot
+subfig = fig.add_subfigure(gs[0, 2])
+ax = subfig.subplots(gridspec_kw={'left': 0.2, 'right': 0.95, 'bottom': 0.2})
+ax.bar(range(1, len(pca.explained_variance_ratio_) + 1), pca.explained_variance_ratio_, label='disorder')
+ax.set_xlabel('Principal component')
+ax.set_ylabel('Explained variance ratio')
+ax.legend(fontsize=7)
+subfig.suptitle('C', x=0.0125/width_ratios[1], y=0.975, fontweight='bold')
+
+fig.savefig('out/root_variance.png', dpi=dpi)
+fig.savefig('out/root_variance.tiff', dpi=dpi)
+
+# === SUPPLEMENT RATES ===
+disorder = rates.loc[pdidx[:, :, :, True], :]
+disorder_nonmotif = disorder[nonmotif_labels]
+
+fig = plt.figure(figsize=(fig_width, fig_height))
+gs = plt.GridSpec(1, len(width_ratios), width_ratios=width_ratios)
+
+# --- PANEL A ---
+data = disorder_nonmotif
+
+var = data.var().sort_values(ascending=False)
+truncate = pd.concat([var[:9], pd.Series({'other': var[9:].sum()})])
+subfig = fig.add_subfigure(gs[0, 0])
+ax = subfig.subplots(gridspec_kw={'bottom': 0.3})
+ax.pie(truncate.values, labels=truncate.index, labeldistance=None)
+ax.legend(loc='upper center', bbox_to_anchor=(0.5, 0), fontsize=7, ncol=2)
+subfig.suptitle('A', x=0.0125/width_ratios[0], y=0.975, fontweight='bold')
+
+# --- PANELS B-C ---
+data = zscore(disorder_nonmotif)
+pca = PCA(n_components=pca_components)
+pca.fit(data.to_numpy())
+
+var = data.var().sort_values(ascending=False)
+truncate = pd.concat([var[:9], pd.Series({'other': var[9:].sum()})])
+subfig = fig.add_subfigure(gs[0, 1])
+ax = subfig.subplots(gridspec_kw={'bottom': 0.3})
+ax.pie(truncate.values, labels=truncate.index, labeldistance=None)
+ax.legend(loc='upper center', bbox_to_anchor=(0.5, 0), fontsize=7, ncol=2)
+subfig.suptitle('B', x=0.0125/width_ratios[1], y=0.975, fontweight='bold')
+
+# Scree plot
+subfig = fig.add_subfigure(gs[0, 2])
+ax = subfig.subplots(gridspec_kw={'left': 0.2, 'right': 0.95, 'bottom': 0.2})
+ax.bar(range(1, len(pca.explained_variance_ratio_) + 1), pca.explained_variance_ratio_, label='disorder')
+ax.set_xlabel('Principal component')
+ax.set_ylabel('Explained variance ratio')
+ax.legend(fontsize=7)
+subfig.suptitle('C', x=0.0125/width_ratios[1], y=0.975, fontweight='bold')
+
+fig.savefig('out/rate_variance.png', dpi=dpi)
+fig.savefig('out/rate_variance.tiff', dpi=dpi)
+
 """
 Here are some scratch work for ranking candidate regions.
 
