@@ -117,7 +117,7 @@ if not os.path.exists(f'out/'):
 
 # === MAIN FIGURE ROOTS ===
 roots_nonmotif = roots[nonmotif_labels]
-disorder = roots.loc[pdidx[:, :, :, True, :], :]
+disorder = roots.loc[pdidx[:, :, :, :], :]
 disorder_nonmotif = disorder[nonmotif_labels]
 
 data = zscore(disorder_nonmotif)
@@ -157,7 +157,7 @@ fig.savefig('out/root.tiff', dpi=dpi)
 
 # === MAIN FIGURE RATES ===
 rates_nonmotif = rates[nonmotif_labels]
-disorder = rates.loc[pdidx[:, :, :, True, :], :]
+disorder = rates.loc[pdidx[:, :, :, :], :]
 disorder_nonmotif = disorder[nonmotif_labels]
 
 data = zscore(disorder_nonmotif)
@@ -289,3 +289,28 @@ for (OGid, start, stop), params in records.items():
 
 fig.savefig('out/rate.png', dpi=dpi)
 fig.savefig('out/rate.tiff', dpi=dpi)
+
+"""
+Here are some scratch work for ranking candidate regions.
+
+CHARGE
+('0A8A', 1102, 1200) **
+('289C', 102, 213) **
+
+GLYCINE
+('190D', 317, 399) **
+('3139', 249, 339) **
+('20CF', 695, 751) **
+('0DA4', 1591, 1683) *
+
+Q RICH
+('1A58', 702, 788) **
+('3132', 1234, 1375) **
+('301D', 720, 856) *
+('04B0', 0, 159) *
+('0DE8', 0, 86) *
+('2099', 739, 811) *
+('210F', 0, 227) .
+('001D', 1437, 1515) .
+('022B', 795, 997) .
+"""
