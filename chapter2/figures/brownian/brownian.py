@@ -4,10 +4,12 @@ import os
 import re
 
 import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
+import skbio
 from matplotlib.lines import Line2D
 from matplotlib.patches import ArrowStyle
-import skbio
+from matplotlib.transforms import blended_transform_factory
 from sklearn.decomposition import PCA
 from src2.brownian.pca import add_pca_arrows
 from src2.draw import plot_msa
@@ -18,14 +20,42 @@ def zscore(df):
     return (df - df.mean()) / df.std()
 
 
+def get_bin2data(hb, xs, ys):
+    offsets = hb.get_offsets()
+    xys = np.stack([xs, ys]).transpose()
+    dist2 = ((offsets[:, np.newaxis, :] - xys) ** 2).sum(axis=-1)
+    bin_idxs = np.argmin(dist2, axis=0)
+
+    bin2data = {}
+    for data_idx, bin_idx in enumerate(bin_idxs):
+        try:
+            bin2data[bin_idx].append(data_idx)
+        except KeyError:
+            bin2data[bin_idx] = [data_idx]
+
+    return bin2data
+
+
+def get_bin(hb, x, y):
+    bin2data = get_bin2data(hb, [x], [y])
+    return list(bin2data)[0]
+
+
+def set_bin_edge(ax, hb, bin_idx, facecolor, edgecolor, linewidth):
+    path = hb.get_paths()[0]
+    offset = hb.get_offsets()[bin_idx]
+
+    vertices = path.vertices + offset
+    hexagon = plt.Polygon(vertices, facecolor=facecolor, edgecolor=edgecolor, linewidth=linewidth)
+    ax.add_patch(hexagon)
+
+
 pdidx = pd.IndexSlice
 spid_regex = r'spid=([a-z]+)'
 min_length = 30
 
 pca_components = 10
-cmap1, cmap2, cmap3 = plt.colormaps['Blues'], plt.colormaps['Oranges'], plt.colormaps['Purples']
-color1, color2, color3 = '#4e79a7', '#f28e2b', '#b07aa1'
-hexbin_kwargs = {'gridsize': 30, 'mincnt': 1, 'linewidth': 0}
+cmap = plt.colormaps['Greys']
 hexbin_kwargs_log = {'gridsize': 30, 'mincnt': 1, 'linewidth': 0, 'bins': 'log'}
 handle_markerfacecolor = 0.6
 legend_kwargs = {'fontsize': 6.5, 'loc': 'center left', 'bbox_to_anchor': (1, 0.5)}
@@ -33,14 +63,7 @@ arrow_colors = ['#4e79a7', '#f28e2b', '#e15759', '#499894', '#59a14f', '#f1ce63'
                 '#a0cbe8', '#ffbe7d', '#ff9d9a', '#86bcb6', '#8cd17d', '#b6992d', '#d4a6c8', '#fabfd2']
 arrow_scale = 0.99
 arrowstyle_kwargs = ArrowStyle('simple', head_length=8, head_width=8, tail_width=2.5)
-
-plot_msa_kwargs = {'left': 0.1, 'right': 0.935, 'top': 0.95, 'bottom': 0.025, 'anchor': (0, 0.5),
-                   'hspace': 0.01,
-                   'tree_position': 0, 'tree_width': 0.1,
-                   'tree_kwargs': {'linewidth': 0.75, 'tip_labels': False, 'xmin_pad': 0.025, 'xmax_pad': 0.025},
-                   'msa_legend': True, 'legend_kwargs': {'bbox_to_anchor': (0.94, 0.5), 'loc': 'center left', 'fontsize': 5,
-                                                         'handletextpad': 0.5, 'markerscale': 0.75, 'handlelength': 1}}
-dpi = 300
+dpi = 400
 
 tree_template = skbio.read('../../IDR_evolution/data/trees/consensus_LG/100R_NI.nwk', 'newick', skbio.TreeNode)
 tip_order = {tip.name: i for i, tip in enumerate(tree_template.tips())}
@@ -100,7 +123,6 @@ disorder_nonmotif = disorder[nonmotif_labels]
 data = zscore(disorder_nonmotif)
 pca = PCA(n_components=pca_components)
 transform = pca.fit_transform(data.to_numpy())
-cmap = cmap1
 
 fig = plt.figure(figsize=(7.5, 3))
 gs = plt.GridSpec(1, 2)
@@ -122,7 +144,7 @@ subfig.suptitle('A', x=0.025, y=0.975, fontweight='bold')
 # --- PANEL B ---
 subfig = fig.add_subfigure(gs[0, 1])
 ax = subfig.add_axes(rectB)
-ax.hexbin(transform[:, 0], transform[:, 1], cmap=plt.colormaps['Greys'], **hexbin_kwargs_log)
+ax.hexbin(transform[:, 0], transform[:, 1], cmap=cmap, **hexbin_kwargs_log)
 ax.set_xlabel('PC1')
 ax.set_ylabel('PC2')
 add_pca_arrows(ax, pca, data.columns, 0, 1,
@@ -141,7 +163,7 @@ disorder_nonmotif = disorder[nonmotif_labels]
 data = zscore(disorder_nonmotif)
 pca = PCA(n_components=pca_components)
 transform = pca.fit_transform(data.to_numpy())
-cmap = cmap1
+ids2idx = {ids: idx for idx, ids in enumerate(data.index.droplevel('disorder'))}
 
 fig_width = 7.5
 fig_height = 8
@@ -149,6 +171,30 @@ fig = plt.figure(figsize=(fig_width, fig_height))
 gs = plt.GridSpec(4, 2, height_ratios=[1.5, 1.5, 1, 1])
 rectA = (0.15, 0.2, 0.55, 0.75)
 rectB = (0.175, 0.2, 0.55, 0.75)
+
+plot_msa_kwargs_common = {'tree_kwargs': {'linewidth': 0.75, 'tip_labels': False, 'xmin_pad': 0.025, 'xmax_pad': 0.025},
+                          'msa_legend': True}
+plot_msa_kwargs1 = {'left': 0.17, 'right': 0.85, 'top': 0.95, 'bottom': 0.025, 'anchor': (0, 0.5),
+                    'hspace': 0.01,
+                    'tree_position': 0.02, 'tree_width': 0.15,
+                    'legend_kwargs': {'bbox_to_anchor': (0.875, 0.5), 'loc': 'center left', 'fontsize': 5,
+                                      'handletextpad': 0.5, 'markerscale': 0.75, 'handlelength': 1},
+                    **plot_msa_kwargs_common}
+plot_msa_kwargs2 = {'left': 0.12, 'right': 0.935, 'top': 0.85, 'bottom': 0.125, 'anchor': (0, 0.5),
+                    'hspace': 0.01,
+                    'tree_position': 0.02, 'tree_width': 0.1,
+                    'legend_kwargs': {'bbox_to_anchor': (0.9375, 0.5), 'loc': 'center right', 'fontsize': 5,
+                                      'handletextpad': 0.5, 'markerscale': 0.75, 'handlelength': 1},
+                    **plot_msa_kwargs_common}
+records = {('0A8A', 1102, 1200): {'panel_label': 'E', 'fig_width_ratio': 0.5,
+                                  'color': 'C0',
+                                  'gs': gs[2, 0], 'plot_msa_kwargs': plot_msa_kwargs1},
+           ('3139', 249, 339):   {'panel_label': 'F', 'fig_width_ratio': 0.5,
+                                  'color': 'C2',
+                                  'gs': gs[2, 1], 'plot_msa_kwargs': plot_msa_kwargs1},
+           ('04B0', 0, 159):     {'panel_label': 'G', 'fig_width_ratio': 1,
+                                  'color': 'C1',
+                                  'gs': gs[3, :], 'plot_msa_kwargs': plot_msa_kwargs2}}
 
 # --- PANEL A ---
 subfig = fig.add_subfigure(gs[0, 0])
@@ -190,10 +236,16 @@ ax.legend(handles=handles)
 subfig.colorbar(hb, cax=ax.inset_axes((1.1, 0, 0.05, 1)))
 subfig.suptitle('C', x=0.025, y=0.975, fontweight='bold')
 
+for ids, params in records.items():
+    data_idx = ids2idx[ids]
+    x, y = transform[data_idx, 1], transform[data_idx, 2]
+    bin_idx = get_bin(hb, x, y)
+    set_bin_edge(ax, hb, bin_idx, 'none', params['color'], 1.5)
+
 # --- PANEL D ---
 subfig = fig.add_subfigure(gs[1, 1])
 ax = subfig.add_axes(rectB)
-ax.hexbin(transform[:, 1], transform[:, 2], cmap=plt.colormaps['Greys'], **hexbin_kwargs_log)
+ax.hexbin(transform[:, 1], transform[:, 2], cmap=cmap, **hexbin_kwargs_log)
 ax.set_xlabel('PC2')
 ax.set_ylabel('PC3')
 add_pca_arrows(ax, pca, data.columns, 1, 2,
@@ -201,10 +253,8 @@ add_pca_arrows(ax, pca, data.columns, 1, 2,
                arrow_scale=arrow_scale, arrow_colors=arrow_colors, arrowstyle_kwargs=arrowstyle_kwargs)
 subfig.suptitle('D', x=0.025, y=0.975, fontweight='bold')
 
-# --- PANELS E AND F ---
-records = [(2, 'E', '2252', 0, 200),
-           (3, 'F', '2252', 0, 200)]
-for gs_idx, panel_label, OGid, start, stop in records:
+# --- PANELS E - G ---
+for (OGid, start, stop), params in records.items():
     # Load MSA
     msa = []
     for header, seq in read_fasta(f'../../IDR_evolution/data/alignments/fastas/{OGid}.afa'):
@@ -221,12 +271,20 @@ for gs_idx, panel_label, OGid, start, stop in records:
             node.children = sorted(node.children, key=lambda x: x.value)
             node.value = sum([child.value for child in node.children])
 
-    subfig = fig.add_subfigure(gs[gs_idx, :])
+    subfig = fig.add_subfigure(params['gs'])
     plot_msa([record['seq'][start:stop] for record in msa],
-             fig=subfig, figsize=(fig_width, fig_height / gs.nrows),
+             fig=subfig, figsize=(fig_width * params['fig_width_ratio'], fig_height / gs.nrows),
              tree=tree,
-             **plot_msa_kwargs)
-    subfig.suptitle(panel_label, x=0.0125, y=0.975, fontweight='bold')  # Half usual value because panel is full-width
+             **params['plot_msa_kwargs'])
+    subfig.suptitle(params['panel_label'], x=0.0125 / params['fig_width_ratio'], y=0.975, fontweight='bold')
+
+    for ax in subfig.axes:
+        bar_offset = 0.0075 / params['fig_width_ratio']
+        bar_width = 0.005 / params['fig_width_ratio']
+        bar_ax = ax.inset_axes((params['plot_msa_kwargs']['tree_position'] - bar_offset, 0, bar_width, 1),
+                               transform=blended_transform_factory(subfig.transSubfigure, ax.transAxes))
+        bar_ax.add_patch(plt.Rectangle((0, 0), 1, 1, color=params['color']))
+        bar_ax.set_axis_off()
 
 fig.savefig('out/rate.png', dpi=dpi)
 fig.savefig('out/rate.tiff', dpi=dpi)
