@@ -180,10 +180,10 @@ plot_msa_kwargs1 = {'left': 0.17, 'right': 0.85, 'top': 0.95, 'bottom': 0.025, '
                     'legend_kwargs': {'bbox_to_anchor': (0.875, 0.5), 'loc': 'center left', 'fontsize': 5,
                                       'handletextpad': 0.5, 'markerscale': 0.75, 'handlelength': 1},
                     **plot_msa_kwargs_common}
-plot_msa_kwargs2 = {'left': 0.12, 'right': 0.935, 'top': 0.85, 'bottom': 0.125, 'anchor': (0, 0.5),
+plot_msa_kwargs2 = {'left': 0.16, 'right': 0.935, 'top': 0.875, 'bottom': 0.125, 'anchor': (0, 0.5),
                     'hspace': 0.01,
-                    'tree_position': 0.02, 'tree_width': 0.1,
-                    'legend_kwargs': {'bbox_to_anchor': (0.9375, 0.5), 'loc': 'center right', 'fontsize': 5,
+                    'tree_position': 0.01, 'tree_width': 0.15,
+                    'legend_kwargs': {'bbox_to_anchor': (0.9375, 0.5), 'loc': 'center left', 'fontsize': 5,
                                       'handletextpad': 0.5, 'markerscale': 0.75, 'handlelength': 1},
                     **plot_msa_kwargs_common}
 records = {('0A8A', 1102, 1200): {'panel_label': 'E', 'fig_width_ratio': 0.5,
@@ -273,6 +273,7 @@ for (OGid, start, stop), params in records.items():
 
     subfig = fig.add_subfigure(params['gs'])
     plot_msa([record['seq'][start:stop] for record in msa],
+             x_start=start,
              fig=subfig, figsize=(fig_width * params['fig_width_ratio'], fig_height / gs.nrows),
              tree=tree,
              **params['plot_msa_kwargs'])
