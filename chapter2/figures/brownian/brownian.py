@@ -134,11 +134,13 @@ transform = pca.fit_transform(data.to_numpy())
 fig = plt.figure(figsize=(fig_width, fig_height))
 
 # --- PANEL A ---
+pcx, pcy = 0, 1
+
 subfig = fig.add_subfigure(gs[0, 0])
 ax = subfig.add_axes(rectA)
-hb = ax.hexbin(transform[:, 0], transform[:, 1], cmap=cmap, **hexbin_kwargs_log)
-ax.set_xlabel('PC1')
-ax.set_ylabel('PC2')
+hb = ax.hexbin(transform[:, pcx], transform[:, pcy], cmap=cmap, **hexbin_kwargs_log)
+ax.set_xlabel(f'PC{pcx+1} ({pca.explained_variance_ratio_[pcx]:.1%})')
+ax.set_ylabel(f'PC{pcy+1} ({pca.explained_variance_ratio_[pcy]:.1%})')
 handles = [Line2D([], [], label='disorder', marker='h', markerfacecolor=cmap(handle_markerfacecolor),
                   markersize=8, markeredgecolor='none', linestyle='none')]
 ax.legend(handles=handles)
@@ -148,10 +150,10 @@ subfig.suptitle('A', x=0.025, y=0.975, fontweight='bold')
 # --- PANEL B ---
 subfig = fig.add_subfigure(gs[0, 1])
 ax = subfig.add_axes(rectB)
-ax.hexbin(transform[:, 0], transform[:, 1], cmap=cmap, **hexbin_kwargs_log)
-ax.set_xlabel('PC1')
-ax.set_ylabel('PC2')
-add_pca_arrows(ax, pca, data.columns, 0, 1,
+ax.hexbin(transform[:, pcx], transform[:, pcy], cmap=cmap, **hexbin_kwargs_log)
+ax.set_xlabel(f'PC{pcx+1} ({pca.explained_variance_ratio_[pcx]:.1%})')
+ax.set_ylabel(f'PC{pcy+1} ({pca.explained_variance_ratio_[pcy]:.1%})')
+add_pca_arrows(ax, pca, data.columns, pcx, pcy,
                legend_kwargs=legend_kwargs,
                arrow_scale=arrow_scale, arrow_colors=arrow_colors, arrowstyle_kwargs=arrowstyle_kwargs)
 subfig.suptitle('B', x=0.025, y=0.975, fontweight='bold')
@@ -171,11 +173,13 @@ transform = pca.fit_transform(data.to_numpy())
 fig = plt.figure(figsize=(fig_width, fig_height))
 
 # --- PANEL A ---
+pcx, pcy = 1, 2
+
 subfig = fig.add_subfigure(gs[0, 0])
 ax = subfig.add_axes(rectA)
-hb = ax.hexbin(transform[:, 1], transform[:, 2], cmap=cmap, **hexbin_kwargs_log)
-ax.set_xlabel('PC2')
-ax.set_ylabel('PC3')
+hb = ax.hexbin(transform[:, pcx], transform[:, pcy], cmap=cmap, **hexbin_kwargs_log)
+ax.set_xlabel(f'PC{pcx+1} ({pca.explained_variance_ratio_[pcx]:.1%})')
+ax.set_ylabel(f'PC{pcy+1} ({pca.explained_variance_ratio_[pcy]:.1%})')
 handles = [Line2D([], [], label='order', marker='h', markerfacecolor=cmap(handle_markerfacecolor),
                   markersize=8, markeredgecolor='none', linestyle='none')]
 ax.legend(handles=handles)
@@ -185,10 +189,10 @@ subfig.suptitle('A', x=0.025, y=0.975, fontweight='bold')
 # --- PANEL B ---
 subfig = fig.add_subfigure(gs[0, 1])
 ax = subfig.add_axes(rectB)
-ax.hexbin(transform[:, 1], transform[:, 2], cmap=cmap, **hexbin_kwargs_log)
-ax.set_xlabel('PC2')
-ax.set_ylabel('PC3')
-add_pca_arrows(ax, pca, data.columns, 1, 2,
+ax.hexbin(transform[:, pcx], transform[:, pcy], cmap=cmap, **hexbin_kwargs_log)
+ax.set_xlabel(f'PC{pcx+1} ({pca.explained_variance_ratio_[pcx]:.1%})')
+ax.set_ylabel(f'PC{pcy+1} ({pca.explained_variance_ratio_[pcy]:.1%})')
+add_pca_arrows(ax, pca, data.columns, pcx, pcy,
                legend_kwargs=legend_kwargs,
                arrow_scale=arrow_scale, arrow_colors=arrow_colors, arrowstyle_kwargs=arrowstyle_kwargs)
 subfig.suptitle('B', x=0.025, y=0.975, fontweight='bold')
@@ -239,11 +243,13 @@ ids2idx = {ids: idx for idx, ids in enumerate(data.index.droplevel('disorder'))}
 fig = plt.figure(figsize=(fig_width, fig_height))
 
 # --- PANEL A ---
+pcx, pcy = 0, 1
+
 subfig = fig.add_subfigure(gs[0, 0])
 ax = subfig.add_axes(rectA)
-hb = ax.hexbin(transform[:, 0], transform[:, 1], cmap=cmap, **hexbin_kwargs_log)
-ax.set_xlabel('PC1')
-ax.set_ylabel('PC2')
+hb = ax.hexbin(transform[:, pcx], transform[:, pcy], cmap=cmap, **hexbin_kwargs_log)
+ax.set_xlabel(f'PC{pcx+1} ({pca.explained_variance_ratio_[pcx]:.1%})')
+ax.set_ylabel(f'PC{pcy+1} ({pca.explained_variance_ratio_[pcy]:.1%})')
 handles = [Line2D([], [], label='disorder', marker='h', markerfacecolor=cmap(handle_markerfacecolor),
                   markersize=8, markeredgecolor='none', linestyle='none')]
 ax.legend(handles=handles)
@@ -251,27 +257,27 @@ subfig.colorbar(hb, cax=ax.inset_axes((1.1, 0, 0.05, 1)))
 subfig.suptitle('A', x=0.025, y=0.975, fontweight='bold')
 
 # --- PANEL B ---
-pca = PCA(n_components=pca_components)
 df = data.merge(asr_rates, left_index=True, right_on=['OGid', 'start', 'stop', 'disorder'])
-transform = pca.fit_transform(df[data.columns].to_numpy())
-
-xs = transform[:, 0]
+pcx = 0
+xs = transform[:, pcx]
 ys = df['aa_rate_mean'] + df['indel_rate_mean']
 
 subfig = fig.add_subfigure(gs[0, 1])
 ax = subfig.add_axes(rectB)
 hb = ax.hexbin(xs, ys, **hexbin_kwargs_log)
-ax.set_xlabel('PC1')
+ax.set_xlabel(f'PC{pcx+1}')
 ax.set_ylabel('Total substitution rate')
 subfig.colorbar(hb, cax=ax.inset_axes((1.1, 0, 0.05, 1)))
 subfig.suptitle('C', x=0.025, y=0.975, fontweight='bold')
 
 # --- PANEL C ---
+pcx, pcy = 1, 2
+
 subfig = fig.add_subfigure(gs[1, 0])
 ax = subfig.add_axes(rectA)
-hb = ax.hexbin(transform[:, 1], transform[:, 2], cmap=cmap, **hexbin_kwargs_log)
-ax.set_xlabel('PC2')
-ax.set_ylabel('PC3')
+hb = ax.hexbin(transform[:, pcx], transform[:, pcy], cmap=cmap, **hexbin_kwargs_log)
+ax.set_xlabel(f'PC{pcx+1} ({pca.explained_variance_ratio_[pcx]:.1%})')
+ax.set_ylabel(f'PC{pcy+1} ({pca.explained_variance_ratio_[pcy]:.1%})')
 handles = [Line2D([], [], label='disorder', marker='h', markerfacecolor=cmap(handle_markerfacecolor),
                   markersize=8, markeredgecolor='none', linestyle='none')]
 ax.legend(handles=handles)
@@ -280,17 +286,17 @@ subfig.suptitle('C', x=0.025, y=0.975, fontweight='bold')
 
 for ids, params in records.items():
     data_idx = ids2idx[ids]
-    x, y = transform[data_idx, 1], transform[data_idx, 2]
+    x, y = transform[data_idx, pcx], transform[data_idx, pcy]
     bin_idx = get_bin(hb, x, y)
     set_bin_edge(ax, hb, bin_idx, 'none', params['color'], 1.5)
 
 # --- PANEL D ---
 subfig = fig.add_subfigure(gs[1, 1])
 ax = subfig.add_axes(rectB)
-ax.hexbin(transform[:, 1], transform[:, 2], cmap=cmap, **hexbin_kwargs_log)
-ax.set_xlabel('PC2')
-ax.set_ylabel('PC3')
-add_pca_arrows(ax, pca, data.columns, 1, 2,
+ax.hexbin(transform[:, pcx], transform[:, pcy], cmap=cmap, **hexbin_kwargs_log)
+ax.set_xlabel(f'PC{pcx+1} ({pca.explained_variance_ratio_[pcx]:.1%})')
+ax.set_ylabel(f'PC{pcy+1} ({pca.explained_variance_ratio_[pcy]:.1%})')
+add_pca_arrows(ax, pca, data.columns, pcx, pcy,
                legend_kwargs=legend_kwargs,
                arrow_scale=arrow_scale, arrow_colors=arrow_colors, arrowstyle_kwargs=arrowstyle_kwargs)
 subfig.suptitle('D', x=0.025, y=0.975, fontweight='bold')
@@ -319,7 +325,7 @@ for (OGid, start, stop), params in records.items():
              fig=subfig, figsize=(fig_width * params['fig_width_ratio'], fig_height / gs.nrows),
              tree=tree,
              **params['plot_msa_kwargs'])
-    subfig.suptitle(params['panel_label'], x=0.0125 / params['fig_width_ratio'], y=0.975, fontweight='bold')
+    subfig.suptitle(params['panel_label'], x=0.0125/params['fig_width_ratio'], y=0.975, fontweight='bold')
 
     for ax in subfig.axes:
         bar_offset = 0.0075 / params['fig_width_ratio']
