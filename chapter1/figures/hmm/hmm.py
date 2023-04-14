@@ -14,19 +14,21 @@ from src1.utils import read_fasta
 
 spid_regex = r'spid=([a-z]+)'
 
-OGids = ['2252', '2A57', '360E']
+records = [('2252', 0, None),
+           ('2A57', 0, 845),
+           ('360E', 0, None)]
 state_labels = ['1A', '1B', '2', '3']
 state_colors = ['C0', 'C3', 'C1', 'C2']
 
 fig_width = 7.5
-fig_height = 3
-dpi = 400
+fig_height = 4.25
+dpi = 600
 plot_msa_kwargs = {'figsize': (fig_width, fig_height),
-                   'left': 0.1, 'right': 0.92, 'top': 0.95, 'bottom': 0.05, 'anchor': (0, 0.5),
-                   'height_ratio': 0.75, 'hspace': 0.01,
+                   'left': 0.1, 'right': 0.92, 'top': 0.95, 'bottom': 0.04, 'anchor': (0, 0.5),
+                   'height_ratio': 0.5, 'hspace': 0.4,
                    'x_labelsize': 5,
                    'data_min': -0.05, 'data_max': 1.05,
-                   'data_labels': state_labels, 'data_linewidths': 1, 'data_colors': state_colors,
+                   'data_labels': state_labels, 'data_linewidths': 1.5, 'data_colors': state_colors,
                    'tree_position': 0, 'tree_width': 0.1,
                    'tree_kwargs': {'linewidth': 0.5, 'tip_labels': False, 'xmin_pad': 0.01, 'xmax_pad': 0.025},
                    'msa_legend': True,
@@ -46,7 +48,7 @@ with open('../../orthology_inference/analysis/ortho_MSA/insertion_hmm/out/model.
 if not os.path.exists('out/'):
     os.mkdir('out/')
 
-for OGid in OGids:
+for OGid, start, stop in records:
     # Load MSA
     msa = []
     for header, seq in read_fasta(f'../../orthology_inference/analysis/ortho_MSA/realign_fastas/out/{OGid}.afa'):
@@ -99,7 +101,8 @@ for OGid in OGids:
     fbs = model.forward_backward(idx_seq)
     data = [fbs[label] for label in state_labels]
 
-    fig = plot_msa_data([record['seq'] for record in msa], data, tree=tree, **plot_msa_kwargs)
+    fig = plot_msa_data([record['seq'][start:stop] for record in msa], data[start:stop], tree=tree,
+                        x_start=start, **plot_msa_kwargs)
     fig.text(panel_label_offset / fig_width, 1 - panel_label_offset / fig_height, panel_label,
              fontsize=panel_label_fontsize, fontweight='bold',
              horizontalalignment='left', verticalalignment='top')
