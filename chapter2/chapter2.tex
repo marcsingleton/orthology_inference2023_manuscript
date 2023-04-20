@@ -7,6 +7,105 @@ Here's where my abstract will go!
 Here's where my introduction will go!
 
 \section{Results}
+% RESULTS
+% I. Identification and filtering of IDRs
+%     A. From a set of over 8,500 alignments of single copy orthologs from the genomes of up to 33 species in the \textit{Drosophila} genus, we identified X regions with high levels of inferred disorder using the predictor AUCPreD. To highlight the unique features of IDR evolution in subsequent analyses, we also extracted a complementary set of Y regions with low levels of inferred disorder. Both sets were filtered on several criteria, including the lengths of their sequences and the phylogenetic diversity. In the subsequent discussion, we refer to these filtered sets as the ``disorder'' and ``order'' regions, respectively. The disorder
+%     B. Some notes about the length distributions and other basic statistics
+%
+% II. Disorder regions have distinct patterns of residue substitution
+%     A. To gain a global view of substitution patterns of amino acid residues in disorder and order regions, we fit amino acid substitution models to meta-alignments sampled from the respective sets of filtered regions.
+%     B. Substitution models are parameterized in terms of the rates of change from one residue to another.
+%         1. The rates are not necessarily equal between for a given pair of residues when the initial and target states are swapped.
+%         2. For example, the rate of change of valine to tryptophan can be distinct from that of tryptophan to valine.
+%         3. In practice, substitution models are typically constrained to fulfill a condition called time-reversibility, as this converts a difficult multivariate optimization of the tree's branch lengths into a series of simpler univariate optimizations~\cite{Felsenstein1981}. Therefore, the models are parameterized in terms of a frequency vector, $\mathbm{pi}$, and an exchangeability matrix, $S$. The frequency vector determines the model's expected residue frequencies at equilibrium, meaning all sequences eventually approach this distribution, no matter their initial composition. The exchangeability matrix is symmetric ($s_{ij} = s_{ji}$) and encodes the propensity for two residues to interconvert. Because the rate of change from residue $i$ to residue $j$ is given by $r_{ij} = s_{ij}\pi_{j}$, higher exchangeability coefficients yield higher rates of conversion. Thus, exchangeability coefficients are frequently interpreted as a measure of biochemical similarity between residues.
+%     C. To highlight the differences in patterns of residue substitution between the disorder and order regions, the parameters in each model are directly compared in Fig.~\ref{fig:substitution}.
+%         1. The disorder regions show an enrichment of "disorder-promoting" residues such as serine, proline, and alanine, and a depletion of hydrophobic and bulky residues such as trytophan and phenylalanine (Fig.~\ref{fig:substitution}A).
+%         2. Overall, the exchangeability matrices fit to the disorder and order regions are similar in their overall pattern of high and low coefficients (Fig.~\ref{fig:substitution}B-C). However, the log ratios of the disorder to the order exchangeability coefficients show clear trends within and between the disorder-enriched and -depleted residues. In disorder regions, disorder-enriched residues are less exchangeable with each other, whereas disorder-depleted residues are more exchangeable with each other and with disorder-enriched residues (Fig.~\ref{fig:substitution}D).
+
+% III. Brownian motion score analyses
+%     A. Motivation for use of phylogenetic models
+%         1. For each residue in the input sequence, AUCPreD returns a score between 0 and 1 where higher values indicate higher confidence in a prediction of structural disorder.
+%     B. When examining the disorder score traces in greater detail alongside the alignments, we were struck by the significant variability in some traces, even when there was a relatively high level of sequence identity.
+%     C. To better understand the sequence features underlying these changes in predicted disorder, we calculated the values for 82 disorder-associated features in each region
+%     D. Though this analysis is limited by the resolution of the regions, which varies from 30 to ??? residues, it indicates the prediction algorithm is sensitive to these features in bulk.
+%          1. Some more observations of the overall trends ...
+%     E. Interestingly, the correlations with many motifs were statistically significant, though small in magnitude relative to the non-motif features.
+%          1. Look into motif regexes and see if ones with highest correlations have any common features
+%     F. To determine if regions with rapidly evolving disorder scores were enriched in any processes, we extracted the upper decile of their rate distribution
+%          1. Many chromatin and DNA related features
+
+% IV. Brownian motion feature analyses
+%     A. Having calculated features for all IDRs in our data set, we were curious the distribution contained any global structure which would allow the identification of classes with distinct biophysical or functional properties
+%     A. Feature roots
+%         1. Discuss differences in scaling and need for z-scores
+%         2. Discussion of sample regions in figure? (need to add)
+%     B. The phylogenetic contrasts algorithm also permits an estimate of the rate of feature evolution, which is effectively the variance of the distribution of features across all sequences after correcting for the phylogenetic relationships between them
+%         1. PC1 correlates with rate
+%         2. PC2 and PC3 show three major axes of unconstrained variation: Q-rich, G-rich, acidic
+
+% V. BM-OU analyses
+%    A. While these analyses measure the rates of change of features after accounting the the phylogenetic relationships between sequences, they do not directly test for conservation of features
+%         1. In fact, under the BM model, trait variation is unconstrained and will increase without bound over time
+%         2. Instead, demonstrating evidence of conservation requires a comparison to a model where feature evolution is constrained.
+%         3. A common choice is the Ornstein-Uhlenbeck (OU) model
+%             i. Some explanation about how it works
+
+% CONCLUSION
+% I. Summary of results
+%    A. In this study we showed...
+%    B. IDRs have patterns of evolution distinct from folded domains
+%    C. Elevated rates of residue substitution and indels
+% II. General caveats
+
+% II. Exchangeability and rate matrices
+%    A. Reproduced trends seen in previous substitution models fit to disorder regions
+%    B. Interpretations of exchangeability and rate matrices
+%        1. Disorder-enriched residues are less interchangeable and play specific roles in these regions
+%        2. Disorder-depeleted residues not constrained by packing and can act more generically as small hydrophobic patches
+%            i. Stickers and spacers from Holehouse
+%            ii. Staller papers and other high throughput mutational scanning of ADs
+%            iii. Halfmann glutamine vs asparagine paper
+%        3. Note about variances of parameters as shown in CV graphs
+
+% III. Disorder score analyses
+%    A. Comparison of features and disorder scores acts as a kind of ``mutational scanning'' experiment [citation to Eddy?]
+%        1. Contrasts of features and disorder scores shows the disorder predictor is sensitive to most features used in this analyses
+%        2. However, highest correlations to expected features like fraction_disorder and hydropathy
+%        3. Interestingly, negatively correlated with wf_complexity. Many disordered regions have low levels of sequence complexity. However this is a statistical rather than a biophysical criterion, and some low complexity regions are structured, like collagen. This indicates that these models can confuse correlation and causation during training, and their representations should be interpreted carefully.
+%        1. Furthermore, resolution of analyses limited because features calculated at level of regions rather than a fixed window around each residue.
+%    B. GO annotation enrichment analysis suggests disorder scores undergo rapid evolution in proteins involved in DNA repair and found in extracellular structure
+%        1. Not corrected for multiple testing nor is the false discovery rate controlled, so should be considered as hypotheses for further investigation
+%        2. However, this result is at least consistent with other known functions of disorder
+%            i. Interactions with extracellular components and signaling, both highly enriched in disorder?
+%            ii. These regions could contain MoRFs, so they are already on the boundary between folded and disorder
+%            iii. As evolution optimizes these interactions, small changes in the biophysical properties of these regions may have disproportionate effects on their structural ensembles
+%            iv. The variable scoring by the disorder predictor may reflect this kind of ``phrase transition''
+
+% IV. Feature analyses
+%    A. Though no discrete clusters are visible, only captures x% of the overall variation, so significant amounts of variation not represented in these axes
+%    B. Hierarchical clustering of the rates reveals additional structure.
+%    C. Other non-linear dimensionality reductions like UMAP be more successful at preserving the fine details of the high-dimensional distributions in the low-dimensional space
+%        1. However, these methods designed primarily for visualization and as result can significant distort the global structure of high-dimensional data to preverse its local topology. Thus, these embeddings are generally not suitable for downstream analyses.
+
+% V. OU analyses
+%    A. Discussion of issues with statistical inference and need for simulations to address inference issues with OU model
+%        1. Lack of power or prone to type I errors?
+%    B. Better models for handling motif counts
+%        1. Unlike other features where small changes in a sequence general yield small changes in their value, the complexity of the regular expressions made them highly sensitive to small perturbations.
+%    C. Need for comparisons with simulations with amino acid substitution and indel models
+%        1. Weaknesses are explicit assumptions about substitution and indel processes and high computational cost
+%        2. Is also a strength because allows testing of increasingly specific hypotheses for IDR evolution
+%        3. Complementary approach -- fewer assumptions about description of evolution but cannot be tailored to specific hypotheses
+%        4. Hybrid approach using comparisons of rates as the statistical test and simulations to generate the null distribution
+%    D. Mention other distribution free approaches
+
+% VI. Big picture and wrap up
+%     A. Experimental swaps of IDRs in similar classes
+%     B. What are features?
+%         - Contrastive learning (Moses)
+%         - Prediction on gold standard data sets
+%         - Embeddings from LLMs trained on large data sets
+
 \begin{figure}[h!]
 \includegraphics[width=\textwidth]{scores/out/scores_07E3.png}
 \centering
