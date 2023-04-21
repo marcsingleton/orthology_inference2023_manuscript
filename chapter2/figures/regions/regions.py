@@ -5,7 +5,8 @@ import re
 
 import matplotlib.pyplot as plt
 import pandas as pd
-from numpy import linspace
+import scipy.stats as stats
+from numpy import linspace, sqrt
 from src2.utils import read_fasta
 
 pdidx = pd.IndexSlice
@@ -79,6 +80,18 @@ x1 = (asr_rates.loc[asr_rates['disorder'] == True, 'aa_rate_mean'] +
       asr_rates.loc[asr_rates['disorder'] == True, 'indel_rate_mean']).dropna()
 x2 = (asr_rates.loc[asr_rates['disorder'] == False, 'aa_rate_mean'] +
       asr_rates.loc[asr_rates['disorder'] == False, 'indel_rate_mean']).dropna()
+
+# Manual calculation of log p-value due to underflow
+# Code adapted from SciPy stats example in mannwhitneyu function
+nx1, nx2 = len(x1), len(x2)
+N = nx1 + nx2
+U1, p = stats.mannwhitneyu(x1, x2, alternative='greater')
+U2 = nx1 * nx2 - U1
+U = min(U1, U2)
+z = (U - nx1 * nx2 / 2 + 0.5) / sqrt(nx1 * nx2 * (N + 1) / 12)
+logp = 2 * stats.norm.logcdf(z)
+with open('out/utest.txt', 'w') as file:
+    file.write(f'log p-value (Mann-Whitney U test): {logp}\n')
 
 subfig = fig.add_subfigure(gs[0, 1])
 ax = subfig.subplots()
