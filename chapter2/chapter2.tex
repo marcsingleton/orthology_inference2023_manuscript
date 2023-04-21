@@ -13,6 +13,14 @@ We identified regions with high levels of inferred intrinsic disorder in over 8,
 \subsection{Disorder regions have distinct patterns of residue substitution}
 To gain insight into the substitution patterns of amino acid residues in disorder and order regions, we fit substitution models to meta-alignments sampled from the respective sets of filtered regions. These models are probabilistic descriptions of sequence evolution and are parameterized in terms of the one-way rates of change from one residue to another. Thus, the rates are not necessarily equal for a given pair of residues when the initial and target residues are swapped. For example, the rate of change of valine to tryptophan can be distinct from that of tryptophan to valine. In practice, substitution models are typically constrained to fulfill a condition called time-reversibility, as this converts a difficult multivariate optimization of the tree's branch lengths into a series of simpler univariate optimizations~\cite{Felsenstein1981}. A common method for fulfilling this condition is parameterizing the model in terms of a frequency vector, $\boldsymbol \pi$, and an exchangeability matrix, $S$. The frequency vector determines the model's expected residue frequencies at equilibrium, meaning the model dictates that all sequences eventually approach this distribution, no matter their initial composition. The exchangeability matrix is symmetric ($s_{ij} = s_{ji}$) and encodes the propensity for two residues to interconvert. Because the rate of change from residue $i$ to residue $j$ is given by $r_{ij} = s_{ij}\pi_{j}$, higher exchangeability coefficients yield higher rates of conversion. Thus, exchangeability coefficients are frequently interpreted as a measure of biochemical similarity between residues.
 
+\begin{figure}[h!]
+\includegraphics[width=\textwidth]{substitution/out/substitution.png}
+\centering
+\caption{\textbf{Amino acid substitution models fit to disorder and order regions.}
+\textbf{(A)} Amino acid frequencies of substitution models. Amino acid symbols are ordered by their enrichment in disorder regions, calculated as the disorder-to-order ratio of their frequencies. Error bars represent standard deviations over models fit to different meta-alignments ($n = 25$). \textbf{(B-C)} Exchangeability coefficients of disorder and order regions, respectively, averaged over meta-alignments. \textbf{(D)} $\log_{10}$ disorder-to-order ratios of exchangeability coefficients. \textbf{(E-F)} Rate coefficients of disorder and order regions, respectively, averaged over meta-alignments. The vertical and horizontal axes indicate the initial and target amino acids, respectively. \textbf{(G)} $\log_{10}$ disorder-to-order ratios of rate coefficients.}
+\label{fig:substitution}
+\end{figure}
+
 To highlight the differences in patterns of residue substitution between the disorder and order regions, the parameters in each model are directly compared in Fig.~\ref{fig:substitution}, beginning with the frequency vectors. The disorder regions show an enrichment of ``disorder-promoting'' residues such as serine, proline, and alanine, and a depletion of hydrophobic and bulky residues such as trytophan and phenylalanine (Fig.~\ref{fig:substitution}A). The exchangeability matrices fit to the disorder and order regions have similar overall patterns of high and low coefficients (Fig.~\ref{fig:substitution}B-C). However, the log ratios of the disorder to the order exchangeability coefficients show clear differences within and between the disorder-enriched and -depleted residues. In disorder regions, disorder-enriched residues are less exchangeable with each other, whereas disorder-depleted residues are more exchangeable with each other and with disorder-enriched residues (Fig.~\ref{fig:substitution}D). Likewise, we observe a trend in the log ratios of the rate coefficients where the coefficients above the diagonal are generally positive and those below the diagonal are generally negative. As the coefficients model the one-way rate of substitutions between residues with the vertical and horizontal axes indicating the initial and target residues, respectively, this suggests a net flux towards a more disorder-like composition.
 
 % RESULTS
@@ -99,14 +107,6 @@ To highlight the differences in patterns of residue substitution between the dis
 %         - Contrastive learning (Moses)
 %         - Prediction on gold standard data sets
 %         - Embeddings from LLMs trained on large data sets
-
-\begin{figure}[h!]
-\includegraphics[width=\textwidth]{substitution/out/substitution.png}
-\centering
-\caption{\textbf{Amino acid substitution models fit to disorder and order regions.}
-\textbf{(A)} Amino acid frequencies of substitution models. Amino acid symbols are ordered by their enrichment in disorder regions, calculated as the disorder-to-order ratio of their frequencies. Error bars represent standard deviations over models fit to different meta-alignments ($n = 25$). \textbf{(B-C)} Exchangeability coefficients of disorder and order regions, respectively, averaged over meta-alignments. \textbf{(D)} $\log_{10}$ disorder-to-order ratios of exchangeability coefficients. \textbf{(E-F)} Rate coefficients of disorder and order regions, respectively, averaged over meta-alignments. The vertical and horizontal axes indicate the initial and target amino acids, respectively. \textbf{(G)} $\log_{10}$ disorder-to-order ratios of rate coefficients.}
-\label{fig:substitution}
-\end{figure}
 
 \begin{figure}[h!]
 \includegraphics[width=\textwidth]{scores/out/scores_07E3.png}
