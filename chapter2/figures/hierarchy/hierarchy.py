@@ -122,7 +122,7 @@ lm = linkage(cdm, method='average')
 
 # Convert to tree and get branch colors
 tree = make_tree(lm)
-tip_order = [tip.name for tip in tree.tips()]
+tip_order = [int(tip.name) for tip in tree.tips()]
 node2color, node2tips = {}, {}
 for node in tree.postorder():
     if node.is_tip():
