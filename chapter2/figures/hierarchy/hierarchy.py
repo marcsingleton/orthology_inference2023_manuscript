@@ -115,7 +115,8 @@ gridspec_kw = {'width_ratios': [0.1, 0.9], 'wspace': 0,
 column_labels = []
 for group_label in group_labels:
     column_labels.extend([f'{feature_label}_delta_AIC' for feature_label in feature_groups[group_label]])
-array = np.nan_to_num(models.loc[pdidx[:, :, :, True], column_labels].to_numpy(), nan=1)  # Re-arrange and convert to array
+data = models.loc[pdidx[:, :, :, True], column_labels]  # Re-arrange columns
+array = np.nan_to_num(data.to_numpy(), nan=1)
 
 cdm = pdist(array, metric='correlation')
 lm = linkage(cdm, method='average')
