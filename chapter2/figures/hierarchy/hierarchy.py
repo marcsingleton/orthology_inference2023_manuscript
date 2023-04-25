@@ -140,14 +140,20 @@ plot_tree(tree, ax=ax, linecolor=node2color, linewidth=0.2, tip_labels=False,
           xmin_pad=0.025, xmax_pad=0)
 ax.sharey(axs[0, 1])
 ax.set_ylabel('Disorder regions')
-ax.set_axis_off()
+ax.set_xticks([])
+ax.set_yticks([])
+for spine in ax.spines.values():
+    spine.set_visible(False)
 
 # Heatmap
 ax = axs[0, 1]
 im = ax.imshow(array[tip_order], aspect='auto', cmap=plt.colormaps['inferno'], interpolation='none')
 ax.xaxis.set_label_position('top')
 ax.set_xlabel('Features')
-ax.set_axis_off()
+ax.set_xticks([])
+ax.set_yticks([])
+for spine in ax.spines.values():
+    spine.set_visible(False)
 
 # Corner axis
 ax = axs[1, 0]
