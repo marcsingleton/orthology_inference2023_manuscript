@@ -7,19 +7,19 @@ Here's where my abstract will go!
 Intrinsically disordered regions (IDRs) are segments of proteins which lack stable three-dimensional structures and instead exist as ensembles of rapidly interconverting conformations. As a result of this structural hetereogeneity, IDRs can interact with diverse binding partners. Often these interactions have high specificity but moderate affinity, which permits the efficient propagation of signals by rapid binding and dissociation~\cite{Zhou2012, Wright2014}. Furthermore, as IDRs readily expose their polypeptide chains, they are enriched in recognition motifs for post-translational modifications which allow environmental or physiological conditions to modulate their interactions. Accordingly, IDRs often act as the ``hubs'' of complex signaling networks by integrating signals from diverse pathways and coordinating interactions~\cite{Dunker2005, Buljan2012}. However, as IDRs are pervasive in eukaryotic proteomes, with estimates of the fractions of disordered residues in the human, mouse, and fruit fly proteomes ranging between 22 and 24\%~\cite{Piovesan2020, Piovesan2022}, they are involved in diverse processes~\cite{vanderLee2014} including transcriptional regulation~\cite{Liu2006} and the formation of biomolecular condensates~\cite{Banani2017}.
 
 % II. Proteome-wide patterns of conserved features linked to function
-%    B. Despite the prevalence and importance of these regions in eukaryotic proteomes, associating them with specific molecular functions or biological processes remains a significant challenge.
-%    C. The sequences of IDRs are generally poorly conserved, so traditional bioinformatics approaches which rely on the strict conservation of amino acid sequences to identify homologous proteins and transfer annotations between biological systems are largely unsucessful when applied to IDRs.
-%
+%    B. Despite the prevalence and importance of these IDRs in eukaryotic proteomes, associating them with specific molecular functions or biological processes remains a significant challenge.
+%    C. The sequences of IDRs are generally poorly conserved, so traditional bioinformatics approaches which rely on the conservation of amino acid sequences to identify homologous proteins and transfer annotations between them are largely unsucessful when applied to IDRs.
 %    A. However, several recent studies have demonstrated evidence that IDRs are constrained to preserve ``distributed features'' such as flexibility, chemical composition, net charge, or charge distribution.
-%       1. Because many sequences can yield a region with a specific composition or charge, this mode of constraint uncouples an IDR's fitness from its strict sequence of amino acid residues. the sequences of IDRs can rapidly diverge while still preserving these structural or functional properties.
-%       2. Furthermore, in contrast to folded regions whose precise contacts and packing geometries are easily disrupted by point mutations, distributed features are robust to small changes at the sequence level. Thus, deleterious mutations are easily corrected by compensatory mutation elsewhere in the region. Together, these loose restrictions on the sequences of IDRs allow them to rapidly diverge despite preserving their functions.
-%    B. Additionally other studies have shown importance of short linear motifs in IDRs
-%        1. Can be identified as short segments of conservation in otherwise highly diverged alignments of IDRs
-%        2. However, these segments comprise a small fraction of disordered regions, so
+%       1. Because many sequences can yield a region with a specific composition, for example, this mode of constraint uncouples an IDR's fitness from its strict sequence of amino acid residues.
+%       2. Furthermore, in contrast to folded regions whose precise contacts and packing geometries are easily disrupted by amino acid substitutions, distributed features are robust to such changes as individual residues only weakly contribute to a region's fitness. For example, a mutation at one site in an IDR that changes its net charge is easily reversed by subsequent compensatory mutations elsewhere in the region. Thus, the sequences of IDRs can rapidly diverge and still preserve their structural or functional properties.
+%    B. Though other analyses have identified Though IDRs short linear motifs (SLiMs) are enriched in IDRs and are sometimes strongly conserved at specific positions, these residues constitute a small fraction of disordered regions. However, because these motifs are short and some are highly permissive at specific positions, they have high evolutionarily plasticity. Thus, motifs
+
+%Though these motifs are sometimes conserved by position and can be identified as short segments of conservation in otherwise highly diverged alignments of IDRs, their brief lengths make them evolutionarily plastic. Thus, they are easily
+
 %
-% III. Previously, many of these studies were limited to ... However, a recent study first to demonstrate patterns of selection in IDRs across an entire proteome using a set of 82 ``molecular features''
+% III. Many of these analyses were limited to ... However, a recent study first to demonstrate patterns of selection in IDRs across an entire proteome using a set of 82 ``molecular features''
 %    D. Furthermore, by clustering IDRs on by these ``evolutionary signatures,'' they identified groups of IDRs evolving under similar sets of constraints. Furthermore they identified functional associations in these clusters which can be used to generate hypotheses of function for previously uncharacterized proteins
-%    E. Subsequent studies have expanded on these findings by using techniques from machine learning and statistics the information from evolutionary signatures to predict the function of IDRs. and learn disorder-associated features in a self-supervised manner.
+%    E. Though subsequent studies have expanded on these findings by using techniques from machine learning and statistics the information from evolutionary signatures to predict the function of IDRs. and learn disorder-associated features in a self-supervised manner.
 % III. However, no subsequent studies have determined if similar patterns of conservation are found in other systems. As another foundational model organism with abundant genomic information across many evolutionary lineages, the fruit fly, \textit{Drosophila melanogaster}, is a natural choice for subsequent investigation~\cite{Yang2018, Miller2018, Kim2021, Gramates2022}.
 %    A. Expand analyses to another model organism
 %        1. Drosophila is key model for genetic and development research with abundant genomic resources across many lineages in the radiation
@@ -29,6 +29,7 @@ Intrinsically disordered regions (IDRs) are segments of proteins which lack stab
 %        1. If no patterns are observed, this suggests that conservation of distributed is a not widely conserved mechanism of IDR evolution.
 %        2. Patterns of conservation are yeast phenomena
 %        3. Finally, the identification of similar clusters with conserved features and properties would suggest the existence of ``taxonomy'' of IDRs which is common across many branches of the tree of life. This would allow the creation of a classification system such as Pfam
+%
 % IV. Explicit phylogenetic models of trait evolution can reveal patterns of evolution with fewer assumptions
 %    A. Previous analyses compared observed distributions of features in observed IDRs to the distributions generated by simulated counterparts
 %    B. Differences were interpreted as evidence of selection on features
@@ -41,6 +42,7 @@ Intrinsically disordered regions (IDRs) are segments of proteins which lack stab
 %        3. Still have their own assumptions of course, but more general and robust to deviations
 %        4. We view these approaches as complementary, each having different trade-offs between specificity and generality of testing specific hypotheses of disorder evolution
 %        5. We also explore hybrid approaches where the evolutionary rates obtained from phylogenetic models are used as a statistic
+%
 % V. Therefore, in this work we apply evolutionary models of sequence and trait evolution to the sequences of IDRs and their of associated molecular feature to dissect the forces driving their evolution. We find IDRs exhibit unique patterns of evolution at the level of sequences. We find intrinsic disorder is a dynamically evolving property in some regions, and changes in disorder preference are correlated with changes in the complexity. We find that IDRs are unconstrained along several axis of trait evolution, but they also display
 
 \section{Results}
@@ -119,7 +121,7 @@ We therefore fit OU models to the features calculated from the segments in each 
 %        3. Note about variances of parameters as shown in CV graphs
 
 % III. Disorder score analyses
-%    A. Comparison of features and disorder scores acts as a kind of ``mutational scanning'' experiment [citation to Eddy?]
+%    A. The analysis of features and disorder scores is effectively a natural ``mutational scanning'' experiment [citation to Eddy?]
 %        1. Contrasts of features and disorder scores shows the disorder predictor is sensitive to most features used in this analyses
 %        2. However, highest correlations to expected features like fraction_disorder and hydropathy
 %        3. Interestingly, negatively correlated with wf_complexity. Many disordered regions have low levels of sequence complexity. However this is a statistical rather than a biophysical criterion, and some low complexity regions are structured, like collagen. This indicates that these models can confuse correlation and causation during training, and their representations should be interpreted carefully.
