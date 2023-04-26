@@ -4,27 +4,31 @@ Here's where my abstract will go!
 \end{abstract}
 
 \section{Introduction}
-Here's where my introduction will go!
-% I. IDRs, proteins without defined structures, are prevalent in eukaryotic proteins and play key roles in many processes
-% II. Sequence-function relationships are unclear in IDRs
-% III. Proteome-wide patterns of conserved features linked to function
-%    A. However, there is growing evidence that IDRs are instead constrained to conserve distributed properties such as ...
-%       1. Because many sequences can yield similar a region with a specific charge or length, IDRs can rapidly diverge in terms of their sequences while still remaining
-%       2. Additionally, in contrast to folded regions which must make precise contacts or satisfy specific geometric constraints, distributed features are robust to small changes at the sequence level. A mutation that slightly impairs function related to a specific feature regime is easily corrected by compensatory mutation elsewhere in the region. Together, these loose restrictions on the sequences of IDRs allow them to rapidly diverge despite preserving their functions.
+Intrinsically disordered regions (IDRs) are segments of proteins which lack stable three-dimensional structures and instead exist as ensembles of rapidly interconverting conformations. As a result of this structural hetereogeneity, IDRs can interact with diverse binding partners. Often these interactions have high specificity but moderate affinity, which permits the efficient propagation of signals by rapid binding and dissociation. Furthermore, as IDRs readily expose their polypeptide chains, they are enriched in motifs for post-translational modifications which allow environmental or physiological conditions to modulate their interactions. Accordingly, IDRs often act as the ``hubs'' of complex signaling networks by integrating signals from diverse pathways and coordinating interactions. However, as IDRs are pervasive in eukaryotic proteomes, with an estimated X\% of proteins containing a disordered region of at least 30 residues, they are involved in diverse processes and phenomena, including EXAMPLE, EXAMPLE, and the formation of biomolecular condensates.
+
+% II. Proteome-wide patterns of conserved features linked to function
+%    B. Despite the prevalence and importance of these regions in eukaryotic proteomes, associating them with specific molecular functions or biological processes remains a significant challenge.
+%    C. The sequences of IDRs are generally poorly conserved, so traditional bioinformatics approaches which rely on the strict conservation of amino acid sequences to identify homologous proteins and transfer annotations between biological systems are largely unsucessful when applied to IDRs.
+%
+%    A. However, several recent studies have demonstrated evidence that IDRs are constrained to preserve ``distributed features'' such as flexibility, chemical composition, net charge, or charge distribution.
+%       1. Because many sequences can yield a region with a specific composition or charge, this mode of constraint uncouples an IDR's fitness from its strict sequence of amino acid residues. the sequences of IDRs can rapidly diverge while still preserving these structural or functional properties.
+%       2. Furthermore, in contrast to folded regions whose precise contacts and packing geometries are easily disrupted by point mutations, distributed features are robust to small changes at the sequence level. Thus, deleterious mutations are easily corrected by compensatory mutation elsewhere in the region. Together, these loose restrictions on the sequences of IDRs allow them to rapidly diverge despite preserving their functions.
 %    B. Additionally other studies have shown importance of short linear motifs in IDRs
 %        1. Can be identified as short segments of conservation in otherwise highly diverged alignments of IDRs
 %        2. However, these segments comprise a small fraction of disordered regions, so
-%    C. Recent study first to demonstrate patterns of selection in IDRs across an entire proteome using a set of 82 ``molecular features''
+%
+% III. Previously, many of these studies were limited to ... However, a recent study first to demonstrate patterns of selection in IDRs across an entire proteome using a set of 82 ``molecular features''
 %    D. Furthermore, by clustering IDRs on by these ``evolutionary signatures,'' they identified groups of IDRs evolving under similar sets of constraints. Furthermore they identified functional associations in these clusters which can be used to generate hypotheses of function for previously uncharacterized proteins
-% IV. However, unclear if these patterns are specific to yeast or representative of IDR evolution across the tree of life
+%    E. Subsequent studies have expanded on these findings by using techniques from machine learning and statistics the information from evolutionary signatures to predict the function of IDRs. and learn disorder-associated features in a self-supervised manner.
+% III. However, no subsequent studies have determined if similar patterns of conservation are found in other systems. As another foundational model organism with abundant genomic information across many evolutionary lineages, the fruit fly, \textit{Drosophila melanogaster}, is a natural choice for subsequent investigation~\cite{Yang2018, Miller2018, Kim2021, Gramates2022}.
 %    A. Expand analyses to another model organism
 %        1. Drosophila is key model for genetic and development research with abundant genomic resources across many lineages in the radiation
 %        2. Furthermore as multicellular organism with complex developmental pathways, the results would be particularly relevant for understanding the role of IDRs in complex signaling pathways
 %        3. Also relevant for human health!
-%    B. Results would have significant impact on interpretation
-%        1. Conserved distributed properties are a yeast phenomena
+%    B. The concordance of these results with the previously identified IDR clusters would also have profound implications for the broader mechanisms of IDR evolution. Depending on the amount of concordance, several conclusions are possible.
+%        1. If no patterns are observed, this suggests that conservation of distributed is a not widely conserved mechanism of IDR evolution.
 %        2. Patterns of conservation are yeast phenomena
-%        3. Global taxonomy of disordered regions similar to Pfam
+%        3. Finally, the identification of similar clusters with conserved features and properties would suggest the existence of ``taxonomy'' of IDRs which is common across many branches of the tree of life. This would allow the creation of a classification system such as Pfam
 % IV. Explicit phylogenetic models of trait evolution can reveal patterns of evolution with fewer assumptions
 %    A. Previous analyses compared observed distributions of features in observed IDRs to the distributions generated by simulated counterparts
 %    B. Differences were interpreted as evidence of selection on features
@@ -32,12 +36,12 @@ Here's where my introduction will go!
 %        2. Null distribution generated by a model of evolution where the composition of sequences stochastically evolve towards a specific equilibrium distribution
 %        3. Previous studies have identified IDRs with varying compositional preferences, so a single equilibrium distribution is unlikely to globally describe observed patterns of sequence evolution in IDRs
 %    C. Thus in this work we explore use of various statistical approaches that directly measure rates of change and constraint of molecular features indepedent of specific model of sequence evolution
-%        1. Place these evolutionary analyses in a statistical phylogenetic framework
+%        1. Place these evolutionary analyses in a statistical phylogenetic framework through the application of the Brownian motion and Ornstein-Uhlenbeck models of trait evolution.
 %        2. Though these models have own assumptions, they are macroscopic descriptions of continuous trait evolution and therefore independent of any assumptions about evolution at the level sequences
 %        3. Still have their own assumptions of course, but more general and robust to deviations
 %        4. We view these approaches as complementary, each having different trade-offs between specificity and generality of testing specific hypotheses of disorder evolution
 %        5. We also explore hybrid approaches where the evolutionary rates obtained from phylogenetic models are used as a statistic
-% V. By applying these approaches to set of IDRs identified in Drosophila genomes, we observe...
+% V. Therefore, in this work we apply evolutionary models of sequence and trait evolution to the sequences of IDRs and their of associated molecular feature to dissect the forces driving their evolution. We find IDRs exhibit unique patterns of evolution at the level of sequences. We find intrinsic disorder is a dynamically evolving property in some regions, and changes in disorder preference are correlated with changes in the complexity. We find that IDRs are unconstrained along several axis of trait evolution, but they also display
 
 \section{Results}
 \subsection{IDRs are shorter and more divergent than non-disordered regions}
