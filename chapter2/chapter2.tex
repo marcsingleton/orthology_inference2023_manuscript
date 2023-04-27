@@ -75,6 +75,14 @@ Though the BM process permits the inference of the rates of feature evolution af
 
 We therefore fit OU models to the features calculated from the segments in each region to detect evidence of their conservation. A strength of probabilistic models of trait evolution is they permit the use of standard statistical methods to compare the support for different hypotheses. Thus, the goodness of fit of the OU model relative to the BM model is a measure of the evidence for selective constraint. However, because the OU model is specified with an additional parameter and has a greater capacity to fit the data, we compared their fits using the difference in the Akaike information criterion (AIC), which accounts for the model complexity, rather than the likelihood ratio. We chose not to treat these differences in a strict statistical sense but instead as qualitative ``evolutionary signatures'' as in Zarin \textit{et al.}~\cite{Zarin2019}. Accordingly, we clustered the signatures to identify patterns of feature conservation across the proteome. To ensure the clusters were enriched in regions with a high likelihood of feature conservation despite low levels of sequence identity, we restricted this analysis to regions with a minimum amount of divergence as measured by substitution models (Fig.~\ref{sfig:hierarchy_histogram}).
 
+\begin{figure}[h!]
+\includegraphics[width=\textwidth]{hierarchy/out/hierarchy.png}
+\centering
+\caption{\textbf{Hierarchical clustering of evolutionary signatures.}
+The AIC difference between the BM and OU models is measure of their relative goodness of fit to the data with a penalty for the number of parameters in each. Larger values indicate a better fit by the OU model.}
+\label{fig:hierarchy}
+\end{figure}
+
 The resulting heatmap reveals patterns of similar signatures interspersed among a high background of noise (Fig.~\ref{fig:hierarchy}). However, we identify at least 12 clusters with a strong and consistent patterns of constraint, with many having significant associations with certain processes, functions, or compartments. For example, cluster X is strongly enriched in Y, and cluster A contains many proteins involved in B. Though these preliminary results suggest the existence of high-level relationships between certain patterns of conserved features and function, additional insights into the biophysical and mechanistic details that underpin these associations will depend on more in-depth analyses of specific clusters and the properties of their constituent IDRs.
 
 % CONCLUSION
@@ -133,14 +141,6 @@ The resulting heatmap reveals patterns of similar signatures interspersed among 
 %         - Contrastive learning (Moses)
 %         - Prediction on gold standard data sets
 %         - Embeddings from LLMs trained on large data sets
-
-\begin{figure}[h!]
-\includegraphics[width=\textwidth]{hierarchy/out/hierarchy.png}
-\centering
-\caption{\textbf{Hierarchical clustering of evolutionary signatures.}
-The AIC difference between the BM and OU models is measure of their relative goodness of fit to the data with a penalty for the number of parameters in each. Larger values indicate a better fit by the OU model.}
-\label{fig:hierarchy}
-\end{figure}
 
 \section{Discussion}
 Here's where my discussion will go!
