@@ -18,6 +18,19 @@ min_indel_columns = 5  # Indel rates below this value are set to 0
 min_aa_rate = 1
 min_indel_rate = 0.1
 
+clusters = [('A', '15086'),
+            ('B', '15170'),
+            ('C', '15160'),
+            ('D', '15070'),
+            ('E', '14415'),
+            ('F', '15217'),
+            ('G', '15078'),
+            ('H', '15021'),
+            ('I', '15161'),
+            ('J', '15191'),
+            ('K', '15143'),
+            ('L', '14937')]
+
 color1 = '#4e79a7'
 
 # Load regions
@@ -108,7 +121,7 @@ legend_args = {'aa_group': ('Amino acid content', 'grey', ''),
                'motifs_group': ('Motifs', 'white', 4 * '\\')}
 group_labels = ['aa_group', 'charge_group', 'motifs_group', 'physchem_group', 'complexity_group']
 group_labels_nonmotif = ['aa_group', 'charge_group', 'physchem_group', 'complexity_group']
-gridspec_kw = {'width_ratios': [0.1, 0.9], 'wspace': 0,
+gridspec_kw = {'width_ratios': [0.1, 0.7, 0.2], 'wspace': 0,
                'height_ratios': [0.975, 0.025], 'hspace': 0.01,
                'left': 0.05, 'right': 0.95, 'top': 0.95, 'bottom': 0.125}
 
@@ -133,7 +146,7 @@ for node in tree.postorder():
     node2tips[node] = tips
     node2color[node] = str(max(0, (11 - tips) / 10))
 
-fig, axs = plt.subplots(2, 2, figsize=(7.5, 7.5), gridspec_kw=gridspec_kw)
+fig, axs = plt.subplots(2, 3, figsize=(7.5, 7.5), gridspec_kw=gridspec_kw)
 
 # Tree
 ax = axs[0, 0]
@@ -156,9 +169,25 @@ ax.set_yticks([])
 for spine in ax.spines.values():
     spine.set_visible(False)
 
-# Corner axis
-ax = axs[1, 0]
-ax.set_visible(False)
+# Corner axes
+for ax in [axs[1, 0], axs[1, 2]]:
+    ax.set_visible(False)
+
+# Cluster blocks
+ax = axs[0, 2]
+id2idx = {tip.name: idx for idx, tip in enumerate(tree.tips())}
+for cluster_id, root_id in clusters:
+    root_node = tree.find(root_id)
+    tips = list(root_node.tips())
+    upper_idx = id2idx[tips[0].name]
+    lower_idx = id2idx[tips[-1].name]
+
+    rect = plt.Rectangle((0.05, upper_idx), 0.2, lower_idx - upper_idx, facecolor='white', edgecolor='black', linewidth=1)
+    ax.add_patch(rect)
+    ax.text(0.325, (upper_idx + lower_idx) / 2, cluster_id, va='center_baseline', fontsize='medium', fontweight='bold')
+    ax.text(0.55, (upper_idx + lower_idx) / 2, 'some filler text', va='center_baseline', fontsize='xx-small')
+ax.sharey(axs[0, 1])
+ax.set_axis_off()
 
 # Legend
 ax = axs[1, 1]
@@ -172,11 +201,11 @@ for group_label in group_labels:
     ax.add_patch(rect)
     handles.append(rect)
     x += dx
-ax.legend(handles=handles, loc='upper center', bbox_to_anchor=(0.25, 0), fontsize=8)
+ax.legend(handles=handles, loc='upper center', bbox_to_anchor=(0.275, 0), fontsize=8)
 ax.set_axis_off()
 
 # Colorbar
-xcenter = 0.75
+xcenter = 0.625
 width = 0.2
 ycenter = gridspec_kw['bottom'] / 2
 height = 0.015
