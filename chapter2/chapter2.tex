@@ -86,14 +86,15 @@ The resulting heatmap reveals patterns of similar signatures interspersed among 
 
 % CONCLUSION
 % I. Summary of results
-%    A. In this study we showed...
-%    B. IDRs have patterns of evolution distinct from folded domains
-%    C. Elevated rates of residue substitution and indels
-% II. General caveats
+%    A. In this study, we demonstrate the first evidence of evolutionary constraint in IDRs across the \textit{Drosophila} proteome.
+%    B. Most immediately, this work generates hypotheses of function related to sequence features that will permit the functional dissection of IDRs.
+%    C. More broadly, however, it illustrates constraint of distributed features characterizes the evolution of some IDRs across multiple systems.
 
 % II. Exchangeability and rate matrices
+%    A. In addition to these global patterns of conserved features, we find IDRs exhibit other characteristic patterns of evolution.
+%    B. For example, a comparison of the exchangeability matrices fit to the disorder and order regions show decreased exchangeability coefficients between
 %    A. Interestingly, the exchangeability matrices suggest that although there is net flux towards disorder by depleting structure-promoting residues, disordered residues are more biochemically distinct in disordered regions than in structured regions. This suggests that although disorder-promoting amino acids are often grouped into a single category and described as largely hydrophilic, they have distinct roles in disordered regions. There is evidence that highly similar residues such as glutamine and asparagine have distinct properties in disordered regions that yielded different biophysical characters of phase-separated condensates, so this aligns with other observations. Conversely, structure promoting residues are more interchangeable. One hypothesis is as these bulkier hydrophobic residues are not constrained by packing, they are free to act more generically as small hydrophobic patches that mediate interactions in SLiMs and other binding regions in IDRs. Another model for this behavior is the stickers and spacers model of phase separation.
-%    A. A difficulty with fitting substitution models is their dependence on sequence alignments which were created using scoring matrices that are in turn often derived from substitution models. Some approaches attempt to minimize the impact of this circular dependency through an EM-like procedure where substitution models are fit and the sequences in alternating rounds until convergence. Because our analyses fit the substitution models directly from alignments, the observed patterns we observe could be artifacts of using a scoring matrix largely fit to folded domains to align IDRs
+%    A. A caveat of this analysis is its dependence on sequence alignments which were created using scoring matrices that are in turn often derived from substitution models. Some approaches attempt to minimize the impact of this circular dependency through an EM-like procedure where substitution models are fit and the sequences are re-aligned with scoring matrices derived from those models in alternating rounds until convergence. Because our analyses fit the substitution models directly from alignments, the observed patterns we observe could be artifacts of using a scoring matrix largely fit to folded domains to align IDRs
 %    A. However, as the exchangeability and rate matrices broadly reproduced the trends observed in previous studies which fit amino acid substitution models to disorder regions, these observations are likely not artifactual but instead represent reproducible differences in the substitution rates between residues.
 %    B. Interpretations of exchangeability and rate matrices
 %        1. Disorder-enriched residues are less interchangeable and play specific roles in these regions
@@ -104,29 +105,28 @@ The resulting heatmap reveals patterns of similar signatures interspersed among 
 %        3. Note about variances of parameters as shown in CV graphs
 
 % IV. Feature analyses
-%    A. In the PCAs of the feature roots and rates, though no discrete clusters are visible in the three largest components, they only accounted for X\% of the total variation between region. This suggests, a majority of variation is contained other in these components.
-%    B. The success of the hierarchical clustering of the rates at revealing additional structure suggests
-%    C. Other non-linear dimensionality reductions like UMAP be more successful at preserving the fine structure of these high-dimensional distributions in the low-dimensional space. However, as these methods are designed primarily for visualization, they can significant distort the global structure of high-dimensional data. Thus, these embeddings are generally not suitable for downstream analyses. Instead, semi-supervised approaches for feature learning may yield more meaningful representations. In fact, a recent study used a semi-supervised learning approach that identified orthologous IDRs to learn novel disorder-associated features. Though they used a simple neural network that aided in interpretability, other similar semi-supervised approaches have used more complex networks to learn rich representations of protein regions. Similar approaches may yield representations of the space of disordered proteins that are more clearly visualized and manipulated.
+%    A. Though no discrete clusters are visible in the largest two and three principal components of the feature root and rate distribution, they only account for X\% and Y\% of the total variation between regions, respectively. Thus, a majority of the variation is contained in other components.
+%    B. The success of the hierarchical clustering at identifying common patterns of feature constraint suggests this method, or other non-linear dimensionality reductions like UMAP or t-SNE, may also reveal additional structure latent in the high-dimesional rate distributions. However, as these methods are designed primarily for visualization, they can significant distort the global structure of high-dimensional data. Thus, these embeddings are generally not suitable for downstream analyses. Instead, semi-supervised approaches for feature learning may yield more meaningful representations. In fact, a recent study used a semi-supervised learning approach that identified orthologous IDRs to learn novel disorder-associated features. Though they used a simple neural network that aided in interpretability, other similar semi-supervised approaches have used more complex networks to learn rich representations of protein regions. Similar approaches may yield representations of the space of disordered proteins that are more clearly visualized and manipulated.
 
 % V. OU analyses
-%    A. While preliminary analyses indicate
-%    A. Discussion of issues with statistical inference and need for simulations to address inference issues with OU model
+%    D. As noted by Zarin \textit{et al.}, the interpretation of evolutionary signatures is complicated by several methodological caveats.
+%        1. For example, because IDRs are identified as contiguous segments of high predicted disorder, their boundaries are defined by adjacent structural elements. This approach can therefore split an IDR that is a single evolutionary or functional unit if it contains a semi-disordered module that scores below the threshold. Conversely, it can also merge two distinct IDRs if they are not separated by at least one folded domain.
+%        2. Additionally, the large overlap in the definitions of many features induce strong correlations that preclude straightforward quantitative interpretations
+%    M. Though subsequent studies by the original authors have made progress on these issues with machine learning methods that perform feature selection to correlate
+%    A. Though the comparative phylogenetic methodology used here does not depend on Another issue is statistical power Discussion of issues with statistical inference and need for simulations to address inference issues with OU model
 %        1. Lack of power or prone to type I errors?
-%    B. Better models for handling motif counts
+%    B. Furthermore, some features strongly violate the assumptions of the Brownian motion model.
+%        0. Better models for handling motif counts
 %        1. Unlike other features where small changes in a sequence general yield small changes in their value, the complexity of the regular expressions made them highly sensitive to small perturbations.
 %    C. Need for comparisons with simulations with amino acid substitution and indel models
 %        1. Weaknesses are explicit assumptions about substitution and indel processes and high computational cost
 %        2. Is also a strength because allows testing of increasingly specific hypotheses for IDR evolution
 %        3. Complementary approach -- fewer assumptions about description of evolution but cannot be tailored to specific hypotheses
 %        4. Hybrid approach using comparisons of rates as the statistical test and simulations to generate the null distribution
-%    D. Mention other distribution free approaches
-
-% VI. Big picture and wrap up
-%     A. Experimental swaps of IDRs in similar classes
-%     B. What are features?
-%         - Contrastive learning (Moses)
-%         - Prediction on gold standard data sets
-%         - Embeddings from LLMs trained on large data sets
+%    D. Another hybrid approach is using permutation-like tests to test for the conservation of patterned features like omega or motifs
+%        1. Uses background distribution of amino acids in each IDR, so can specifically test for importance of patterning based features.
+%        2. We expect that IDRs evolve under multiple regimes where some are unconstrained and others are constrained with compositional and patterned features, or a mixture of both. As a battery of statistical methods will be necessary to tease apart these details, we view these approaches as complementary, each with its own strengths and weaknesses.
+%    E. Thus, while these results represent a significant step forward in relating sequence to function in IDRs, further studies will undoubtedly reveal new insights into these pervasive but poorly understood regions of proteins.
 
 \section{Discussion}
 Though the mutations generated by evolution are not a random or exhaustive sample of sequence space, they are perturbations of a common ancestor which can reveal the relationship between a region's biophysical properties and its propensity for disorder. Thus, the analysis of feature and score contrasts is effectively a natural ``mutational scanning'' experiment. We found that disorder scores have the strongest correlations with features that measure a region's overall polarity and hydrophobicity, \textit{e.g.} fraction\_disorder and hydropathy. As the formation of a hydrophobic core is a major driving force in protein folding, this relationship is expected. However, the strength of these correlations indicate that a region's relative proportion of hydrophilic and hydrophobic residues is, to a first approximation, the largest determinant of intrinsic disorder.
@@ -138,7 +138,6 @@ The remaining significant correlations are generally weak and likely reflect a p
 The GO annotation enrichment analysis indicates that proteins involved in DNA repair and extracellular structures contain a disproportionate number of regions whose disorder scores are rapidly evolving. Because the significance tests were not corrected for multiple testing or controlled for their false discovery rate, we caution against over-interpreting this result and instead consider it as a hypothesis for further investigation. In general, however, these regions with rapidly evolving disorder scores may correspond to molecular recognition features (MoRFs), which are modules in IDRs that undergo a disorder-to-order transition on binding their targets. Because MoRFs already exist on the boundary between disorder and structure, small changes in the biophysical properties of these regions may have disproportionate effects on their structural ensembles. Thus, the most variable disorder scores may reflect instances where a mutation triggered a ``phase transition'' between largely structured or disordered native states.
 
 \section{Materials and methods}
-
 \subsection{Alignment and species tree provenance}
 Alignments of 8,566 single copy orthologs and the corresponding outputs of the missing data phylo-HMM were obtained from the analyses conducted in chapter~\ref{chapter:1}. Likewise, the LG consensus tree generated by the ``non-invariant, 100\% redundancy'' sampling strategy was used as the input or reference where indicated in subsequent phylogenetic analyses.
 
