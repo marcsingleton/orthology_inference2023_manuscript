@@ -272,7 +272,7 @@ hb = ax.hexbin(xs, ys, **hexbin_kwargs_log)
 ax.set_xlabel(f'PC{pcx+1}')
 ax.set_ylabel('Total substitution rate')
 subfig.colorbar(hb, cax=ax.inset_axes((1.1, 0, 0.05, 1)))
-subfig.suptitle('C', x=0.025, y=0.975, fontweight='bold')
+subfig.suptitle('B', x=0.025, y=0.975, fontweight='bold')
 
 # --- PANEL C ---
 pcx, pcy = 1, 2
