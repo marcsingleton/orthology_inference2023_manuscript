@@ -30,14 +30,6 @@ In this work we therefore developed a computational pipeline that can robustly i
 
 To develop these methods, we chose a set of 33 assembled and annotated \textit{Drosophila} genomes, which includes all 12 species from the original \textit{Drosophila} 12 Genomes Consortium~\cite{D12GC2007}. However, the genomes of these 12 species have been re-sequenced since their first release, which has resulted in substantial improvements in their assemblies and annotations~\cite{Yang2018, Miller2018}. Despite these developments and other several other recent genome assembly projects of species in the \textit{Drosophila} genus, there is not yet a collection of high-quality alignments of orthologous proteins that reflects these improvements in genome assembly and diversity~\cite{Kim2021}. Given the \textit{Drosophila} genus spans diverse habitats and over 50 million years of evolution but maintains a conserved life cycle and body plan, such a resource would facilitate a new generation of studies that illuminate the forces that drive protein evolution in unprecedented detail~\cite{Wiegmann2011, Obbard2012}.
 
-\begin{figure}[h!]
-\includegraphics[width=\textwidth]{graphical_overview/out/graphical_overview.png}
-\centering
-\caption{\textbf{Overview of orthology inference pipeline.}
-\textbf{(A-C)} The large, open circles represent the annotated genomes, and the small, filled circles represent the protein sequences associated with each annotation. Sequences that share homology are colored with shades of the same hue. \textbf{(D-F)} The small, filled circles and lines represent the same sequences and best hits from the previous steps.}
-\label{fig:graphical_overview}
-\end{figure}
-
 \section{Materials and methods}
 \subsection{Sequence de-duplication and BLAST search parameters}
 The protein sequences for each annotation were de-duplicated by removing any sequences which had already appeared in association with the same gene. Thus, the first accession associated with a sequence and gene pair was the sequence’s representative accession for the gene. BLAST+ 2.13.0 was used for the sequence similarity searches~\cite{Camacho2009}. An E-value cutoff of 1 was used for the initial searches. However, this cutoff was lowered to 1E-10 during processing of the BLAST output.
@@ -95,26 +87,9 @@ The best hits between sequences are naturally visualized as a graph where sequen
 
 The diffuse networks observed in the first component class are likely the result of a combination of factors, including rapid evolution, gene duplication, and annotation errors. Regardless of their origin, these hits are not strong candidates for comparative analyses since an orthology relationship is supported by relatively few genome pairs. Instead, likely orthologs should consistently identify each other as best reciprocal hits across many genome pairs. The same is true of the hits in the second component class. Although the genes as a unit form a single orthologous group, sequences with few hits are likely non-conserved or tissue-specific isoforms. Thus, orthologous groups can be operationally defined as self-consistent clusters in the hit graph. However, sequence divergence or assembly and annotation errors may prevent a best reciprocal hit between orthologous sequences across all genome pairs. In fact, although the most common number of reciprocal hits is 32, one fewer than the total number of genomes, many sequences have fewer (Fig.~\ref{fig:components}D). Thus, the clustering method should require a high degree of self-consistency without demanding complete consensus.
 
-\begin{figure}[h!]
-\includegraphics[width=\textwidth]{components/out/0017-005F.png}
-\centering
-\caption{\textbf{Selected connected components of hit graph and summary statistics.}
-\textbf{(A-B)} Two distinct connected components of the hit graph. Edges are colored by the value of their bit score. \textbf{(C)} Hexbin plot of the number of sequences and the number of unique genes in each component. \textbf{(D)} Histogram of number edges associated with each sequence, \textit{i.e.} the degree of each node. Only the lower 99th percentile of the distribution is shown.}
-\label{fig:components}
-\end{figure}
-
 The identification of sets of densely connected nodes in graphs is known as community detection in network analysis. While many community detection algorithms are available, only some are commonly used in the context of orthology inference. One early method that remains popular is building clusters progressively by identifying nodes that form a triangle with at least two other nodes in the cluster~\cite{Tatusov1997, Jensen2007}. Other approaches include the MCL algorithm, which clusters graphs by simulating stochastic flow~\cite{Enright2002, Li2003, Emms2015}, and connected components or other single-linkage criteria~\cite{Remm2001, Linard2011, Train2017, Cosentino2018}. While these methods are robust when clustering hit graphs derived from smaller or more diverse sets of genomes, they are not suitable for the large number of closely related genomes in this work since they require relatively few edges to define a cluster. For example, the MCL algorithm and connected components method assign a node to a cluster as long as it has a single edge, and triangle clustering only requires two edges to two adjacent nodes.
 
 However, connected components and triangle clustering are special cases of the more general \textit{k}-clique percolation algorithm where \textit{k} equals two and three, respectively. The clique percolation algorithm detects clusters by first identifying cliques, sets of nodes which are fully connected, of a specified size \textit{k} in the graph (Fig.~\ref{fig:percolation}A). Clusters are then taken as the connected components of an overlap graph where an edge exists between two cliques if they share \textit{k}-1 nodes in common. An intuitive way to visualize this algorithm is by ``rolling'' a clique of some size \textit{k} over the graph (Fig.~\ref{fig:percolation}B). More specifically, a cluster is initiated when a set of nodes which form a \textit{k}-clique is identified. The cluster expands by shifting the \textit{k}-clique to an adjacent \textit{k}-clique that shares \textit{k}-1 nodes in common with the current \textit{k}-clique. A cluster stops expanding when there are no adjacent \textit{k}-cliques, and the algorithm terminates when there are no \textit{k}-cliques which are not part of a cluster. The strength of this algorithm is its ability to exclude sparsely connected nodes from clusters with an easily tunable parameter \textit{k}. Higher values of \textit{k} require greater overlap between a candidate node and those already in the cluster and therefore produce tighter clusters at the cost of excluding more speculative orthology relationships (Fig.~\ref{fig:percolation}C). We set \textit{k} to four as compromise between these concerns, yielding 22,813 orthologous groups, a plurality of which contained all 33 species (Fig.~\ref{sfig:clusters}).
-
-\begin{figure}[h!]
-\includegraphics[width=\textwidth]{percolation/out/percolation.png}
-\includegraphics[width=\textwidth]{percolation/out/005F.png}
-\centering
-\caption{\textbf{Clique percolation algorithm.}
-\textbf{(A)} Cliques for \textit{k} equal to three, four, five, and six. \textit{k} equal to one and two correspond to a single node and two nodes joined by an edge, respectively. \textbf{(B)} Illustration of clique percolation algorithm where \textit{k = 4}. \textbf{(C)} A single component clustered by clique percolation with varying values of \textit{k}. Nodes are colored according to their cluster. If a node belongs to multiple clusters, it uses a blend of those colors.}
-\label{fig:percolation}
-\end{figure}
 
 \subsection{Addition of paralogs to orthologous groups}
 A weakness of the best reciprocal hits criterion is its exclusion of recently diverged paralogs. Since only the highest scoring hits for each query are included in the graph, a paralog without a corresponding duplicate in the target genome is ignored if it is marginally more diverged than the other copy. This is corrected by adding likely paralogs to the orthologous groups. Briefly, the protein sequences in each genome were searched against themselves. If the bit score for an intra-genome hit exceeded the bit score of any inter-genome hits for the same query, the two sequences were identified as a paralogous pair. Orthologous groups were then supplemented with paralogs by adding the paired sequences for each of the original members of the orthologous group. Most orthologous groups contain no paralogs, and those that do generally have few relative to the original number of sequences in the group (Fig.~\ref{sfig:paralogs}).
@@ -133,14 +108,6 @@ Though the pipeline’s quality control measures ensure a high degree of overall
 
 The aligner MAFFT has a mode for addressing over-alignment with a parameter, \textit{a\textsubscript{max}}, that adjusts the strength of the correction~\cite{Katoh2013, Katoh2016}. \textit{a\textsubscript{max}} varies between 0 and 1, with higher values yielding a stronger correction. While values above 0.8 completely eliminate over-alignment and successfully align highly conserved regions, the alignment as a whole is severely degraded, as even homologous sequences with a small amount of divergence are separated by gaps. Thus, in our pipeline orthologous groups were aligned in two stages. In the first, the sequences were aligned with a strong correction of 0.7. Highly conserved regions were identified, which divided the alignment into a complementary set of diverged regions. The sequences in each of these regions were extracted and aligned separately with a more conservative value for \textit{a\textsubscript{max}} of 0.4. The resulting ``sub-alignments'' were ``stitched'' back into their positions in the original alignment. By defining highly conserved ``anchor'' regions, this approach largely prevents the alignment of chance sequence similarities in long poorly supported segments (Fig.~\ref{fig:realignment}, right).
 
-\begin{figure}[h!]
-\includegraphics[width=\textwidth]{realignment/out/realignment.png}
-\centering
-\caption{\textbf{Alignment with long poorly supported segments.}
-The alignments of representative sequences in orthologous groups 0167 \textbf{(A)}, 2770 \textbf{(B)}, and 23D9 \textbf{(C)} before and after refinement.}
-\label{fig:realignment}
-\end{figure}
-
 \subsection{Alignment curation}
 Although the refinement process corrects most cases of over-alignment, the alignment may still contain regions whose aligned segments have poor or inconsistent support. For example, long poorly supported segments in internal regions were not removed from the alignment since they are bounded by at least one consensus column to the left and right. Additionally, some regions have a significant fraction of sequences with strongly supported segments, but the observed gap pattern is discordant with the expected phylogenetic relationships. Since they are present in so few sequences, the former segments are likely artifactual, resulting from errors during assembly or annotation. (Biological explanations such as alternative splice sites, frameshift mutations, or transposition events are also possible, however.) In contrast, the high sequence identity and clear boundaries of the segments in the latter regions suggest they are conserved but skipped exons. Given the heterogeneous sourcing of the transcript evidence, these sequences containing these segments are likely splice isoforms specific to certain tissues or developmental stage.
 
@@ -150,27 +117,10 @@ Phylogenetic HMMs (phylo-HMMs) are statistical models that incorporate phylogene
 
 After the model was trained on manually labeled examples, it was used to assign a label to the columns in each alignment. Columns assigned to state 1 are the regions of interest for downstream analyses since the gaps generally follow the expected pattern given the phylogenetic tree. In contrast, columns assigned to states 2 and 3 largely corresponded to the long poorly supported segments and phylogenetically discordant regions discussed previously and were therefore removed from the alignments. In the example decoded alignment shown, the decoded states closely follow the expected patterns (Fig.~\ref{fig:hmm}B). Overall, 29\% of alignments were trimmed of at least one segment or region. However, 87\% of the trims were segment trims, meaning the removed segments were largely inferred as state 3 and therefore were likely long poorly supported segments aligned to few if any other sequences (Fig.~\ref{sfig:insertion_trim}).
 
-\begin{figure}[h!]
-\includegraphics[width=\textwidth]{hmm/out/hmm_architecture.png}
-\includegraphics[width=\textwidth]{hmm/out/2252.png}
-\centering
-\caption{\textbf{HMM emission architecture and a decoded alignment.}
-\textbf{(A)} Schematic of theoretical alignment generating process and corresponding probabilistic components in HMM. White and colored boxes indicate gap and non-gap symbols in the biological sequences, respectively. White and grey boxes indicate gap and non-gap symbols in the encoded sequences, respectively. c\textsubscript{0} and c\textsubscript{1} indicate the first and second columns in the alignment, respectively. The parameters associated with each component are shown to the right. \textbf{(B)} The alignment of the representative sequences in orthologous group 2252 decoded using the trained HMM.}
-\label{fig:hmm}
-\end{figure}
-
 Though the phylo-HMM removed phylogenetically incongruent insertions, some sequences still contained extensive segments of uninterrupted gaps. These segments are easily identified in regions which are otherwise highly conserved, so they are also likely the result of incorrect or incomplete annotations. However, they can also span more diverged regions, which complicates a simple rule- or threshold-based approach for identifying them. Thus, another phylo-HMM was trained to label each position in a sequence as generated by either a ``missing'' or ``not missing'' state. In this case, though, the aligned sequences were processed individually and not as aligned columns. As the previous phylo-HMM already ensured each column has sufficient support, these labels can instead be used to exclude sequences from downstream analyses depending on the amount of tolerated overlap with the regions of interest. Overall, 15\% of alignments have at least one sequence with a segment of ``missing'' data (Fig.~\ref{sfig:missing_trim}).
 
 \subsection{Inference of species trees}
 Many phylogenetic methods require a species tree to inform the evolutionary relationships between sequences. In fact, the phylo-HMMs discussed previously used a species tree as an input, though we omitted this detail for clarity of exposition. Therefore, to support the curation step and other downstream analyses, we sought to infer phylogenetic trees from the aligned sequences. However, since the roots of phylogenetic trees are not identifiable with commonly used time-reversible substitution models, we repeated the orthology inference pipeline with the outgroup species \textit{Scaptodrosophila lebanonensis}. Afterwards, we inferred phylogenetic trees using the LG model of amino acid substitution from 100 meta-alignments sampled from alignments of single copy orthologous groups. We then combined them into a single consensus tree (Fig.~\ref{fig:trees}A). To provide a similar tree for the analysis of non-coding regions, we inferred phylogenetic trees using the GTR model of nucleotide substitution from 100 meta-alignments sampled from nucleotide alignments which were ``reverse translated'' from the protein alignments and their corresponding coding sequences (\ref{fig:trees}B). Both trees have an identical topology, which is consistent with other published phylogenies~\cite{D12GC2007, DaLage2007}.
-
-\begin{figure}[h!]
-\includegraphics[width=\textwidth]{trees/out/trees1.png}
-\centering
-\caption{\textbf{Phylogenetic tree of species.}
-\textbf{(A)} Consensus tree from LG model fit to meta-alignments directly sampled from the original protein alignments. \textbf{(B)} Consensus tree from GTR model fit to meta-alignments sampled from ``reverse translated'' nucleotide alignments. Values at nodes are bootstrap percentages.}
-\label{fig:trees}
-\end{figure}
 
 \section{Discussion}
 \subsection{Developments in genome assembly and annotation challenge existing methods of orthology inference}
@@ -212,8 +162,58 @@ insert funding
 \section{Conflicts of interest}
 The authors declare no conflicts of interest.
 
+\printbibliography
+
 \section{Figures}
-insert figures
+\begin{figure}[h!]
+\includegraphics[width=\textwidth]{graphical_overview/out/graphical_overview.png}
+\centering
+\caption{\textbf{Overview of orthology inference pipeline.}
+\textbf{(A-C)} The large, open circles represent the annotated genomes, and the small, filled circles represent the protein sequences associated with each annotation. Sequences that share homology are colored with shades of the same hue. \textbf{(D-F)} The small, filled circles and lines represent the same sequences and best hits from the previous steps.}
+\label{fig:graphical_overview}
+\end{figure}
+
+\begin{figure}[h!]
+\includegraphics[width=\textwidth]{components/out/0017-005F.png}
+\centering
+\caption{\textbf{Selected connected components of hit graph and summary statistics.}
+\textbf{(A-B)} Two distinct connected components of the hit graph. Edges are colored by the value of their bit score. \textbf{(C)} Hexbin plot of the number of sequences and the number of unique genes in each component. \textbf{(D)} Histogram of number edges associated with each sequence, \textit{i.e.} the degree of each node. Only the lower 99th percentile of the distribution is shown.}
+\label{fig:components}
+\end{figure}
+
+\begin{figure}[h!]
+\includegraphics[width=\textwidth]{percolation/out/percolation.png}
+\includegraphics[width=\textwidth]{percolation/out/005F.png}
+\centering
+\caption{\textbf{Clique percolation algorithm.}
+\textbf{(A)} Cliques for \textit{k} equal to three, four, five, and six. \textit{k} equal to one and two correspond to a single node and two nodes joined by an edge, respectively. \textbf{(B)} Illustration of clique percolation algorithm where \textit{k = 4}. \textbf{(C)} A single component clustered by clique percolation with varying values of \textit{k}. Nodes are colored according to their cluster. If a node belongs to multiple clusters, it uses a blend of those colors.}
+\label{fig:percolation}
+\end{figure}
+
+\begin{figure}[h!]
+\includegraphics[width=\textwidth]{realignment/out/realignment.png}
+\centering
+\caption{\textbf{Alignment with long poorly supported segments.}
+The alignments of representative sequences in orthologous groups 0167 \textbf{(A)}, 2770 \textbf{(B)}, and 23D9 \textbf{(C)} before and after refinement.}
+\label{fig:realignment}
+\end{figure}
+
+\begin{figure}[h!]
+\includegraphics[width=\textwidth]{hmm/out/hmm_architecture.png}
+\includegraphics[width=\textwidth]{hmm/out/2252.png}
+\centering
+\caption{\textbf{HMM emission architecture and a decoded alignment.}
+\textbf{(A)} Schematic of theoretical alignment generating process and corresponding probabilistic components in HMM. White and colored boxes indicate gap and non-gap symbols in the biological sequences, respectively. White and grey boxes indicate gap and non-gap symbols in the encoded sequences, respectively. c\textsubscript{0} and c\textsubscript{1} indicate the first and second columns in the alignment, respectively. The parameters associated with each component are shown to the right. \textbf{(B)} The alignment of the representative sequences in orthologous group 2252 decoded using the trained HMM.}
+\label{fig:hmm}
+\end{figure}
+
+\begin{figure}[h!]
+\includegraphics[width=\textwidth]{trees/out/trees1.png}
+\centering
+\caption{\textbf{Phylogenetic tree of species.}
+\textbf{(A)} Consensus tree from LG model fit to meta-alignments directly sampled from the original protein alignments. \textbf{(B)} Consensus tree from GTR model fit to meta-alignments sampled from ``reverse translated'' nucleotide alignments. Values at nodes are bootstrap percentages.}
+\label{fig:trees}
+\end{figure}
 
 \section{Tables}
 insert tables
