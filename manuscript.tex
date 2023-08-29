@@ -1,7 +1,25 @@
-\begin{abstract}
-\noindent
+\textbf{Title:} Leveraging genomic redundancy to improve inference and alignment of orthologous proteins
+
+\textbf{Authors:} Marc Singleton\textsuperscript{1,*}, Michael Eisen\textsuperscript{1,2}
+
+\textbf{Author addresses:}\\
+1 Howard Hughes Medical Institute, UC Berkeley, Berkeley, CA 94720, USA\\
+2 Department of Molecular and Cell Biology, UC Berkeley, Berkeley, CA 94720, USA
+
+\textbf{Corresponding author email address:}\\
+* marcsingleton@berkeley.edu
+
+\textbf{Running head:} Leveraging genomic redundancy
+
+\textbf{Keywords:} orthology, multiple sequence alignment, HMM, Drosophila
+
+\clearpage
+
+\section{Abstract}
 Identifying protein sequences with common ancestry is a core task in bioinformatics and evolutionary biology. However, methods for inferring and aligning such sequences in annotated genomes have not kept pace with the increasing scale and complexity of the available data. Thus, in this work we implemented several improvements to the traditional methodology that more fully leverage the redundancy of closely related genomes and the organization of their annotations. Two highlights include the application of the more flexible \textit{k}-clique percolation algorithm for identifying clusters of orthologous proteins and the development of a novel technique for removing poorly supported regions of alignments with a phylogenetic HMM. In making the latter, we wrote a fully documented Python package Homomorph that implements standard HMM algorithms and created a set of tutorials to promote its use by a wide audience. We applied the resulting pipeline to a set of 33 annotated \textit{Drosophila} genomes, generating 22,813 orthologous groups and 8,566 high-quality alignments.
-\end{abstract}
+
+\section{Article summary}
+insert article summary
 
 \section{Introduction}
 Comparative genomics is a powerful tool for yielding insights into evolutionary relationships, molecular function, and the forces that drive gene, genome, and population evolution. These methods often rely on the identification of homologous sequences or homologs, that is sequences with common ancestry, since this ensures that differences between sequences reflect variations in evolution from a common point of divergence. However, many analyses impose the additional condition that the sequences have diverged through speciation events (orthology) rather than duplications (paralogy) or other mechanisms such as horizontal gene transfer~\cite{Fitch1970}. The underlying assumption is orthologs have conserved equivalent functions whereas paralogs, by virtue of their redundancy, are more likely to diverge~\cite{Ohno1970, Nowak1997, Altenhoff2012, Pegueroles2013, Soria2014}.\footnote{For multiple sequences, orthology is usually defined relative to their most recent common ancestor. This technically includes sequences which split by duplication after this point (in-paralogs), but excludes sequences which split by duplication before (out-paralogs) \cite{Remm2001}. Many current orthology inference pipelines explicitly incorporate steps to detect in-paralogs. However, the resulting orthologs groups can easily be restricted to those without in-paralogs (single copy orthologs) for analyses where an assumption of conserved function is necessary.} This relationship between orthology and function is an essential component of modern biological research since it permits the transfer of annotations between biological systems using sequence similarity alone.
@@ -83,8 +101,6 @@ The alignments of representative sequences in orthologous groups 0167 \textbf{(A
 
 \subsection{Alignment curation}
 Although the refinement process corrects most cases of over-alignment, the alignment may still contain regions whose aligned segments have poor or inconsistent support. For example, long poorly supported segments in internal regions were not removed from the alignment since they are bounded by at least one consensus column to the left and right. Additionally, some regions have a significant fraction of sequences with strongly supported segments, but the observed gap pattern is discordant with the expected phylogenetic relationships. Since they are present in so few sequences, the former segments are likely artifactual, resulting from errors during assembly or annotation. (Biological explanations such as alternative splice sites, frameshift mutations, or transposition events are also possible, however.) In contrast, the high sequence identity and clear boundaries of the segments in the latter regions suggest they are conserved but skipped exons. Given the heterogeneous sourcing of the transcript evidence, these sequences containing these segments are likely splice isoforms specific to certain tissues or developmental stage.
-
-% To investigate these hypotheses, the genome sequences and supporting transcript evidence for several segments and regions were examined in detail: 0254, 26CF, 202C, 188E, 2E9F, 34B7, 0C31.
 
 Since the segments in these regions are likely the result of incorrect or incomplete annotations rather than meaningful biological variation, maintaining them in the alignments would propagate spurious homologies to subsequent analyses. This is a common issue in alignments generated by automated pipelines, so downstream analyses often focus on the strongly supported regions by removing or ``trimming'' columns below some threshold number of gaps or sequence identity~\cite{Castresana2000, CapellaGutierrez2009}. This approach, however, is inadequate if the taxonomic sampling is dense, as a single indel event along a lineage containing many species can increase the number of gaps above the threshold. Moreover, as this method does not incorporate any spatial information, it can rapidly alternate between trimming and preserving columns. Thus, it can severely disrupt any analyses which are sensitive to the spatial organization of an alignment.
 
@@ -182,7 +198,22 @@ To fit trees using the GTR model of nucleotide substitution, the protein alignme
 
 To fit trees using the two-state GTR model of substitution, the protein alignments were first coded into gap or non-gap symbols. As before, 100 meta-alignments were constructed from these coded alignments for each sampling strategy. In this case, only the presence of invariant columns was varied, yielding two sets of meta-alignments. Trees were fit using the GTR2 model with no rate categories. An invariant category, however, was included if invariant columns were allowed. Since the bootstrap confidences were sometimes lower than 50\%, the resulting trees from each set were merged into a loose consensus tree to prevent multifurcations (Fig.~\ref{sfig:trees_GTR}).
 
-\subsection{Code and data availability}
+\section{Data availability}
 \begin{sloppypar}
 The code used to produce the results and analyses is available at \url{https://github.com/marcsingleton/orthology_inference2023}. HMM algorithms were implemented in the standalone package Homomorph which is available at \url{https://github.com/marcsingleton/homomorph} and on the Python Package Index (PyPI). The following Python libraries were used: matplotlib~\cite{Hunter2007}, NumPy~\cite{Harris2020}, pandas~\cite{McKinney2010}, and SciPy~\cite{Virtanen2020}. There are no primary data associated with this manuscript. All primary data are available from publicly accessible sources described in their corresponding sections. Relevant outputs are available in the supplemental files at FigShare. File S1 contains the orthologous groups generated by 4-clique percolation with paralogs added. File S2 contains the initial alignments of all sequences in each orthologous group. File S3 contains the refined alignments of the representative sequences in each single copy orthologous group. File S4 contains the insertion phylo-HMM model parameters and the alignments of the single copy ortholog groups after trimming. File S5 contains the missing data phylo-HMM model parameters and the missing segments identified for each sequence in each single copy orthologous group. Missing segments are given as Python slices in the following form: start0-stop0,start1-stop1,\ldots,startn-stopn. If the slices field is empty, then no missing segments were identified in that sequence. File S6 contains the consensus phylogenetic trees fit using the LG, GTR, and GTR2 substitution models.
 \end{sloppypar}
+
+\section{Acknowledgements}
+insert acknowledgements
+
+\section{Funding}
+insert funding
+
+\section{Conflicts of interest}
+The authors declare no conflicts of interest.
+
+\section{Figures}
+insert figures
+
+\section{Tables}
+insert tables
