@@ -69,6 +69,6 @@ ax.set_ylabel('Number of OGs')
 subfig.suptitle('D', x=0.025, y=0.975, fontweight='bold')
 ax.set_yscale('log')
 
-fig.savefig('out/paralogs.png', dpi=300)
-fig.savefig('out/paralogs.tiff', dpi=300)
+fig.savefig('out/paralogs.png', dpi=600)
+fig.savefig('out/paralogs.tiff', dpi=600)
 plt.close()

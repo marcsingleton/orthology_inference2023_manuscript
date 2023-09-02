@@ -110,6 +110,6 @@ subfig.suptitle('E', x=0.025, y=0.975, fontweight='bold')
 handles = [Line2D([], [], label=label, color=color) for label, color in zip(state_labels, state_colors)]
 fig.legend(handles=handles, ncol=len(handles), bbox_to_anchor=(0.5, -0.01), loc='lower center')
 
-fig.savefig('out/missing_training.png', dpi=300)
-fig.savefig('out/missing_training.tiff', dpi=300)
+fig.savefig('out/missing_training.png', dpi=600)
+fig.savefig('out/missing_training.tiff', dpi=600)
 plt.close()

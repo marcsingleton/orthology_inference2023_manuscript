@@ -20,7 +20,7 @@ fig_width = 7.5
 fig_height = 5.625
 height_ratios = [2, 1]
 rect = (0.25, 0.25, 0.65, 0.65)
-dpi = 300
+dpi = 600
 
 margin_width = 0
 margin_height = 0

@@ -83,6 +83,6 @@ ax.set_xlabel('Number of associated OGs')
 ax.set_ylabel('Number of proteins')
 subfig.suptitle('D', x=0.025, y=0.975, fontweight='bold')
 
-fig.savefig('out/clusters.png', dpi=300)
-fig.savefig('out/clusters.tiff', dpi=300)
+fig.savefig('out/clusters.png', dpi=600)
+fig.savefig('out/clusters.tiff', dpi=600)
 plt.close()

@@ -34,7 +34,7 @@ values = [len(set(OGids)) - df['OGid'].nunique(), df['OGid'].nunique()]
 labels = [f'{label}\n({value:,})' for label, value in zip(['no missing trims', 'missing trims'], values)]
 subfig = fig.add_subfigure(gs[0, 0], facecolor='none')
 ax = subfig.add_axes((0.1, 0.1, 0.8, 0.8))
-ax.pie(values, labels=labels, labeldistance=1.75, textprops={'ha': 'center'})
+ax.pie(values, labels=labels, labeldistance=1.5, textprops={'ha': 'center'})
 subfig.suptitle('A', x=0.025, y=0.975, fontweight='bold')
 
 # Distribution of number sequences with trims in OGs
@@ -62,6 +62,6 @@ ax.set_xlabel('Length ratio of trim')
 ax.set_ylabel('Number of trims')
 subfig.suptitle('D', x=0.025, y=0.975, fontweight='bold')
 
-fig.savefig('out/missing_trim.png', dpi=300)
-fig.savefig('out/missing_trim.tiff', dpi=300)
+fig.savefig('out/missing_trim.png', dpi=600)
+fig.savefig('out/missing_trim.tiff', dpi=600)
 plt.close()

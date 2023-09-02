@@ -124,7 +124,7 @@ def get_node_colors(OGs_k, graph, color_cycler):
 component_ids = ['0041', '0054', '0056', '0059', '005D', '005F']
 
 fig_width = 7.5
-dpi = 300
+dpi = 600
 
 margin_width = 0
 margin_height = 0

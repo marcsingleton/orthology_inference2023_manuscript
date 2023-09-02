@@ -5,7 +5,7 @@ import os
 import matplotlib.pyplot as plt
 import skbio
 from matplotlib import rcParams
-from src1.draw import plot_tree
+from src.draw import plot_tree
 
 if not os.path.exists('out/'):
     os.mkdir('out/')
@@ -22,7 +22,7 @@ for model_label in ['LG', 'GTR']:
 
 xlabels = ['amino acid', 'nucleotide']
 title_labels = ['A', 'B']
-dpi = 300
+dpi = 600
 
 fig, axs = plt.subplots(1, 2, figsize=(7.5, 4), layout='constrained')
 for ax, tree, xlabel, title_label in zip(axs, trees, xlabels, title_labels):

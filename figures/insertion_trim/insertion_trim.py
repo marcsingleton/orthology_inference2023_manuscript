@@ -110,6 +110,6 @@ ax.set_xlabel('Length ratio of region trim')
 ax.set_ylabel('Number of region trims')
 subfig.suptitle('H', x=0.025, y=0.975, fontweight='bold')
 
-fig.savefig('out/insertion_trim.png', dpi=300)
-fig.savefig('out/insertion_trim.tiff', dpi=300)
+fig.savefig('out/insertion_trim.png', dpi=600)
+fig.savefig('out/insertion_trim.tiff', dpi=600)
 plt.close()
