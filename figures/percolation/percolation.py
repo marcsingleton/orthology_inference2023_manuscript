@@ -132,8 +132,8 @@ margin_data = 0.05
 
 panel_label = 'C'
 panel_label_fontsize = 'large'
-panel_label_offset = 0.025
-panel_label_margin = 0.5
+panel_label_offset = 0.0125
+panel_label_margin = 0.25
 
 color_cycle = ['#4E79A7F8', '#F28E2BF8', '#E15759F8', '#499894F8', '#59A14FF8', '#B6992DF8', '#B07AA1F8', '#D37295F8',
                '#A0CBE8F8', '#FFBE7DF8', '#FF9D9AF8', '#86BCB6F8', '#8CD17DF8', '#F1CE63F8', '#D4A6C8F8', '#FABFD2F8']
@@ -202,18 +202,30 @@ for component_id in component_ids:
     # Adjust dimensions so aspect ratio is 1:1
     panel_width = fig_width / len(OGs_k) * (1 - 2 * margin_width)
     panel_height = panel_width * ylen / xlen
-    fig_height = panel_height / (1 - 2 * margin_height) + panel_label_margin
+    graph_height = panel_height / (1 - 2 * margin_height) + panel_label_margin  # Re-adjust for buffer and label margin
     node_size1 = node_slope1 * panel_width * panel_height / len(subgraph) + node_intercept1  # Node size is inversely proportional to node density
 
-    fig = plt.figure(figsize=(fig_width, fig_height))
+    # Add additional height for SVG panel
+    im = plt.imread('out/percolation.png')
+    SVG_height = im.shape[0] / im.shape[1] * fig_width
+
+    fig = plt.figure(figsize=(fig_width, SVG_height + graph_height))
+    gs = plt.GridSpec(2, 1, height_ratios=[SVG_height, graph_height])
+
+    subfig = fig.add_subfigure(gs[0])
+    ax = subfig.add_axes((0, 0, 1, 1))
+    ax.imshow(im)
+    ax.axis('off')
+
+    subfig = fig.add_subfigure(gs[1])
     node_colors_k = get_node_colors([OGs[component_id] for OGs in OGs_k], nx_graph, ColorCycler(color_cycle))
     for i, (k, node_colors) in enumerate(zip(ks, node_colors_k)):
         # Fit axes into panel
         x0 = i / len(OGs_k)
         width = panel_width / fig_width
-        height = panel_height / fig_height
+        height = panel_height / graph_height
         rect = (x0 + margin_width, margin_height, width, height)
-        ax = fig.add_axes(rect)
+        ax = subfig.add_axes(rect)
 
         nx.draw_networkx_edges(nx_graph, positions, ax=ax, edge_color=null_color, alpha=edge_alpha1, width=edge_width1)
         nx.draw_networkx_nodes(nx_graph, positions, ax=ax, node_size=node_size1, linewidths=0, node_color=node_colors)
@@ -222,9 +234,9 @@ for component_id in component_ids:
 
         ax.set_title(f'$k$ = {k}', pad=0, fontdict={'fontsize': 'small'})
         ax.axis('off')
-    x = fig.text(panel_label_offset / fig_width, 1 - panel_label_offset / fig_height, panel_label,
-                 fontsize=panel_label_fontsize, fontweight='bold',
-                 horizontalalignment='left', verticalalignment='top')
+    subfig.text(panel_label_offset / fig_width, 1 - panel_label_offset / graph_height, panel_label,
+                fontsize=panel_label_fontsize, fontweight='bold',
+                horizontalalignment='left', verticalalignment='top')
     fig.savefig(f'out/{component_id}.png', dpi=dpi)
     fig.savefig(f'out/{component_id}.tiff', dpi=dpi)
     plt.close()
