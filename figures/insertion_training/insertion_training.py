@@ -7,8 +7,8 @@ import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 
 spid_regex = r'spid=([a-z]+)'
-state_labels = ['1A', '1B', '2', '3']
-state_colors = ['C0', 'C3', 'C1', 'C2']
+state_labels = ['1', '2', '3']
+state_colors = ['C0', 'C1', 'C2']
 
 # Load labels
 OGid2labels = {}
@@ -18,6 +18,8 @@ with open('../../orthology_inference/analysis/ortho_MSA/insertion_hmm/labels.tsv
     for line in file:
         fields = {key: value for key, value in zip(field_names, line.rstrip('\n').split('\t'))}
         OGid, start, stop, label = fields['OGid'], int(fields['start']), int(fields['stop']), fields['label']
+        label = '1' if label in ['1A', '1B'] else label  # Merge 1A and 1B
+
         label_set.add(label)
         try:
             OGid2labels[OGid].append((start, stop, label))
@@ -49,7 +51,7 @@ values = [counts[label] for label in state_labels]
 labels = [f'{label}\n({value:,})' for label, value in zip(state_labels, values)]
 subfig = fig.add_subfigure(gs[0, :2])
 ax = subfig.add_axes((0.1, 0.1, 0.8, 0.8))
-ax.pie(values, colors=state_colors, labels=labels, labeldistance=1.3, textprops={'ha': 'center'})
+ax.pie(values, colors=state_colors, labels=labels, labeldistance=1.45, textprops={'ha': 'center'})
 subfig.suptitle('A', x=0.025, y=0.975, fontweight='bold')
 
 # Plot loss curve
@@ -117,6 +119,6 @@ subfig.suptitle('F', x=0.025, y=0.975, fontweight='bold')
 handles = [Line2D([], [], label=label, color=color) for label, color in zip(state_labels, state_colors)]
 fig.legend(handles=handles, ncol=len(handles), bbox_to_anchor=(0.5, -0.01), loc='lower center')
 
-fig.savefig('out/insertion_training.png', dpi=300)
-fig.savefig('out/insertion_training.tiff', dpi=300)
+fig.savefig('out/insertion_training.png', dpi=600)
+fig.savefig('out/insertion_training.tiff', dpi=600)
 plt.close()

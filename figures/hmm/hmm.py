@@ -8,17 +8,18 @@ import homomorph
 import matplotlib.pyplot as plt
 import numpy as np
 import skbio
-from src1.draw import plot_msa_data
-from src1.ortho_MSA import phylo
-from src1.utils import read_fasta
+from src.draw import plot_msa_data
+from src.ortho_MSA import phylo
+from src.utils import read_fasta
 
 spid_regex = r'spid=([a-z]+)'
 
 records = [('2252', 0, None),
            ('2A57', 0, 845),
            ('360E', 0, None)]
-state_labels = ['1A', '1B', '2', '3']
-state_colors = ['C0', 'C3', 'C1', 'C2']
+state_labels = ['1', '2', '3']
+state_colors = ['C0', 'C1', 'C2']
+k = 4
 
 fig_width = 7.5
 fig_height = 4.25
@@ -90,9 +91,9 @@ for OGid, start, stop in records:
     # Instantiate model
     e_dists_rv = {}
     for s, e_dist in model_json['e_dists'].items():
-        a, b, pi, q0, q1, p0, p1 = [e_dist[param] for param in ['a', 'b', 'pi', 'q0', 'q1', 'p0', 'p1']]
+        a, b, pinv, alpha, pi, q0, q1, p0, p1 = [e_dist[param] for param in ['a', 'b', 'pinv', 'alpha', 'pi', 'q0', 'q1', 'p0', 'p1']]
         pmf1 = phylo.get_betabinom_pmf(emit_seq, len(msa), a, b)
-        pmf2 = phylo.get_tree_pmf(tree, pi, q0, q1, p0, p1)
+        pmf2 = phylo.get_tree_pmf(tree, pinv, k, alpha, pi, q0, q1, p0, p1)
         e_dists_rv[s] = phylo.ArrayRV(pmf1 * pmf2)
     model = homomorph.HMM(model_json['t_dists'], e_dists_rv, model_json['start_dist'])
 
