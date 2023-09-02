@@ -102,11 +102,25 @@ for OGid, start, stop in records:
     fbs = model.forward_backward(idx_seq)
     data = [fbs[label] for label in state_labels]
 
-    fig = plot_msa_data([record['seq'][start:stop] for record in msa], data[start:stop], tree=tree,
-                        x_start=start, **plot_msa_kwargs)
-    fig.text(panel_label_offset / fig_width, 1 - panel_label_offset / fig_height, panel_label,
-             fontsize=panel_label_fontsize, fontweight='bold',
-             horizontalalignment='left', verticalalignment='top')
+    # Add additional height for SVG panel
+    im = plt.imread('out/hmm_architecture.png')
+    SVG_height = im.shape[0] / im.shape[1] * fig_width
+
+    fig = plt.figure(figsize=(fig_width, SVG_height + fig_height))
+    gs = plt.GridSpec(2, 1, height_ratios=[SVG_height, fig_height])
+
+    subfig = fig.add_subfigure(gs[0])
+    ax = subfig.add_axes((0, 0, 1, 1))
+    ax.imshow(im)
+    ax.axis('off')
+
+    subfig = fig.add_subfigure(gs[1])
+    plot_msa_data([record['seq'][start:stop] for record in msa], data[start:stop],
+                  fig=subfig,
+                  tree=tree, x_start=start, **plot_msa_kwargs)
+    subfig.text(panel_label_offset / fig_width, 1 - panel_label_offset / fig_height, panel_label,
+                fontsize=panel_label_fontsize, fontweight='bold',
+                horizontalalignment='left', verticalalignment='top')
     plt.savefig(f'out/{OGid}.png', dpi=dpi)
     plt.savefig(f'out/{OGid}.tiff', dpi=dpi)
     plt.close()
